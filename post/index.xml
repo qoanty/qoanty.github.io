@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on 百年孤独的博客</title>
+    <link>https://qoanty.github.io/post/</link>
+    <description>Recent content in Posts on 百年孤独的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Fri, 05 Apr 2019 16:57:01 +0800</lastBuildDate>
+    
+	<atom:link href="https://qoanty.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>windows 10下使用vim8配置python3开发环境</title>
+      <link>https://qoanty.github.io/post/windows-vim-python/</link>
+      <pubDate>Fri, 05 Apr 2019 16:57:01 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/post/windows-vim-python/</guid>
+      <description>安装Python与Vim 从Python官网下载64位Python并安装，从Vim网站下载64位Vim并安装。
+运行vim --version，如果列表中有+python/dyn和+python3/dyn， 则Vim编辑器支持Python。在Vim编辑器中运行:python3 import sys; print(sys.version)，会输出编辑器当前的Python版本，如果报错，则编辑器不支持Python语言，需要重装或重新编译。
+安装Chocolatey Windows的包管理器Chocolatey，以管理员权限打开命令提示符窗口，运行以下命令。
+@&amp;quot;%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe&amp;quot; -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command &amp;quot;iex ((New-Object System.</description>
+    </item>
+    
+  </channel>
+</rss>
