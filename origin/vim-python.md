@@ -1,4 +1,10 @@
-# windows 10下使用vim8配置python3开发环境
+---
+title: "windows 10下使用vim8配置python3开发环境"
+date: 2019-04-05T16:57:01+08:00
+tags: ["vim", "IDE"]
+categories: ["Vim", "Python"]
+draft: false
+---
 
 ## 安装Python与Vim
 
@@ -102,7 +108,7 @@ filetype plugin indent on    " 必须 加载vim自带和插件相应的语法和
 
 ### 分割窗口(Split Layouts)
 
-使用`:sv <filename>`命令打开一个文件，可以纵向分割布局（新文件会在当前文件下方界面打开），使用相反的命令`:vs <filename>`，可以得到横向分割布局（新文件会在当前文件右侧界面打开），若要在指定屏幕上进行分割布局的区域，在`.vimrc`文件中添加下面代码。
+使用`:sv <filename>`命令打开一个文件，可以横向分割布局（新文件会在当前文件下方界面打开），使用相反的命令`:vs <filename>`，可以得到纵向分割布局（新文件会在当前文件右侧界面打开），若要在指定屏幕上进行分割布局的区域，在`.vimrc`文件中添加下面代码。
 
 ```vim
 set splitbelow

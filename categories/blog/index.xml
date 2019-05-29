@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>blog on 百年孤独的博客</title>
+    <link>https://qoanty.github.io/categories/blog/</link>
+    <description>Recent content in blog on 百年孤独的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Wed, 24 Apr 2019 14:02:04 +0800</lastBuildDate>
+    
+	<atom:link href="https://qoanty.github.io/categories/blog/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>使用Hugo搭建个人博客</title>
+      <link>https://qoanty.github.io/2019/blog-with-hugo/</link>
+      <pubDate>Wed, 24 Apr 2019 14:02:04 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/blog-with-hugo/</guid>
+      <description>什么是Hugo 引用一下Hugo官网的描述
+ The world’s fastest framework for building websites.</description>
+    </item>
+    
+  </channel>
+</rss>

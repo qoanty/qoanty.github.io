@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.54.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>基于V2Ray的WebSocket&#43;TLS&#43;Web&#43;CDN安全网络代理 | 百年孤独的博客</title>
+    <meta property="og:title" content="基于V2Ray的WebSocket&#43;TLS&#43;Web&#43;CDN安全网络代理 - 百年孤独的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2019-04-17T20:02:32&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2019-04-17T20:02:32&#43;08:00">
+        
+    <meta name="Keywords" content="VPS, python, android, 博客, 小程序">
+    <meta name="description" content="基于V2Ray的WebSocket&#43;TLS&#43;Web&#43;CDN安全网络代理">
+        
+    <meta name="author" content="百年孤独">
+    <meta property="og:url" content="https://qoanty.github.io/2019/wss-and-web/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+        <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://qoanty.github.io/">
+                        百年孤独的博客
+                    </a>
+                
+                <p class="description">艺术家用谎言揭露真相，政治家用谎言隐瞒真相</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="" href="https://qoanty.github.io/">首页</a>
+                    
+                    <a  href="https://qoanty.github.io/books/" title="新书">新书</a>
+                    
+                    <a  href="https://qoanty.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://qoanty.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">基于V2Ray的WebSocket&#43;TLS&#43;Web&#43;CDN安全网络代理</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2019年4月17日
+                        </date>
+                        
+                        <div class="post-meta">
+                            <span>|</span>
+                            
+                                <span class="meta-category"><a href="https://qoanty.github.io/categories/v2ray">V2Ray</a></span>
+                            
+                                <span class="meta-category"><a href="https://qoanty.github.io/categories/vps">VPS</a></span>
+                            
+                        </div>
+                        
+                        
+                        
+                        <div class="post-content">
+                            
+
+<h2 id="准备">准备</h2>
+
+<p>注册VPS服务器，推荐<a href="https://www.vultr.com/pricing/">Vultr</a>，<a href="https://www.digitalocean.com/pricing/">Digitalocean</a>、<a href="https://bwh88.net/index.php">Bandwagon</a>速度不错、稳定且性价比高，按小时计费，也可以选择便宜的<a href="https://billing.virmach.com/cart.php?gid=18">VirMach</a>。</p>
+
+<p>注册域名，推荐<a href="https://www.godaddy.com/">GoDaddy</a>、<a href="https://www.freenom.com/">freenom </a>等。</p>
+
+<p>部署Nginx或Caddy，推荐<a href="https://lnmp.org/install.html">LNMP一键安装包</a>或到<a href="https://caddyserver.com/download">Caddy官网</a>下载并选择需要的插件一起安装。</p>
+
+<p>使用CDN实现TLS，推荐免费的<a href="https://www.cloudflare.com/">CloudFlare</a>，需要域名能在Cloudflare正常使用。</p>
+
+<h2 id="安装v2ray">安装V2Ray</h2>
+
+<p>使用官方的一键安装脚本：</p>
+
+<pre><code class="language-bash">bash &lt;(curl -L -s https://install.direct/go.sh)
+</code></pre>
+
+<p>安装之后，正常情况下v2ray可以自动启动。</p>
+
+<h2 id="服务器配置">服务器配置</h2>
+
+<p>将TLS的配置写入Nginx/Caddy配置中，由这些软件来监听443端口（443比较常用，并非443不可），然后将流量转发到V2Ray的WebSocket所监听的内网端口（本例是10086），V2Ray服务器端不需要配置TLS。</p>
+
+<h3 id="服务器v2ray配置">服务器V2Ray配置</h3>
+
+<p>编辑配置文件<code>/etc/v2ray/config.json</code></p>
+
+<pre><code class="language-json">{
+  &quot;log&quot;:{
+    &quot;loglevel&quot;:&quot;warning&quot;,
+    &quot;access&quot;:&quot;/var/log/v2ray/access.log&quot;,
+    &quot;error&quot;:&quot;/var/log/v2ray/error.log&quot;
+  },
+  &quot;inbounds&quot;:[
+    {
+      &quot;port&quot;:10086,
+      &quot;listen&quot;:&quot;127.0.0.1&quot;,  //只监听127.0.0.1，避免除本机外的机器探测到端口
+      &quot;protocol&quot;:&quot;vmess&quot;,    //使用vmess协议
+      &quot;settings&quot;:{
+        &quot;clients&quot;:[
+          {
+            &quot;id&quot;:&quot;a60e9a42-c943-4181-87e7-b630bde3b902&quot;,
+            &quot;alterId&quot;:64
+          }
+        ]
+      },
+      &quot;streamSettings&quot;:{
+        &quot;network&quot;:&quot;ws&quot;,      //使用websocket协议作为传输协议
+        &quot;wsSettings&quot;:{
+          &quot;path&quot;:&quot;/ws&quot;       //WebSocket所使用的HTTP协议路径
+        }
+      }
+    }
+  ],
+  &quot;outbounds&quot;:[
+    {
+      &quot;protocol&quot;:&quot;freedom&quot;,
+      &quot;settings&quot;:{
+      }
+    }
+  ]
+}
+</code></pre>
+
+<h3 id="nginx配置">Nginx配置</h3>
+
+<p>编辑配置文件<code>/usr/local/nginx/conf/nginx.conf</code></p>
+
+<pre><code class="language-php">server
+    {
+        listen  443 ssl http2;
+        server_name domain.com;  # 注册的域名
+        index index.html index.htm index.php default.html default.htm default.php;
+        root  /home/wwwroot/domain.com;
+        ssl on;
+        ssl_certificate /etc/domain.com.pem;     # 申请的证书路径
+        ssl_certificate_key /etc/domain.com.key;
+        ssl_session_timeout 5m;
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+        ssl_prefer_server_ciphers on;
+        ssl_ciphers HIGH:!aNULL:!MD5;
+        ssl_session_cache builtin:1000 shared:SSL:10m;
+
+        location /ws    # 与V2Ray配置中的path保持一致
+        {
+            proxy_redirect off;
+            proxy_pass http://127.0.0.1:7778;  # 监听的地址端口
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection &quot;upgrade&quot;;
+            proxy_set_header Host $http_host;
+        }
+</code></pre>
+
+<h3 id="caddy配置">Caddy配置</h3>
+
+<p>编辑配置文件<code>/usr/local/caddy/Caddyfile</code></p>
+
+<pre><code class="language-php">https://domain.com, https://www.domain.com {
+    root /root/www
+    gzip
+    timeouts none
+    tls /etc/domain.com.pem /etc/domain.com.key  # 申请的证书路径
+    proxy / https://www.debian.org/  # 反代的地址
+    proxy /ws localhost:10086 {
+        websocket
+        header_upstream -Origin
+    }
+}
+</code></pre>
+
+<h3 id="客户端配置">客户端配置</h3>
+
+<pre><code class="language-json">{
+    &quot;inbounds&quot;:[
+        {
+            &quot;port&quot;:1080,
+            &quot;listen&quot;:&quot;127.0.0.1&quot;,
+            &quot;protocol&quot;:&quot;socks&quot;,
+            &quot;sniffing&quot;:{
+                &quot;enabled&quot;:true,
+                &quot;destOverride&quot;:[
+                    &quot;http&quot;,
+                    &quot;tls&quot;
+                ]
+            },
+            &quot;settings&quot;:{
+                &quot;auth&quot;:&quot;noauth&quot;,
+                &quot;udp&quot;:false
+            }
+        }
+    ],
+    &quot;outbounds&quot;:[
+        {
+            &quot;protocol&quot;:&quot;vmess&quot;,
+            &quot;settings&quot;:{
+                &quot;vnext&quot;:[
+                    {
+                        &quot;address&quot;:&quot;domain.com&quot;,
+                        &quot;port&quot;:443,
+                        &quot;users&quot;:[
+                            {
+                                &quot;id&quot;:&quot;a60e9a42-c943-4181-87e7-b630bde3b902&quot;,
+                                &quot;alterId&quot;:64
+                            }
+                        ]
+                    }
+                ]
+            },
+            &quot;streamSettings&quot;:{
+                &quot;network&quot;:&quot;ws&quot;,
+                &quot;security&quot;:&quot;tls&quot;,
+                &quot;wsSettings&quot;:{
+                    &quot;path&quot;:&quot;/ws&quot;
+                }
+            }
+        }
+    ]
+}
+</code></pre>
+
+<h3 id="cdn设置">CDN设置</h3>
+
+<p>1、确保域名已经可以在CloudFlare正常使用。</p>
+
+<p>2、在CloudFlare的Overview选项卡可以查看域名状态，确保为激活状态，即Status: Active。</p>
+
+<p>3、在DNS选项卡添加A记录的域名解析，假设域名是domain.com，那么在配置里Name写 domain.com，Value里写VPS的IP地址，务必把云朵点灰，然后选择Add Record来添加解析记录，（如果已经添加域名解析，请务必把云朵点灰，即DNS only）。</p>
+
+<p>4、当搭建好V2Ray并配置好Nginx或者Caddy后，设置Crypto和开启CDN中转。设置CloudFlare的Crypto选项卡的SSL为Full，并且确保SSL选项有显示Universal SSL Status Active Certificate这样的字眼，如果没有显示，只是在申请证书中，24小时内可以通过。点击Origin Certificates选项右面的Create Certificates按钮，可以免费使用CloudFlare提供的TLS证书。</p>
+
+<p>5、在DNS选项卡中把刚才点灰的那个云朵图标再次点亮它，使云朵图标务必为橙色状态，即DNS and HTTP proxy(CDN)。</p>
+
+                        </div>
+
+                        
+
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/2019/vps-with-v2ray/">使用V2Ray实现科学爱国</a></li>
+        
+        <li><a href="/2019/vim-python/">windows 10下使用vim8配置python3开发环境</a></li>
+        
+        <li><a href="/about/">About</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            <ul class="clearfix">
+                                
+                                <li><a href="https://qoanty.github.io/tags/v2ray">V2Ray</a></li>
+                                
+                                <li><a href="https://qoanty.github.io/tags/cdn">CDN</a></li>
+                                
+                            </ul>
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "qoanty/qoanty.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://qoanty.github.io/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/sliding-captcha/" title="极验滑动验证码识别">极验滑动验证码识别</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/blog-with-hugo/" title="使用Hugo搭建个人博客">使用Hugo搭建个人博客</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/wss-and-web/" title="基于V2Ray的WebSocket&#43;TLS&#43;Web&#43;CDN安全网络代理">基于V2Ray的WebSocket&#43;TLS&#43;Web&#43;CDN安全网络代理</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/vps-with-v2ray/" title="使用V2Ray实现科学爱国">使用V2Ray实现科学爱国</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/vim-python/" title="windows 10下使用vim8配置python3开发环境">windows 10下使用vim8配置python3开发环境</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://qoanty.github.io/categories/captcha/">Captcha(1)</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/categories/hugo/">Hugo(1)</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/categories/python/">Python(2)</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/categories/v2ray/">V2Ray(2)</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/categories/vps/">VPS(2)</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/categories/vim/">Vim(1)</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/categories/blog/">blog(1)</a>
+    </li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="https://qoanty.github.io/tags/cdn/">CDN</a>
+    
+    <a href="https://qoanty.github.io/tags/github/">Github</a>
+    
+    <a href="https://qoanty.github.io/tags/hugo/">Hugo</a>
+    
+    <a href="https://qoanty.github.io/tags/ide/">IDE</a>
+    
+    <a href="https://qoanty.github.io/tags/v2ray/">V2Ray</a>
+    
+    <a href="https://qoanty.github.io/tags/vps/">VPS</a>
+    
+    <a href="https://qoanty.github.io/tags/geetest/">geetest</a>
+    
+    <a href="https://qoanty.github.io/tags/python/">python</a>
+    
+    <a href="https://qoanty.github.io/tags/vim/">vim</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">友情链接</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://python3-cookbook.readthedocs.io/zh_CN/latest/index.html" title="Python Cookbook 3rd Edition">Python Cookbook</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="https://seancheney.gitbook.io/python-for-data-analysis-2nd/" title="Python for Data Analysis 2nd Edition">Python for Data Analysis</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="https://codelabs.developers.google.com/codelabs/cloud-tensorflow-mnist/#0" title="TensorFlow and deep learning, without a PhD">TensorFlow and deep learning</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://qoanty.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2019 <a href="https://qoanty.github.io/">百年孤独的博客 By 百年孤独</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a> & <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+    <script type="text/javascript">
+    
+    (function(){
+        $("pre code").parent().addClass("line-numbers")
+    }())
+
+    window.MathJax = {
+        tex2jax: {
+            inlineMath: [ ['$','$'] ],
+            processEscapes: true
+        }
+    };
+    </script>
+    <script type="text/javascript" src="/js/prism.js" async="true"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+
+</body>
+</html>
