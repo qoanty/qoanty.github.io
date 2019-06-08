@@ -13,19 +13,33 @@
     
     <item>
       <title>极验滑动验证码识别</title>
+<<<<<<< HEAD
       <link>https://qoanty.github.io/2019/05/sliding-captcha/</link>
       <pubDate>Tue, 07 May 2019 09:24:08 +0800</pubDate>
       
       <guid>https://qoanty.github.io/2019/05/sliding-captcha/</guid>
+=======
+      <link>https://qoanty.github.io/2019/sliding-captcha/</link>
+      <pubDate>Tue, 07 May 2019 09:24:08 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/sliding-captcha/</guid>
+>>>>>>> df3cc9dd8a27f5865ae5c966ba7bc0b778439935
       <description>搭建测试环境 从Python官网下载64位Python并安装，打开CMD窗口输入pip install selenium安装web应用程序测试系统，下载chrome安装包，根据安装引导安装chrome浏览器，从WebDriver for Chrome网上下载与chrome版本相对应的ChromeDriver并解压到相关位置，将以上安装好的文件的路径添加到系统环境变量中，至此selenium webdriver的运行环境已配置好。</description>
     </item>
     
     <item>
       <title>windows 10下使用vim8配置python3开发环境</title>
+<<<<<<< HEAD
       <link>https://qoanty.github.io/2019/04/vim-python/</link>
       <pubDate>Fri, 05 Apr 2019 16:57:01 +0800</pubDate>
       
       <guid>https://qoanty.github.io/2019/04/vim-python/</guid>
+=======
+      <link>https://qoanty.github.io/2019/vim-python/</link>
+      <pubDate>Fri, 05 Apr 2019 16:57:01 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/vim-python/</guid>
+>>>>>>> df3cc9dd8a27f5865ae5c966ba7bc0b778439935
       <description>安装Python与Vim 从Python官网下载64位Python并安装，从Vim网站下载64位Vim并安装。
 运行vim --version，如果列表中有+python/dyn和+python3/dyn， 则Vim编辑器支持Python。在Vim编辑器中运行:python3 import sys; print(sys.</description>
     </item>

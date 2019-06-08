@@ -7,20 +7,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>About | 百年孤独的博客</title>
-    <meta property="og:title" content="About - 百年孤独的博客">
+    <title>使用Hugo搭建个人博客 | 百年孤独的博客</title>
+    <meta property="og:title" content="使用Hugo搭建个人博客 - 百年孤独的博客">
     <meta property="og:type" content="article">
         
-    <meta property="article:published_time" content="2019-04-05T16:40:21&#43;08:00">
+    <meta property="article:published_time" content="2019-04-24T14:02:04&#43;08:00">
         
         
-    <meta property="article:modified_time" content="2019-04-05T16:40:21&#43;08:00">
+    <meta property="article:modified_time" content="2019-04-24T14:02:04&#43;08:00">
         
     <meta name="Keywords" content="VPS, python, android, 博客, 小程序">
-    <meta name="description" content="About">
+    <meta name="description" content="使用Hugo搭建个人博客">
         
     <meta name="author" content="百年孤独">
-    <meta property="og:url" content="https://qoanty.github.io/about/">
+    <meta property="og:url" content="https://qoanty.github.io/2019/blog-with-hugo/">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
     <link rel="stylesheet" href="/css/normalize.css">
@@ -53,15 +53,11 @@
                 <nav id="nav-menu" class="clearfix">
                     <a class="" href="https://qoanty.github.io/">首页</a>
                     
-<<<<<<< HEAD
-                    <a  href="https://qoanty.github.io/tools/" title="工具">工具</a>
-=======
                     <a  href="https://qoanty.github.io/books/" title="新书">新书</a>
->>>>>>> df3cc9dd8a27f5865ae5c966ba7bc0b778439935
                     
                     <a  href="https://qoanty.github.io/archives/" title="归档">归档</a>
                     
-                    <a class="current" href="https://qoanty.github.io/about/" title="关于">关于</a>
+                    <a  href="https://qoanty.github.io/about/" title="关于">关于</a>
                     
                 </nav>
             </div>
@@ -78,32 +74,138 @@
                 <div class="res-cons">
                     <article class="post">
                         <header>
-                            <h1 class="post-title">About</h1>
+                            <h1 class="post-title">使用Hugo搭建个人博客</h1>
                         </header>
                         <date class="post-meta meta-date">
-                            2019年4月5日
+                            2019年4月24日
                         </date>
+                        
+                        <div class="post-meta">
+                            <span>|</span>
+                            
+                                <span class="meta-category"><a href="https://qoanty.github.io/categories/blog">blog</a></span>
+                            
+                                <span class="meta-category"><a href="https://qoanty.github.io/categories/hugo">Hugo</a></span>
+                            
+                        </div>
                         
                         
                         
                         <div class="post-content">
                             
 
-<h2 id="关于本站">关于本站</h2>
+<h2 id="什么是hugo">什么是Hugo</h2>
 
-<p>服务器是<a href="https://billing.virmach.com/cart.php?gid=18">VirMach</a>提供的。</p>
+<p>引用一下Hugo官网的描述</p>
 
-<p>域名是在<a href="https://www.godaddy.com/">GoDaddy</a>注册的。</p>
+<blockquote>
+<p>The world’s fastest framework for building websites.</p>
 
-<p>SSL证书是由<a href="https://www.cloudflare.com/">CloudFlare</a>免费提供。</p>
+<p>Hugo是一个非常受欢迎的、开源的静态网站生成工具，它速度快，扩展性强。</p>
+</blockquote>
 
-<p>服务器环境是<a href="https://www.debian.org/">Debian 9</a> + <a href="https://lnmp.org/">LNMP</a>。</p>
+<p>更多关于Hugo的介绍，请参考Hugo的<a href="https://gohugo.io/">官网</a> 。</p>
 
-<p>博客软件用的是开源<a href="https://gohugo.io/">Hugo</a>。</p>
+<h2 id="hugo的安装">Hugo的安装</h2>
 
-<h2 id="关于我">关于我</h2>
+<p>Hugo速度快，而且不用依赖一大堆东西，一个二进制文件就可以搞定。</p>
 
-<p>略微发福的油腻中年男。</p>
+<p><strong>Github下载</strong></p>
+
+<p>我们可以直接从<a href="https://github.com/gohugoio/hugo/releases">Github Release</a>页面下载对应的二进制文件，然后把它放在系统环境PATH目录里即可使用。这个支持任何平台，根据自己的平台选择相应的二进制包即可。</p>
+
+<p><strong>Mac平台</strong></p>
+
+<p>Mac下Hugo提供了homebrew安装的方式，非常简便。</p>
+
+<pre><code class="language-bash">brew install hugo
+</code></pre>
+
+<p><strong>Debian and Ubuntu平台</strong></p>
+
+<pre><code class="language-bash">sudo apt-get install hugo
+</code></pre>
+
+<p><strong>Windows平台</strong></p>
+
+<p>Windows下Hugo提供了Chocolatey方式的安装，通过如下命令即可。</p>
+
+<pre><code class="language-bash">choco install hugo -confirm
+</code></pre>
+
+<p><strong>验证安装</strong></p>
+
+<p>安转完成后，打开终端，输入如下命令进行验证是否安装成功。</p>
+
+<pre><code class="language-bash">hugo version
+</code></pre>
+
+<p>如果没问题的话，会输出Hugo的版本号等一些信息。</p>
+
+<h2 id="hugo的使用">Hugo的使用</h2>
+
+<p><strong>创建站点</strong></p>
+
+<pre><code class="language-bash">hugo new site blog
+</code></pre>
+
+<p><strong>创建文章</strong></p>
+
+<p>创建about页面</p>
+
+<pre><code class="language-bash">hugo new about.md
+</code></pre>
+
+<p>about.md自动生成到content目录下。</p>
+
+<p>创建一篇文章</p>
+
+<pre><code class="language-bash">hugo new posts/first.md
+</code></pre>
+
+<p><strong>添加主题</strong></p>
+
+<p>Hugo默认不带主题，需要在<a href="https://themes.gohugo.io/">主题网站</a> 选择喜欢的主题，然后点击下载链接从GitHub下载到themes目录中。</p>
+
+<pre><code class="language-bash">git clone https://github.com/rujews/maupassant-hugo themes/maupassant
+</code></pre>
+
+<p>然后在Hugo的配置文件里config.toml(yaml, json)中进行如下配置，即可使用。</p>
+
+<pre><code class="language-bash">theme = &quot;maupassant&quot;
+</code></pre>
+
+<h2 id="运行hugo">运行Hugo</h2>
+
+<p>在站点根目录下执行Hugo命令进行调试：</p>
+
+<pre><code class="language-bash">hugo server --theme=maupassant --buildDrafts
+</code></pre>
+
+<p>（注明：如果在config.toml中配置指定主题可以省略&ndash;theme参数。）</p>
+
+<p>浏览器里打开<code>http://localhost:1313</code>就可查看新创建的站点了。</p>
+
+<h2 id="部署">部署</h2>
+
+<p>将博客部署在<code>GitHub Pages</code>上，首先在GitHub上创建一个Repository，命名为<code>qoant.github.io</code>。</p>
+
+<p>在站点根目录执行Hugo命令生成最终页面：</p>
+
+<pre><code class="language-bash">hugo --theme=maupassant --baseUrl=&quot;https://qoanty.github.io/&quot;
+</code></pre>
+
+<p>如果一切顺利，所有静态页面都会生成到public目录，将pubilc目录里所有文件push到创建的Repository的master分支。</p>
+
+<pre><code class="language-bash">cd public
+git init
+git remote add origin https://github.com/qoanty/qoanty.github.io.git
+git add -A
+git commit -m &quot;first commit&quot;
+git push -u origin master
+</code></pre>
+
+<p>浏览器里访问<a href="https://qoanty.github.io/"><code>https://qoanty.github.io/</code></a></p>
 
                         </div>
 
@@ -112,22 +214,31 @@
 
                         
 
-<<<<<<< HEAD
 <div class="post-archive">
     <h2>See Also</h2>
     <ul class="listing">
         
-        <li><a href="/archives/">归档</a></li>
+        <li><a href="/2019/wss-and-web/">基于V2Ray的WebSocket&#43;TLS&#43;Web&#43;CDN安全网络代理</a></li>
+        
+        <li><a href="/2019/vps-with-v2ray/">使用V2Ray实现科学爱国</a></li>
+        
+        <li><a href="/2019/vim-python/">windows 10下使用vim8配置python3开发环境</a></li>
+        
+        <li><a href="/about/">About</a></li>
         
     </ul>
 </div>
 
-=======
->>>>>>> df3cc9dd8a27f5865ae5c966ba7bc0b778439935
 
                         <div class="post-meta meta-tags">
                             
-                            没有标签
+                            <ul class="clearfix">
+                                
+                                <li><a href="https://qoanty.github.io/tags/hugo">Hugo</a></li>
+                                
+                                <li><a href="https://qoanty.github.io/tags/github">Github</a></li>
+                                
+                            </ul>
                             
                         </div>
                     </article>
@@ -163,25 +274,6 @@
 <ul class="widget-list">
     
     <li>
-<<<<<<< HEAD
-        <a href="https://qoanty.github.io/2019/05/sliding-captcha/" title="极验滑动验证码识别">极验滑动验证码识别</a>
-    </li>
-    
-    <li>
-        <a href="https://qoanty.github.io/2019/04/blog-with-hugo/" title="使用Hugo搭建个人博客">使用Hugo搭建个人博客</a>
-    </li>
-    
-    <li>
-        <a href="https://qoanty.github.io/2019/04/wss-and-web/" title="基于V2Ray的WebSocket&#43;TLS&#43;Web&#43;CDN安全网络代理">基于V2Ray的WebSocket&#43;TLS&#43;Web&#43;CDN安全网络代理</a>
-    </li>
-    
-    <li>
-        <a href="https://qoanty.github.io/2019/04/vps-with-v2ray/" title="使用V2Ray实现科学爱国">使用V2Ray实现科学爱国</a>
-    </li>
-    
-    <li>
-        <a href="https://qoanty.github.io/2019/04/vim-python/" title="windows 10下使用vim8配置python3开发环境">windows 10下使用vim8配置python3开发环境</a>
-=======
         <a href="https://qoanty.github.io/2019/sliding-captcha/" title="极验滑动验证码识别">极验滑动验证码识别</a>
     </li>
     
@@ -199,7 +291,6 @@
     
     <li>
         <a href="https://qoanty.github.io/2019/vim-python/" title="windows 10下使用vim8配置python3开发环境">windows 10下使用vim8配置python3开发环境</a>
->>>>>>> df3cc9dd8a27f5865ae5c966ba7bc0b778439935
     </li>
     
 </ul>
