@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on 百年孤独的博客</title>
+    <link>https://qoanty.github.io/tags/</link>
+    <description>Recent content in Tags on 百年孤独的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Wed, 17 Apr 2019 20:02:32 +0800</lastBuildDate>
+    
+	<atom:link href="https://qoanty.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>CDN</title>
+      <link>https://qoanty.github.io/tags/cdn/</link>
+      <pubDate>Wed, 17 Apr 2019 20:02:32 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/cdn/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Github</title>
+      <link>https://qoanty.github.io/tags/github/</link>
+      <pubDate>Wed, 24 Apr 2019 14:02:04 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/github/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Hugo</title>
+      <link>https://qoanty.github.io/tags/hugo/</link>
+      <pubDate>Wed, 24 Apr 2019 14:02:04 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/hugo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>IDE</title>
+      <link>https://qoanty.github.io/tags/ide/</link>
+      <pubDate>Fri, 05 Apr 2019 16:57:01 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/ide/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>V2Ray</title>
+      <link>https://qoanty.github.io/tags/v2ray/</link>
+      <pubDate>Wed, 17 Apr 2019 20:02:32 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/v2ray/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>VPS</title>
+      <link>https://qoanty.github.io/tags/vps/</link>
+      <pubDate>Fri, 12 Apr 2019 17:49:11 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/vps/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>geetest</title>
+      <link>https://qoanty.github.io/tags/geetest/</link>
+      <pubDate>Tue, 07 May 2019 09:24:08 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/geetest/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>python</title>
+      <link>https://qoanty.github.io/tags/python/</link>
+      <pubDate>Tue, 07 May 2019 09:24:08 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>vim</title>
+      <link>https://qoanty.github.io/tags/vim/</link>
+      <pubDate>Fri, 05 Apr 2019 16:57:01 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/vim/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

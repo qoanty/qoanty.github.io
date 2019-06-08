@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.54.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>windows 10下使用vim8配置python3开发环境 | 百年孤独的博客</title>
+    <meta property="og:title" content="windows 10下使用vim8配置python3开发环境 - 百年孤独的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2019-04-05T16:57:01&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2019-04-05T16:57:01&#43;08:00">
+        
+    <meta name="Keywords" content="VPS, python, android, 博客, 小程序">
+    <meta name="description" content="windows 10下使用vim8配置python3开发环境">
+        
+    <meta name="author" content="百年孤独">
+    <meta property="og:url" content="https://qoanty.github.io/2019/04/vim-python/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+        <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://qoanty.github.io/">
+                        百年孤独的博客
+                    </a>
+                
+                <p class="description">艺术家用谎言揭露真相，政治家用谎言隐瞒真相</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="" href="https://qoanty.github.io/">首页</a>
+                    
+                    <a  href="https://qoanty.github.io/tools/" title="工具">工具</a>
+                    
+                    <a  href="https://qoanty.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://qoanty.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">windows 10下使用vim8配置python3开发环境</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2019年4月5日
+                        </date>
+                        
+                        <div class="post-meta">
+                            <span>|</span>
+                            
+                                <span class="meta-category"><a href="https://qoanty.github.io/categories/vim">Vim</a></span>
+                            
+                                <span class="meta-category"><a href="https://qoanty.github.io/categories/python">Python</a></span>
+                            
+                        </div>
+                        
+                        
+                        
+                        <div class="post-content">
+                            
+
+<h2 id="安装python与vim">安装Python与Vim</h2>
+
+<p>从<a href="https://www.python.org">Python官网</a>下载<a href="https://www.python.org/downloads">64位Python</a>并安装，从<a href="https://www.vim.org">Vim网站</a>下载<a href="https://github.com/vim/vim-win32-installer/releases">64位Vim</a>并安装。</p>
+
+<p>运行<code>vim --version</code>，如果列表中有+python/dyn和+python3/dyn，
+则Vim编辑器支持Python。在Vim编辑器中运行<code>:python3 import sys; print(sys.version)</code>，会输出编辑器当前的Python版本，如果报错，则编辑器不支持Python语言，需要重装或重新编译。</p>
+
+<h2 id="安装chocolatey">安装Chocolatey</h2>
+
+<p>Windows的包管理器<a href="https://chocolatey.org">Chocolatey</a>，以管理员权限打开命令提示符窗口，运行以下命令。</p>
+
+<pre><code class="language-cmd">@&quot;%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe&quot; -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command &quot;iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))&quot; &amp;&amp; SET &quot;PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin&quot;
+</code></pre>
+
+<p>查看版本信息<code>choco -v</code>，升级<code>choco upgrade chocolatey</code>，搜索软件包<code>choco search package</code>，除了在命令行中搜索软件包，还可以直接在网站上搜索<a href="https://chocolatey.org/packages">软件包</a>。</p>
+
+<h2 id="安装vundle">安装Vundle</h2>
+
+<p><a href="https://github.com/VundleVim/Vundle.vim">Vundle</a>是一个Vim的插件管理器，使用它可以方便的安装其它插件，Windows下需要依赖<a href="https://git-scm.com">Git</a>和<a href="https://curl.haxx.se">Curl</a>软件。</p>
+
+<h3 id="安装git和curl">安装Git和Curl</h3>
+
+<pre><code class="language-cmd">C:\&gt; choco install -y git
+C:\&gt; choco install -y curl
+</code></pre>
+
+<p>查看版本信息确认正确安装。</p>
+
+<pre><code class="language-cmd">C:\&gt; git --version
+git version 2.21.0.windows.1
+C:\&gt; curl --version
+curl 7.64.0 (x86_64-pc-win32) libcurl/7.64.0 OpenSSL/1.1.1a (Schannel) zlib/1.2.11 brotli/1.0.7 WinIDN libssh2/1.8.0 nghttp2/1.36.0
+Release-Date: 2019-02-06
+Protocols: dict file ftp ftps gopher http https imap imaps ldap ldaps pop3 pop3s rtsp scp sftp smb smbs smtp smtps telnet tftp
+Features: AsynchDNS IDN IPv6 Largefile SSPI Kerberos SPNEGO NTLM SSL libz brotli TLS-SRP HTTP2 HTTPS-proxy MultiSSL
+</code></pre>
+
+<h3 id="windows下安装及配置vundle">Windows下安装及配置Vundle</h3>
+
+<p>打开命令提示符窗口，运行以下命令。</p>
+
+<pre><code class="language-cmd">cd %USERPROFILE%
+md .vim\bundle
+git clone https://github.com/VundleVim/Vundle.vim.git %USERPROFILE%/.vim/bundle/Vundle.vim
+gvim .vimrc
+</code></pre>
+
+<p>将以下内容添加在<code>.vimrc</code>文件中。</p>
+
+<pre><code class="language-vim">set nocompatible              &quot; 去除VI一致性,必须
+filetype off                  &quot; 必须
+
+&quot; 设置包括vundle和初始化相关的runtime path
+set rtp+=$HOME/.vim/bundle/Vundle.vim
+call vundle#begin('$HOME/.vim/bundle/')
+
+&quot; 让vundle管理插件版本,必须
+Plugin 'VundleVim/Vundle.vim'
+
+&quot; 以下范例用来支持不同格式的插件安装
+&quot; 请将安装插件的命令放在vundle#begin和vundle#end之间
+&quot; Github上的插件
+Plugin 'tpope/vim-fugitive'
+&quot; 来自 http://vim-scripts.org/vim/scripts.html 的插件
+&quot; Plugin 'L9'
+&quot; 不在Github上的插件
+Plugin 'git://git.wincent.com/command-t.git'
+&quot; 本地的插件(例如自己的插件)
+&quot; Plugin 'file:///home/gmarik/path/to/plugin'
+&quot; 插件sparkup在仓库的子目录中
+&quot; 正确指定路径用以设置runtimepath
+Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+&quot; 如果已经安装了L9这个插件，可利用以下格式避免命名冲突
+&quot; Plugin 'ascenator/L9', {'name': 'newL9'}
+
+&quot; 你的所有插件需要在下面这行之前
+call vundle#end()            &quot; 必须
+filetype plugin indent on    &quot; 必须 加载vim自带和插件相应的语法和文件类型相关脚本
+&quot; 忽视插件改变缩进,可以使用以下替代:
+&quot;filetype plugin on
+&quot;
+&quot; 简要帮助文档
+&quot; :PluginList       - 列出所有已配置的插件
+&quot; :PluginInstall    - 安装插件,追加 `!` 用以更新或使用 :PluginUpdate
+&quot; :PluginSearch foo - 搜索 foo ; 追加 `!` 清除本地缓存
+&quot; :PluginClean      - 清除未使用插件,需要确认; 追加 `!` 自动批准移除未使用插件
+&quot;
+&quot; 查阅 :h vundle 获取更多细节和wiki以及FAQ
+&quot; 将你自己对非插件内容放在这行之后
+</code></pre>
+
+<p>设置完后可以在配置文件中添加要安装的插件，然后打开<code>vim</code>运行<code>:PluginInstall</code>或通过命令行直接运行<code>vim +PluginInstall +qall</code>进行安装。</p>
+
+<h2 id="开始打造ide">开始打造IDE</h2>
+
+<h3 id="分割窗口-split-layouts">分割窗口(Split Layouts)</h3>
+
+<p>使用<code>:sv &lt;filename&gt;</code>命令打开一个文件，可以横向分割布局（新文件会在当前文件下方界面打开），使用相反的命令<code>:vs &lt;filename&gt;</code>，可以得到纵向分割布局（新文件会在当前文件右侧界面打开），若要在指定屏幕上进行分割布局的区域，在<code>.vimrc</code>文件中添加下面代码。</p>
+
+<pre><code class="language-vim">set splitbelow
+set splitright
+</code></pre>
+
+<p>不使用鼠标而通过快捷键切换分割布局，在<code>.vimrc</code>文件中添加下面代码。</p>
+
+<pre><code class="language-vim">&quot;split navigations
+nnoremap &lt;C-J&gt; &lt;C-W&gt;&lt;C-J&gt;
+nnoremap &lt;C-K&gt; &lt;C-W&gt;&lt;C-K&gt;
+nnoremap &lt;C-L&gt; &lt;C-W&gt;&lt;C-L&gt;
+nnoremap &lt;C-H&gt; &lt;C-W&gt;&lt;C-H&gt;
+</code></pre>
+
+<p>快捷键</p>
+
+<ul>
+<li><kbd>Ctrl</kbd> <kbd>J</kbd> 切换到下方的分割窗口</li>
+<li><kbd>Ctrl</kbd> <kbd>K</kbd> 切换到上方的分割窗口</li>
+<li><kbd>Ctrl</kbd> <kbd>L</kbd> 切换到右侧的分割窗口</li>
+<li><kbd>Ctrl</kbd> <kbd>H</kbd> 切换到左侧的分割窗口</li>
+</ul>
+
+<h3 id="缓冲区-buffers">缓冲区(Buffers)</h3>
+
+<p>Vim提供了方便访问缓冲区的方式，只需要输入<code>:b &lt;buffer name or number&gt;</code>，就可以切换到一个已经开启的缓冲区（此处也可使用自动补全功能），还可以通过<code>:ls</code>命令查看所有的缓冲区。</p>
+
+<h3 id="代码折叠-code-folding">代码折叠(Code Folding)</h3>
+
+<p>开启代码折叠并使用空格键控制，在<code>.vimrc</code>文件中添加下面代码。</p>
+
+<pre><code class="language-vim">&quot; Enable folding
+set foldmethod=indent
+set foldlevel=99
+&quot; Enable folding with the spacebar
+nnoremap &lt;space&gt; za
+</code></pre>
+
+<p>隐藏当前不需要关注的代码，<code>set foldmethod=ident</code>会根据每行的缩进开启折叠。但是这样做会出现超过所希望的折叠数目，可以通过<a href="https://github.com/tmhedberg/SimpylFold">SimplyFold</a>插件解决这个问题，在<code>.vimrc</code>文件中加入下面代码。</p>
+
+<pre><code class="language-vim">Plugin 'tmhedberg/SimpylFold'
+</code></pre>
+
+<p>希望看到折叠代码的文档字符串。</p>
+
+<pre><code class="language-vim">let g:SimpylFold_docstring_preview=1
+</code></pre>
+
+<h3 id="代码缩进-python-indentation">代码缩进(Python Indentation)</h3>
+
+<p>Vim中的缩进要能做到以下两点：</p>
+
+<ul>
+<li>首先，缩进要符合PEP8标准。</li>
+<li>其次，更好地处理自动缩进。</li>
+</ul>
+
+<h4 id="pep8">PEP8</h4>
+
+<p>要支持PEP8风格的缩进，在<code>.vimrc</code>文件中加入下面代码。</p>
+
+<pre><code class="language-vim">au BufNewFile,BufRead *.py,*.sh
+    \ set tabstop=4     |
+    \ set softtabstop=4 |
+    \ set shiftwidth=4  |
+    \ set textwidth=79  |
+    \ set expandtab     |
+    \ set autoindent    |
+    \ set fileformat=unix
+</code></pre>
+
+<p>还可以针对每种文件类型进行设置。</p>
+
+<pre><code class="language-vim">au BufNewFile,BufRead *.js,*.html,*.css
+    \ set tabstop=2     |
+    \ set softtabstop=2 |
+    \ set shiftwidth=2
+</code></pre>
+
+<h4 id="自动缩进">自动缩进</h4>
+
+<p>自动缩进在某些情况下（比如函数定义有多行的时候），并不总是会达到预想的效果，尤其是在符合PEP8标准方面，可以用<a href="https://github.com/vim-scripts/indentpython.vim">indentpython.vim</a>插件来解决。</p>
+
+<pre><code class="language-vim">Plugin 'vim-scripts/indentpython.vim'
+</code></pre>
+
+<h3 id="标示不必要的空白字符">标示不必要的空白字符</h3>
+
+<p>让Vim标示出来多余的空白字符并删除。</p>
+
+<pre><code class="language-vim">highlight BadWhitespace ctermbg=red guibg=darkred
+au BufRead,BufNewFile *.py,*.pyw,*.c,*.h,*.sh match BadWhitespace /\s\+$/
+</code></pre>
+
+<h3 id="自动补全">自动补全</h3>
+
+<p>使用支持vim8的<a href="https://github.com/maralla/completor.vim">completor.vim</a>插件来补全代码。</p>
+
+<p>安装<a href="https://github.com/davidhalter/jedi">jedi</a>实现Python补全。</p>
+
+<pre><code class="language-cmd">pip install jedi
+</code></pre>
+
+<p>安装并配置插件。</p>
+
+<pre><code class="language-vim">Plugin 'maralla/completor.vim'
+let g:completor_python_binary = '/path/to/python/with/jedi/installed'
+</code></pre>
+
+<h3 id="语法检查">语法检查</h3>
+
+<p>安装<a href="https://github.com/vim-syntastic/syntastic">syntastic</a>插件，每次保存文件时Vim都会检查代码的语法。</p>
+
+<pre><code class="language-vim">Plugin 'vim-syntastic/syntastic'
+</code></pre>
+
+<p>添加<a href="https://github.com/nvie/vim-flake8">flake8</a>代码风格检查。</p>
+
+<pre><code class="language-cmd">pip install flake8
+</code></pre>
+
+<p>安装并配置插件，保存文件时自动检查或按F7键进行检查。</p>
+
+<pre><code class="language-vim">Plugin 'nvie/vim-flake8'
+autocmd BufWritePost *.py call Flake8()
+</code></pre>
+
+<h3 id="配色方案">配色方案</h3>
+
+<p>GUI模式可以用<a href="https://github.com/altercation/vim-colors-solarized">solarized</a>方案，终端模式可以用<a href="https://github.com/jnurmine/Zenburn">Zenburn</a>方案。</p>
+
+<pre><code class="language-vim">Plugin 'altercation/vim-colors-solarized'
+Plugin 'jnurmine/Zenburn'
+
+if has('gui_running')
+  set background=dark
+  colorscheme solarized
+else
+  colorscheme zenburn
+endif
+</code></pre>
+
+<h3 id="文件浏览">文件浏览</h3>
+
+<p>给vim添加一个树形目录，安装<a href="https://github.com/scrooloose/nerdtree">NERDTree</a>插件，设置开关树形目录的快捷键并忽略.pyc文件。</p>
+
+<pre><code class="language-vim">Plugin 'scrooloose/nerdtree'
+map &lt;C-n&gt; :NERDTreeToggle&lt;CR&gt;
+let NERDTreeIgnore=['\~$', '\.pyc$', '\.swp$']
+</code></pre>
+
+<h3 id="超级搜索-自动配对">超级搜索/自动配对</h3>
+
+<p>搜索插件<a href="https://github.com/kien/ctrlp.vim">ctrlp.vim</a>，自动配对符号插件<a href="https://github.com/jiangmiao/auto-pairs">auto-pairs</a>。</p>
+
+<pre><code class="language-vim">Plugin 'kien/ctrlp.vim'
+Plugin 'jiangmiao/auto-pairs'
+</code></pre>
+
+<h3 id="其它">其它</h3>
+
+<p>windows 10下vim8支持python3.6，按F5键保存运行python程序，在<code>.vimrc</code>文件中添加下面代码。</p>
+
+<pre><code class="language-vim">set pythonthreedll=python36.dll
+au BufRead *.py map &lt;buffer&gt; &lt;F5&gt; :w&lt;CR&gt;:!python % &lt;CR&gt;
+</code></pre>
+
+                        </div>
+
+                        
+
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/about/">About</a></li>
+        
+        <li><a href="/archives/">归档</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            <ul class="clearfix">
+                                
+                                <li><a href="https://qoanty.github.io/tags/vim">vim</a></li>
+                                
+                                <li><a href="https://qoanty.github.io/tags/ide">IDE</a></li>
+                                
+                            </ul>
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "qoanty/qoanty.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://qoanty.github.io/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/05/sliding-captcha/" title="极验滑动验证码识别">极验滑动验证码识别</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/04/blog-with-hugo/" title="使用Hugo搭建个人博客">使用Hugo搭建个人博客</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/04/wss-and-web/" title="基于V2Ray的WebSocket&#43;TLS&#43;Web&#43;CDN安全网络代理">基于V2Ray的WebSocket&#43;TLS&#43;Web&#43;CDN安全网络代理</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/04/vps-with-v2ray/" title="使用V2Ray实现科学爱国">使用V2Ray实现科学爱国</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/04/vim-python/" title="windows 10下使用vim8配置python3开发环境">windows 10下使用vim8配置python3开发环境</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://qoanty.github.io/categories/captcha/">Captcha(1)</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/categories/hugo/">Hugo(1)</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/categories/python/">Python(2)</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/categories/v2ray/">V2Ray(2)</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/categories/vps/">VPS(2)</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/categories/vim/">Vim(1)</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/categories/blog/">blog(1)</a>
+    </li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="https://qoanty.github.io/tags/cdn/">CDN</a>
+    
+    <a href="https://qoanty.github.io/tags/github/">Github</a>
+    
+    <a href="https://qoanty.github.io/tags/hugo/">Hugo</a>
+    
+    <a href="https://qoanty.github.io/tags/ide/">IDE</a>
+    
+    <a href="https://qoanty.github.io/tags/v2ray/">V2Ray</a>
+    
+    <a href="https://qoanty.github.io/tags/vps/">VPS</a>
+    
+    <a href="https://qoanty.github.io/tags/geetest/">geetest</a>
+    
+    <a href="https://qoanty.github.io/tags/python/">python</a>
+    
+    <a href="https://qoanty.github.io/tags/vim/">vim</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">友情链接</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://python3-cookbook.readthedocs.io/zh_CN/latest/index.html" title="Python Cookbook 3rd Edition">Python Cookbook</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="https://seancheney.gitbook.io/python-for-data-analysis-2nd/" title="Python for Data Analysis 2nd Edition">Python for Data Analysis</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="https://codelabs.developers.google.com/codelabs/cloud-tensorflow-mnist/#0" title="TensorFlow and deep learning, without a PhD">TensorFlow and deep learning</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://qoanty.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2019 <a href="https://qoanty.github.io/">百年孤独的博客 By 百年孤独</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a> & <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+    <script type="text/javascript">
+    
+    (function(){
+        $("pre code").parent().addClass("line-numbers")
+    }())
+
+    window.MathJax = {
+        tex2jax: {
+            inlineMath: [ ['$','$'] ],
+            processEscapes: true
+        }
+    };
+    </script>
+    <script type="text/javascript" src="/js/prism.js" async="true"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+
+</body>
+</html>
