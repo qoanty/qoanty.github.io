@@ -1,0 +1,686 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.54.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Python3 学习笔记（函数） | 百年孤独的博客</title>
+    <meta property="og:title" content="Python3 学习笔记（函数） - 百年孤独的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content="2019-04-19T10:14:31&#43;08:00">
+        
+        
+    <meta property="article:modified_time" content="2019-04-19T10:14:31&#43;08:00">
+        
+    <meta name="Keywords" content="VPS, python, android, 博客, 小程序">
+    <meta name="description" content="Python3 学习笔记（函数）">
+        
+    <meta name="author" content="百年孤独">
+    <meta property="og:url" content="https://qoanty.github.io/2019/04/python3-functions/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+        <link rel="stylesheet" href="/css/prism.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+
+
+    
+    
+</head>
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://qoanty.github.io/">
+                        百年孤独的博客
+                    </a>
+                
+                <p class="description">艺术家用谎言揭露真相，政治家用谎言隐瞒真相</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="" href="https://qoanty.github.io/">首页</a>
+                    
+                    <a  href="https://qoanty.github.io/tools/" title="工具">工具</a>
+                    
+                    <a  href="https://qoanty.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://qoanty.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    <article class="post">
+                        <header>
+                            <h1 class="post-title">Python3 学习笔记（函数）</h1>
+                        </header>
+                        <date class="post-meta meta-date">
+                            2019年4月19日
+                        </date>
+                        
+                        <div class="post-meta">
+                            <span>|</span>
+                            
+                                <span class="meta-category"><a href="https://qoanty.github.io/categories/learn">Learn</a></span>
+                            
+                                <span class="meta-category"><a href="https://qoanty.github.io/categories/python">Python</a></span>
+                            
+                        </div>
+                        
+                        
+                        
+                        <div class="post-content">
+                            
+
+<h2 id="函数">函数</h2>
+
+<h3 id="调用函数">调用函数</h3>
+
+<p>Python内置了很多有用的函数，可以直接调用，<a href="https://docs.python.org/3/library/functions.html">参见官方文档</a>。</p>
+
+<p>调用<code>abs</code>、<code>max</code>函数：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; abs(-20)
+20
+&gt;&gt;&gt; abs(12.34)
+12.34
+&gt;&gt;&gt; max(1, 2)
+2
+&gt;&gt;&gt; max(2, 3, 1, -5)
+3
+</code></pre>
+
+<p>调用数据类型转换函数：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; int('123')
+123
+&gt;&gt;&gt; int(12.34)
+12
+&gt;&gt;&gt; float('12.34')
+12.34
+&gt;&gt;&gt; str(1.23)
+'1.23'
+&gt;&gt;&gt; str(100)
+'100'
+&gt;&gt;&gt; bool(1)
+True
+&gt;&gt;&gt; bool('')
+False
+</code></pre>
+
+<h2 id="定义函数">定义函数</h2>
+
+<p>定义函数时，需要确定函数名和参数个数；</p>
+
+<p>如果有必要，可以先对参数的数据类型做检查；</p>
+
+<p>函数体内部可以用return返回函数结果；</p>
+
+<p>函数执行完没有return语句时，自动return None；</p>
+
+<p>函数可以同时返回多个值，其实就是一个tuple。</p>
+
+<h2 id="函数的参数">函数的参数</h2>
+
+<p>Python的函数定义非常简单，但灵活度却非常大。除了正常定义的必选参数外，还可以使用默认参数、可变参数和关键字参数，使得函数定义出来的接口，不但能处理复杂的参数，还可以简化调用者的代码。</p>
+
+<h3 id="位置参数">位置参数</h3>
+
+<p>定义计算$x^2$的函数：</p>
+
+<pre><code class="language-python">def power(x):
+    return x * x
+</code></pre>
+
+<p>对于<code>power(x)</code>函数，参数<code>x</code>就是一个位置参数，调用<code>power</code>函数时，必须传入有且仅有的一个参数<code>x</code>：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; power(5)
+25
+&gt;&gt;&gt; power(15)
+225
+</code></pre>
+
+<p>若要计算$x^3$、$x^4$、$x^5$&hellip;&hellip;，可以把函数<code>power(x)</code>修改为<code>power(x, n)</code>，来计算$x^n$：</p>
+
+<pre><code class="language-python">def power(x, n):
+    s = 1
+    while n &gt; 0:
+        n = n - 1
+        s = s * x
+    return s
+</code></pre>
+
+<p>修改后的<code>power(x, n)</code>函数，可以计算任意n次方，其中参数<code>x</code>和<code>n</code>都是位置参数：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; power(5, 2)
+25
+&gt;&gt;&gt; power(5, 3)
+125
+</code></pre>
+
+<h3 id="默认参数">默认参数</h3>
+
+<p>由于我们经常计算$x^2$，所以，完全可以把第二个参数n的默认值设定为2：</p>
+
+<pre><code class="language-python">def power(x, n=2):
+    s = 1
+    while n &gt; 0:
+        n = n - 1
+        s = s * x
+    return s
+</code></pre>
+
+<p>这样，当我们调用<code>power(5)</code>时，相当于调用<code>power(5, 2)</code>：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; power(5)
+25
+&gt;&gt;&gt; power(5, 2)
+25
+</code></pre>
+
+<p>而对于n &gt; 2的其他情况，就必须明确地传入n，比如<code>power(5, 3)</code>。</p>
+
+<p>设置默认参数时，有几点要注意：</p>
+
+<p>一是必选参数在前，默认参数在后；</p>
+
+<p>二是当函数有多个参数时，把变化大的参数放前面，变化小的参数放后面，变化小的参数就可以作为默认参数。</p>
+
+<p><strong>使用默认参数最大的好处是能降低调用函数的难度，并且默认参数必须指向不变对象！</strong></p>
+
+<p>例如写个小学生注册信息的函数，需要传入姓名、性别、年龄、城市参数，可以把年龄和城市设为默认参数：</p>
+
+<pre><code class="language-python">def enroll(name, gender, age=6, city='Beijing'):
+    print('name:', name)
+    print('gender:', gender)
+    print('age:', age)
+    print('city:', city)
+</code></pre>
+
+<p>这样大多数学生注册时不需要提供年龄和城市等信息，只提供必须的两个参数：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; enroll('Sarah', 'F')
+name: Sarah
+gender: F
+age: 6
+city: Beijing
+</code></pre>
+
+<p>只有与默认参数不符的学生才需要提供额外的信息：</p>
+
+<pre><code class="language-python">enroll('Bob', 'M', 7)
+enroll('Adam', 'M', city='Tianjin')
+</code></pre>
+
+<p>可见，默认参数降低了函数调用的难度，而一旦需要更复杂的调用时，又可以传递更多的参数来实现。无论是简单调用还是复杂调用，函数只需要定义一个。</p>
+
+<h3 id="可变参数">可变参数</h3>
+
+<p>顾名思义，可变参数就是传入的参数个数是可变的，可以是1个、2个到任意个，还可以是0个。</p>
+
+<p>例如，给定一组数字a，b，c……，请计算$a^2$ + $b^2$ + $c^2$ + ……。</p>
+
+<p>要定义这个函数，必须确定输入的参数。由于参数个数不确定，我们首先想到可以把a，b，c……作为一个list或tuple传进来，这样，函数可以定义如下：</p>
+
+<pre><code class="language-python">def calc(numbers):
+    sum = 0
+    for n in numbers:
+        sum = sum + n * n
+    return sum
+</code></pre>
+
+<p>但是调用的时候，需要先给出一个list或tuple：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; calc([1, 2, 3])
+14
+&gt;&gt;&gt; calc((1, 3, 5, 7))
+84
+</code></pre>
+
+<p>如果利用可变参数，调用函数的方式可以简化成这样：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; calc(1, 2, 3)
+14
+&gt;&gt;&gt; calc(1, 3, 5, 7)
+84
+</code></pre>
+
+<p>所以，我们把函数的参数改为可变参数：</p>
+
+<pre><code class="language-python">def calc(*numbers):
+    sum = 0
+    for n in numbers:
+        sum = sum + n * n
+    return sum
+</code></pre>
+
+<p>定义可变参数和定义一个list或tuple参数相比，仅仅在参数前面加了一个<code>*</code>号。在函数内部，参数<code>numbers</code>接收到的是一个tuple，因此，函数代码完全不变。但是，调用该函数时，可以传入任意个参数，包括0个参数：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; calc(1, 2)
+5
+&gt;&gt;&gt; calc()
+0
+</code></pre>
+
+<p>如果已经有一个list或者tuple，可以在前面加一个<code>*</code>号，把list或tuple的元素变成可变参数传进去：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; nums = [1, 2, 3]
+&gt;&gt;&gt; calc(*nums)
+14
+</code></pre>
+
+<p><code>*nums</code>表示把<code>nums</code>这个list的所有元素作为可变参数传进去。这种写法相当有用，而且很常见。</p>
+
+<h3 id="关键字参数">关键字参数</h3>
+
+<p>可变参数允许你传入0个或任意个参数，这些可变参数在函数调用时自动组装为一个tuple。而关键字参数允许你传入0个或任意个含参数名的参数，这些关键字参数在函数内部为一个dict。</p>
+
+<pre><code class="language-python">def person(name, age, **kw):
+    print('name:', name, 'age:', age, 'other:', kw)
+</code></pre>
+
+<p>函数<code>person</code>除了必选参数<code>name</code>和<code>age</code>外，还接受关键字参数<code>kw</code>。在调用该函数时，可以只传入必选参数：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; person('Michael', 30)
+name: Michael age: 30 other: {}
+</code></pre>
+
+<p>也可以传入任意个数的关键字参数：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; person('Bob', 35, city='Beijing')
+name: Bob age: 35 other: {'city': 'Beijing'}
+&gt;&gt;&gt; person('Adam', 45, gender='M', job='Engineer')
+name: Adam age: 45 other: {'gender': 'M', 'job': 'Engineer'}
+</code></pre>
+
+<p>关键字参数可以扩展函数的功能。比如，在<code>person</code>函数里，我们保证能接收到<code>name</code>和<code>age</code>这两个参数，但是，如果调用者愿意提供更多的参数，我们也能收到。</p>
+
+<p>和可变参数类似，也可以先给出一个dict，然后，把该dict转换为关键字参数传进去：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; extra = {'city': 'Beijing', 'job': 'Engineer'}
+&gt;&gt;&gt; person('Jack', 24, city=extra['city'], job=extra['job'])
+name: Jack age: 24 other: {'city': 'Beijing', 'job': 'Engineer'}
+</code></pre>
+
+<p>当然，上面复杂的调用可以用简化的写法：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; extra = {'city': 'Beijing', 'job': 'Engineer'}
+&gt;&gt;&gt; person('Jack', 24, **extra)
+name: Jack age: 24 other: {'city': 'Beijing', 'job': 'Engineer'}
+</code></pre>
+
+<p><code>**extra</code>表示把<code>extra</code>这个dict的所有key-value用关键字参数传入到函数的<code>**kw</code>参数，<code>kw</code>将获得一个dict，注意<code>kw</code>获得的dict是<code>extra</code>的一份拷贝，对<code>kw</code>的改动不会影响到函数外的<code>extra</code>。</p>
+
+<h3 id="命名关键字参数">命名关键字参数</h3>
+
+<p>如果要限制关键字参数的名字，可以用命名关键字参数，例如，只接收city和job作为关键字参数。</p>
+
+<p>函数定义如下：</p>
+
+<pre><code class="language-python">def person(name, age, *, city, job):
+    print(name, age, city, job)
+</code></pre>
+
+<p>和关键字参数<code>**kw</code>不同，命名关键字参数需要一个特殊分隔符<code>*</code>，<code>*</code>后面的参数被视为命名关键字参数。</p>
+
+<p>调用方式如下：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; person('Jack', 24, city='Beijing', job='Engineer')
+Jack 24 Beijing Engineer
+</code></pre>
+
+<p>如果函数定义中已经有了一个可变参数，后面跟着的命名关键字参数就不再需要一个特殊分隔符<code>*</code>了：</p>
+
+<pre><code class="language-python">def person(name, age, *args, city, job):
+    print(name, age, args, city, job)
+</code></pre>
+
+<p>命名关键字参数必须传入参数名，这和位置参数不同。</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; person('Jack', 24, city='Beijing', job='Engineer')
+Jack 24 () Beijing Engineer
+</code></pre>
+
+<p>命名关键字参数可以有缺省值，从而简化调用：</p>
+
+<pre><code class="language-python">def person(name, age, *, city='Beijing', job):
+    print(name, age, city, job)
+</code></pre>
+
+<p>由于命名关键字参数<code>city</code>具有默认值，调用时，可不传入<code>city</code>参数：</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; person('Jack', 24, job='Engineer')
+Jack 24 Beijing Engineer
+</code></pre>
+
+<h3 id="参数组合">参数组合</h3>
+
+<p>在Python中定义函数，可以用必选参数、默认参数、可变参数、关键字参数和命名关键字参数，这5种参数都可以组合使用。但是请注意，参数定义的顺序必须是：必选参数、默认参数、可变参数、命名关键字参数和关键字参数。</p>
+
+<p>对于任意函数，都可以通过类似<code>func(*args, **kw)</code>的形式调用它，无论它的参数是如何定义的，其中<code>*args</code>是可变参数，接收的是一个tuple，<code>**kw</code>是关键字参数，接收的是一个dict。</p>
+
+<h2 id="递归函数">递归函数</h2>
+
+<p>在函数内部，可以调用其他函数。如果一个函数在内部调用自身，这个函数就是递归函数。</p>
+
+<p>计算阶乘<code>n! = 1 x 2 x 3 x ... x n</code>，用函数<code>fact(n)</code>表示，可以看出：</p>
+
+<p>fact(n) = n! = 1 x 2 x 3 x &hellip; x (n-1) x n = (n-1)! x n = fact(n-1) x n</p>
+
+<p>所以，<code>fact(n)</code>可以表示为<code>n x fact(n-1)</code>，只有n=1时需要特殊处理。</p>
+
+<p>于是，<code>fact(n)</code>用递归的方式写出来就是：</p>
+
+<pre><code class="language-python">def fact(n):
+    if n==1:
+        return 1
+    return n * fact(n - 1)
+</code></pre>
+
+<p>计算<code>fact(5)</code>，可以根据函数定义看到计算过程如下：</p>
+
+<pre><code class="language-python">===&gt; fact(5)
+===&gt; 5 * fact(4)
+===&gt; 5 * (4 * fact(3))
+===&gt; 5 * (4 * (3 * fact(2)))
+===&gt; 5 * (4 * (3 * (2 * fact(1))))
+===&gt; 5 * (4 * (3 * (2 * 1)))
+===&gt; 5 * (4 * (3 * 2))
+===&gt; 5 * (4 * 6)
+===&gt; 5 * 24
+===&gt; 120
+</code></pre>
+
+<p>递归函数的优点是定义简单，逻辑清晰，但是需要注意防止栈溢出，可通过尾递归优化解决，事实上尾递归和循环的效果是一样的，因为Python标准的解释器没有针对尾递归做优化，所以任何递归函数都存在栈溢出的问题。</p>
+
+<p>实例：汉诺塔，编写<code>hanoi(n, a, b, c)</code>函数，它接收参数n，表示3个柱子A、B、C中第1个柱子A的盘子数量，然后打印出把所有盘子从A借助B移动到C的方法：</p>
+
+<pre><code class="language-python">def hanoi(n, a, b, c):
+    if n == 1:
+        print(a, '--&gt;', c)
+    else:
+        hanoi(n-1, a, c, b)
+        hanoi(1, a, b, c)
+        hanoi(n-1, b, a, c)
+
+hanoi(4, 'a', 'b', 'c')
+</code></pre>
+
+                        </div>
+
+                        
+
+
+                        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/2019/04/wss-and-web/">基于V2Ray的WebSocket&#43;TLS&#43;Web&#43;CDN安全网络代理</a></li>
+        
+        <li><a href="/2019/04/vps-with-v2ray/">使用V2Ray实现科学爱国</a></li>
+        
+        <li><a href="/2019/04/blog-with-hugo/">使用Hugo搭建个人博客</a></li>
+        
+        <li><a href="/2019/04/vim-python/">windows 10下使用vim8配置python3开发环境</a></li>
+        
+        <li><a href="/about/">About</a></li>
+        
+    </ul>
+</div>
+
+
+                        <div class="post-meta meta-tags">
+                            
+                            <ul class="clearfix">
+                                
+                                <li><a href="https://qoanty.github.io/tags/python">python</a></li>
+                                
+                                <li><a href="https://qoanty.github.io/tags/functions">functions</a></li>
+                                
+                            </ul>
+                            
+                        </div>
+                    </article>
+                    
+    
+
+    
+    
+    <div class="post bg-white">
+      <script src="https://utteranc.es/client.js"
+            repo= "qoanty/qoanty.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+      </script>
+    </div>
+    
+                </div>
+            </div>
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://qoanty.github.io/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/05/sliding-captcha/" title="极验滑动验证码识别">极验滑动验证码识别</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/04/python3-web-scraping/" title="Python3 学习笔记（异步爬虫）">Python3 学习笔记（异步爬虫）</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/04/python3-asyncio/" title="Python3 学习笔记（异步IO）">Python3 学习笔记（异步IO）</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/04/python3-built-in-functions-modules/" title="Python3 学习笔记（内建模块）">Python3 学习笔记（内建模块）</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/04/python3-distributed-processes/" title="Python3 学习笔记（分布式进程）">Python3 学习笔记（分布式进程）</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/04/python3-object-oriented-programming/" title="Python3 学习笔记（面向对象编程）">Python3 学习笔记（面向对象编程）</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/04/python3-functional-programming/" title="Python3 学习笔记（函数式编程）">Python3 学习笔记（函数式编程）</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/04/python3-advanced-features/" title="Python3 学习笔记（高级特性）">Python3 学习笔记（高级特性）</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/04/python3-functions/" title="Python3 学习笔记（函数）">Python3 学习笔记（函数）</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/04/wss-and-web/" title="基于V2Ray的WebSocket&#43;TLS&#43;Web&#43;CDN安全网络代理">基于V2Ray的WebSocket&#43;TLS&#43;Web&#43;CDN安全网络代理</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://qoanty.github.io/categories/blog/">Blog(1)</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/categories/captcha/">Captcha(1)</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/categories/hugo/">Hugo(1)</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/categories/learn/">Learn(8)</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/categories/python/">Python(10)</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/categories/v2ray/">V2Ray(2)</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/categories/vps/">VPS(2)</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/categories/vim/">Vim(1)</a>
+    </li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="https://qoanty.github.io/tags/cdn/">CDN</a>
+    
+    <a href="https://qoanty.github.io/tags/github/">Github</a>
+    
+    <a href="https://qoanty.github.io/tags/hugo/">Hugo</a>
+    
+    <a href="https://qoanty.github.io/tags/ide/">IDE</a>
+    
+    <a href="https://qoanty.github.io/tags/oop/">OOP</a>
+    
+    <a href="https://qoanty.github.io/tags/v2ray/">V2Ray</a>
+    
+    <a href="https://qoanty.github.io/tags/vps/">VPS</a>
+    
+    <a href="https://qoanty.github.io/tags/asyncio/">asyncio</a>
+    
+    <a href="https://qoanty.github.io/tags/features/">features</a>
+    
+    <a href="https://qoanty.github.io/tags/functions/">functions</a>
+    
+    <a href="https://qoanty.github.io/tags/geetest/">geetest</a>
+    
+    <a href="https://qoanty.github.io/tags/processes/">processes</a>
+    
+    <a href="https://qoanty.github.io/tags/python/">python</a>
+    
+    <a href="https://qoanty.github.io/tags/scraping/">scraping</a>
+    
+    <a href="https://qoanty.github.io/tags/vim/">vim</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">友情链接</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://python3-cookbook.readthedocs.io/zh_CN/latest/index.html" title="Python Cookbook 3rd Edition">Python Cookbook</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="https://seancheney.gitbook.io/python-for-data-analysis-2nd/" title="Python for Data Analysis 2nd Edition">Python for Data Analysis</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="https://codelabs.developers.google.com/codelabs/cloud-tensorflow-mnist/#0" title="TensorFlow and deep learning, without a PhD">TensorFlow and deep learning</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://qoanty.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2019 <a href="https://qoanty.github.io/">百年孤独的博客 By 百年孤独</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a> & <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+    <script type="text/javascript">
+    
+    (function(){
+        $("pre code").parent().addClass("line-numbers")
+    }())
+
+    window.MathJax = {
+        tex2jax: {
+            inlineMath: [ ['$','$'] ],
+            processEscapes: true
+        }
+    };
+    </script>
+    <script type="text/javascript" src="/js/prism.js" async="true"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+
+</body>
+</html>

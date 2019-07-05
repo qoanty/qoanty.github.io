@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="generator" content="Hugo 0.54.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Learn | 百年孤独的博客</title>
+    <meta property="og:title" content="Learn - 百年孤独的博客">
+    <meta property="og:type" content="article">
+        
+        
+    <meta name="Keywords" content="VPS, python, android, 博客, 小程序">
+    <meta name="description" content="Learn">
+        
+    <meta name="author" content="百年孤独">
+    <meta property="og:url" content="https://qoanty.github.io/categories/learn/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="alternate" type="application/rss+xml+xml" href="https://qoanty.github.io/categories/learn/index.xml" title="百年孤独的博客" />
+    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+
+    
+
+
+    
+    
+</head>
+
+
+<body>
+<header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://qoanty.github.io/">
+                        百年孤独的博客
+                    </a>
+                
+                <p class="description">艺术家用谎言揭露真相，政治家用谎言隐瞒真相</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="" href="https://qoanty.github.io/">首页</a>
+                    
+                    <a  href="https://qoanty.github.io/tools/" title="工具">工具</a>
+                    
+                    <a  href="https://qoanty.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://qoanty.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div id="body">
+    <div class="container">
+        <div class="col-group">
+
+            <div class="col-8" id="main">
+                <div class="res-cons">
+                    
+                    <h3 class="archive-title">
+                        分类
+                        <span class="keyword">Learn</span>
+                        中的文章
+                    </h3>
+                    
+
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://qoanty.github.io/2019/04/python3-web-scraping/">Python3 学习笔记（异步爬虫）</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2019年4月21日
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="https://qoanty.github.io/categories/learn">Learn</a>
+                                
+                                    <a href="https://qoanty.github.io/categories/python">Python</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                异步爬虫不同于多进程爬虫，它使用单线程(即仅创建一个事件循环，然后把所有任务添加到事件循环中)就能并发处理多任务。在轮询到某个任务后，当遇到耗时操作(如请求URL)时，挂起该任务并进行下一个任务，当之前被挂起的任务更新了状态(如获得了网页响应)，则被唤醒，程序继续从上次挂起的地方运行下去。极大的减少了中间不必要的等待时间。
+有了Asyncio异步IO库实现协程后，我们还需要实现异步网页请求。普通的爬虫程序会经常用到requests库用以请求网页并获得服务器响应。而在协程中，由于requests库提供的相关方法不是可等待对象（awaitable），使得无法放在await后面，因此无法使用requests库在协程程序中实现请求。
+官方专门提供了一个aiohttp库，用来实现异步网页请求等功能，简直就是异步版的requests库。在协程中使用ClientSession()的get()或request()方法来请求网页（其中async with是异步上下文管理器，其封装了异步实现等功能），完整的aiohttp使用方法，请见官方文档。……
+                                <p class="readmore"><a href="https://qoanty.github.io/2019/04/python3-web-scraping/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://qoanty.github.io/2019/04/python3-asyncio/">Python3 学习笔记（异步IO）</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2019年4月21日
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="https://qoanty.github.io/categories/learn">Learn</a>
+                                
+                                    <a href="https://qoanty.github.io/categories/python">Python</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                由于CPU的速度远远快于磁盘、网络等IO，在一个线程中CPU执行代码的速度极快，一旦遇到IO操作，如读写文件、发送网络数据时，就需要等待IO操作完成，才能继续进行下一步操作，这种情况称为同步IO。
+异步IO是当代码需要执行一个耗时的IO操作时，它只发出IO指令，并不等待IO结果，然后就去执行其他代码了，一段时间后，当IO返回结果时，再通知CPU进行处理。
+同步：就是发出一个“调用”时，在没有得到结果之前，该“调用”就不返回，“调用者”需要一直等待该“调用”结束，才能进行下一步工作。
+异步：“调用”在发出之后，就直接返回了，也就没有返回结果。“被调用者”完成任务后，通过状态来通知“调用者”继续回来处理该“调用”。……
+                                <p class="readmore"><a href="https://qoanty.github.io/2019/04/python3-asyncio/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://qoanty.github.io/2019/04/python3-built-in-functions-modules/">Python3 学习笔记（内建模块）</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2019年4月21日
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="https://qoanty.github.io/categories/learn">Learn</a>
+                                
+                                    <a href="https://qoanty.github.io/categories/python">Python</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                常用内建模块 datetime 获取当前日期和时间……
+                                <p class="readmore"><a href="https://qoanty.github.io/2019/04/python3-built-in-functions-modules/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://qoanty.github.io/2019/04/python3-distributed-processes/">Python3 学习笔记（分布式进程）</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2019年4月20日
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="https://qoanty.github.io/categories/learn">Learn</a>
+                                
+                                    <a href="https://qoanty.github.io/categories/python">Python</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                进程与多进程 对于操作系统来说，一个任务就是一个进程（Process），比如打开一个浏览器就是启动一个浏览器进程，打开一个记事本就启动了一个记事本进程，打开两个记事本就启动了两个记事本进程，打开一个Word就启动了一个Word进程。
+Python中的multiprocessing模块提供了一个Process类来代表一个进程对象，例如启动一个子进程并等待其结束：……
+                                <p class="readmore"><a href="https://qoanty.github.io/2019/04/python3-distributed-processes/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://qoanty.github.io/2019/04/python3-object-oriented-programming/">Python3 学习笔记（面向对象编程）</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2019年4月20日
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="https://qoanty.github.io/categories/learn">Learn</a>
+                                
+                                    <a href="https://qoanty.github.io/categories/python">Python</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                面向对象编程 面向对象编程——Object Oriented Programming，简称OOP，是一种程序设计思想。OOP把对象作为程序的基本单元，一个对象包含了数据和操作数据的函数。……
+                                <p class="readmore"><a href="https://qoanty.github.io/2019/04/python3-object-oriented-programming/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://qoanty.github.io/2019/04/python3-functional-programming/">Python3 学习笔记（函数式编程）</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2019年4月19日
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="https://qoanty.github.io/categories/learn">Learn</a>
+                                
+                                    <a href="https://qoanty.github.io/categories/python">Python</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                函数式编程 函数是Python内建支持的一种封装，我们通过把大段代码拆成函数，通过一层一层的函数调用，就可以把复杂任务分解成简单的任务，这种分解可以称之为面向过程的程序设计。函数就是面向过程的程序设计的基本单元。
+对于编程语言，就是越低级的语言，越贴近计算机，抽象程度低，执行效率高，比如C语言；越高级的语言，越贴近计算，抽象程度高，执行效率低，比如Lisp语言。……
+                                <p class="readmore"><a href="https://qoanty.github.io/2019/04/python3-functional-programming/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://qoanty.github.io/2019/04/python3-advanced-features/">Python3 学习笔记（高级特性）</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2019年4月19日
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="https://qoanty.github.io/categories/learn">Learn</a>
+                                
+                                    <a href="https://qoanty.github.io/categories/python">Python</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                高级特性 在Python中，代码不是越多越好，而是越少越好。代码不是越复杂越好，而是越简单越好，代码越少，开发效率越高。
+切片 先创建一个0-99的数列：……
+                                <p class="readmore"><a href="https://qoanty.github.io/2019/04/python3-advanced-features/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+                        <article class="post">
+                            <header>
+                                <h1 class="post-title">
+                                    <a href="https://qoanty.github.io/2019/04/python3-functions/">Python3 学习笔记（函数）</a>
+                                </h1>
+                            </header>
+                            <date class="post-meta meta-date">
+                                2019年4月19日
+                            </date>
+                            
+                            <div class="post-meta meta-category">
+                                |
+                                
+                                    <a href="https://qoanty.github.io/categories/learn">Learn</a>
+                                
+                                    <a href="https://qoanty.github.io/categories/python">Python</a>
+                                
+                            </div>
+                            
+                            <div class="post-content">
+                                函数 调用函数 Python内置了很多有用的函数，可以直接调用，参见官方文档。……
+                                <p class="readmore"><a href="https://qoanty.github.io/2019/04/python3-functions/">阅读全文</a></p>
+                            </div>
+                        </article>
+                    
+
+                    
+
+
+
+
+
+                </div>
+            </div>
+
+            <div id="secondary">
+    <section class="widget">
+        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://qoanty.github.io/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/05/sliding-captcha/" title="极验滑动验证码识别">极验滑动验证码识别</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/04/python3-web-scraping/" title="Python3 学习笔记（异步爬虫）">Python3 学习笔记（异步爬虫）</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/04/python3-asyncio/" title="Python3 学习笔记（异步IO）">Python3 学习笔记（异步IO）</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/04/python3-built-in-functions-modules/" title="Python3 学习笔记（内建模块）">Python3 学习笔记（内建模块）</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/04/python3-distributed-processes/" title="Python3 学习笔记（分布式进程）">Python3 学习笔记（分布式进程）</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/04/python3-object-oriented-programming/" title="Python3 学习笔记（面向对象编程）">Python3 学习笔记（面向对象编程）</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/04/python3-functional-programming/" title="Python3 学习笔记（函数式编程）">Python3 学习笔记（函数式编程）</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/04/python3-advanced-features/" title="Python3 学习笔记（高级特性）">Python3 学习笔记（高级特性）</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/04/python3-functions/" title="Python3 学习笔记（函数）">Python3 学习笔记（函数）</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/04/wss-and-web/" title="基于V2Ray的WebSocket&#43;TLS&#43;Web&#43;CDN安全网络代理">基于V2Ray的WebSocket&#43;TLS&#43;Web&#43;CDN安全网络代理</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://qoanty.github.io/categories/blog/">Blog(1)</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/categories/captcha/">Captcha(1)</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/categories/hugo/">Hugo(1)</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/categories/learn/">Learn(8)</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/categories/python/">Python(10)</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/categories/v2ray/">V2Ray(2)</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/categories/vps/">VPS(2)</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/categories/vim/">Vim(1)</a>
+    </li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="https://qoanty.github.io/tags/cdn/">CDN</a>
+    
+    <a href="https://qoanty.github.io/tags/github/">Github</a>
+    
+    <a href="https://qoanty.github.io/tags/hugo/">Hugo</a>
+    
+    <a href="https://qoanty.github.io/tags/ide/">IDE</a>
+    
+    <a href="https://qoanty.github.io/tags/oop/">OOP</a>
+    
+    <a href="https://qoanty.github.io/tags/v2ray/">V2Ray</a>
+    
+    <a href="https://qoanty.github.io/tags/vps/">VPS</a>
+    
+    <a href="https://qoanty.github.io/tags/asyncio/">asyncio</a>
+    
+    <a href="https://qoanty.github.io/tags/features/">features</a>
+    
+    <a href="https://qoanty.github.io/tags/functions/">functions</a>
+    
+    <a href="https://qoanty.github.io/tags/geetest/">geetest</a>
+    
+    <a href="https://qoanty.github.io/tags/processes/">processes</a>
+    
+    <a href="https://qoanty.github.io/tags/python/">python</a>
+    
+    <a href="https://qoanty.github.io/tags/scraping/">scraping</a>
+    
+    <a href="https://qoanty.github.io/tags/vim/">vim</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">友情链接</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://python3-cookbook.readthedocs.io/zh_CN/latest/index.html" title="Python Cookbook 3rd Edition">Python Cookbook</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="https://seancheney.gitbook.io/python-for-data-analysis-2nd/" title="Python for Data Analysis 2nd Edition">Python for Data Analysis</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="https://codelabs.developers.google.com/codelabs/cloud-tensorflow-mnist/#0" title="TensorFlow and deep learning, without a PhD">TensorFlow and deep learning</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://qoanty.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+        </div>
+    </div>
+</div>
+<footer id="footer">
+    <div class="container">
+        &copy; 2019 <a href="https://qoanty.github.io/">百年孤独的博客 By 百年孤独</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a> & <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

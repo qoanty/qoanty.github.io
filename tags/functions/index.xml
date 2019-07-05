@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>functions on 百年孤独的博客</title>
+    <link>https://qoanty.github.io/tags/functions/</link>
+    <description>Recent content in functions on 百年孤独的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sun, 21 Apr 2019 11:58:09 +0800</lastBuildDate>
+    
+	<atom:link href="https://qoanty.github.io/tags/functions/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Python3 学习笔记（内建模块）</title>
+      <link>https://qoanty.github.io/2019/04/python3-built-in-functions-modules/</link>
+      <pubDate>Sun, 21 Apr 2019 11:58:09 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/04/python3-built-in-functions-modules/</guid>
+      <description>常用内建模块 datetime 获取当前日期和时间</description>
+    </item>
+    
+    <item>
+      <title>Python3 学习笔记（函数式编程）</title>
+      <link>https://qoanty.github.io/2019/04/python3-functional-programming/</link>
+      <pubDate>Fri, 19 Apr 2019 19:23:49 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/04/python3-functional-programming/</guid>
+      <description>函数式编程 函数是Python内建支持的一种封装，我们通过把大段代码拆成函数，通过一层一层的函数调用，就可以把复杂任务分解成简单的任务，这种分解可以称之为面向过程的程序设计。函数就是面向过程的程序设计的基本单元。
+对于编程语言，就是越低级的语言，越贴近计算机，抽象程度低，执行效率高，比如C语言；越高级的语言，越贴近计算，抽象程度高，执行效率低，比如Lisp语言。</description>
+    </item>
+    
+    <item>
+      <title>Python3 学习笔记（函数）</title>
+      <link>https://qoanty.github.io/2019/04/python3-functions/</link>
+      <pubDate>Fri, 19 Apr 2019 10:14:31 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/04/python3-functions/</guid>
+      <description>函数 调用函数 Python内置了很多有用的函数，可以直接调用，参见官方文档。</description>
+    </item>
+    
+  </channel>
+</rss>

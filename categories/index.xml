@@ -6,10 +6,19 @@
     <description>Recent content in Categories on 百年孤独的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Tue, 07 May 2019 09:24:08 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 08 Apr 2019 14:02:04 +0800</lastBuildDate>
     
 	<atom:link href="https://qoanty.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Blog</title>
+      <link>https://qoanty.github.io/categories/blog/</link>
+      <pubDate>Mon, 08 Apr 2019 14:02:04 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/categories/blog/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Captcha</title>
@@ -23,9 +32,18 @@
     <item>
       <title>Hugo</title>
       <link>https://qoanty.github.io/categories/hugo/</link>
-      <pubDate>Wed, 24 Apr 2019 14:02:04 +0800</pubDate>
+      <pubDate>Mon, 08 Apr 2019 14:02:04 +0800</pubDate>
       
       <guid>https://qoanty.github.io/categories/hugo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Learn</title>
+      <link>https://qoanty.github.io/categories/learn/</link>
+      <pubDate>Sun, 21 Apr 2019 21:06:02 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/categories/learn/</guid>
       <description></description>
     </item>
     
@@ -62,15 +80,6 @@
       <pubDate>Fri, 05 Apr 2019 16:57:01 +0800</pubDate>
       
       <guid>https://qoanty.github.io/categories/vim/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>blog</title>
-      <link>https://qoanty.github.io/categories/blog/</link>
-      <pubDate>Wed, 24 Apr 2019 14:02:04 +0800</pubDate>
-      
-      <guid>https://qoanty.github.io/categories/blog/</guid>
       <description></description>
     </item>
     

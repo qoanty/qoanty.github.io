@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Learn on 百年孤独的博客</title>
+    <link>https://qoanty.github.io/categories/learn/</link>
+    <description>Recent content in Learn on 百年孤独的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sun, 21 Apr 2019 21:06:02 +0800</lastBuildDate>
+    
+	<atom:link href="https://qoanty.github.io/categories/learn/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Python3 学习笔记（异步爬虫）</title>
+      <link>https://qoanty.github.io/2019/04/python3-web-scraping/</link>
+      <pubDate>Sun, 21 Apr 2019 21:06:02 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/04/python3-web-scraping/</guid>
+      <description>异步爬虫不同于多进程爬虫，它使用单线程(即仅创建一个事件循环，然后把所有任务添加到事件循环中)就能并发处理多任务。在轮询到某个任务后，当遇到耗时操作(如请求URL)时，挂起该任务并进行下一个任务，当之前被挂起的任务更新了状态(如获得了网页响应)，则被唤醒，程序继续从上次挂起的地方运行下去。极大的减少了中间不必要的等待时间。
+有了Asyncio异步IO库实现协程后，我们还需要实现异步网页请求。普通的爬虫程序会经常用到requests库用以请求网页并获得服务器响应。而在协程中，由于requests库提供的相关方法不是可等待对象（awaitable），使得无法放在await后面，因此无法使用requests库在协程程序中实现请求。
+官方专门提供了一个aiohttp库，用来实现异步网页请求等功能，简直就是异步版的requests库。在协程中使用ClientSession()的get()或request()方法来请求网页（其中async with是异步上下文管理器，其封装了异步实现等功能），完整的aiohttp使用方法，请见官方文档。</description>
+    </item>
+    
+    <item>
+      <title>Python3 学习笔记（异步IO）</title>
+      <link>https://qoanty.github.io/2019/04/python3-asyncio/</link>
+      <pubDate>Sun, 21 Apr 2019 15:01:59 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/04/python3-asyncio/</guid>
+      <description>由于CPU的速度远远快于磁盘、网络等IO，在一个线程中CPU执行代码的速度极快，一旦遇到IO操作，如读写文件、发送网络数据时，就需要等待IO操作完成，才能继续进行下一步操作，这种情况称为同步IO。
+异步IO是当代码需要执行一个耗时的IO操作时，它只发出IO指令，并不等待IO结果，然后就去执行其他代码了，一段时间后，当IO返回结果时，再通知CPU进行处理。
+同步：就是发出一个“调用”时，在没有得到结果之前，该“调用”就不返回，“调用者”需要一直等待该“调用”结束，才能进行下一步工作。
+异步：“调用”在发出之后，就直接返回了，也就没有返回结果。“被调用者”完成任务后，通过状态来通知“调用者”继续回来处理该“调用”。</description>
+    </item>
+    
+    <item>
+      <title>Python3 学习笔记（内建模块）</title>
+      <link>https://qoanty.github.io/2019/04/python3-built-in-functions-modules/</link>
+      <pubDate>Sun, 21 Apr 2019 11:58:09 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/04/python3-built-in-functions-modules/</guid>
+      <description>常用内建模块 datetime 获取当前日期和时间</description>
+    </item>
+    
+    <item>
+      <title>Python3 学习笔记（分布式进程）</title>
+      <link>https://qoanty.github.io/2019/04/python3-distributed-processes/</link>
+      <pubDate>Sat, 20 Apr 2019 20:07:34 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/04/python3-distributed-processes/</guid>
+      <description>进程与多进程 对于操作系统来说，一个任务就是一个进程（Process），比如打开一个浏览器就是启动一个浏览器进程，打开一个记事本就启动了一个记事本进程，打开两个记事本就启动了两个记事本进程，打开一个Word就启动了一个Word进程。
+Python中的multiprocessing模块提供了一个Process类来代表一个进程对象，例如启动一个子进程并等待其结束：</description>
+    </item>
+    
+    <item>
+      <title>Python3 学习笔记（面向对象编程）</title>
+      <link>https://qoanty.github.io/2019/04/python3-object-oriented-programming/</link>
+      <pubDate>Sat, 20 Apr 2019 11:39:49 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/04/python3-object-oriented-programming/</guid>
+      <description>面向对象编程 面向对象编程——Object Oriented Programming，简称OOP，是一种程序设计思想。OOP把对象作为程序的基本单元，一个对象包含了数据和操作数据的函数。</description>
+    </item>
+    
+    <item>
+      <title>Python3 学习笔记（函数式编程）</title>
+      <link>https://qoanty.github.io/2019/04/python3-functional-programming/</link>
+      <pubDate>Fri, 19 Apr 2019 19:23:49 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/04/python3-functional-programming/</guid>
+      <description>函数式编程 函数是Python内建支持的一种封装，我们通过把大段代码拆成函数，通过一层一层的函数调用，就可以把复杂任务分解成简单的任务，这种分解可以称之为面向过程的程序设计。函数就是面向过程的程序设计的基本单元。
+对于编程语言，就是越低级的语言，越贴近计算机，抽象程度低，执行效率高，比如C语言；越高级的语言，越贴近计算，抽象程度高，执行效率低，比如Lisp语言。</description>
+    </item>
+    
+    <item>
+      <title>Python3 学习笔记（高级特性）</title>
+      <link>https://qoanty.github.io/2019/04/python3-advanced-features/</link>
+      <pubDate>Fri, 19 Apr 2019 15:04:36 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/04/python3-advanced-features/</guid>
+      <description>高级特性 在Python中，代码不是越多越好，而是越少越好。代码不是越复杂越好，而是越简单越好，代码越少，开发效率越高。
+切片 先创建一个0-99的数列：</description>
+    </item>
+    
+    <item>
+      <title>Python3 学习笔记（函数）</title>
+      <link>https://qoanty.github.io/2019/04/python3-functions/</link>
+      <pubDate>Fri, 19 Apr 2019 10:14:31 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/04/python3-functions/</guid>
+      <description>函数 调用函数 Python内置了很多有用的函数，可以直接调用，参见官方文档。</description>
+    </item>
+    
+  </channel>
+</rss>
