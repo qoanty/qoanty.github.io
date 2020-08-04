@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>VPS on 百年孤独的博客</title>
@@ -6,10 +6,55 @@
     <description>Recent content in VPS on 百年孤独的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Fri, 12 Apr 2019 17:49:11 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 01 Jun 2020 21:36:31 +0800</lastBuildDate>
     
 	<atom:link href="https://qoanty.github.io/tags/vps/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Trojan-Go 安装配置教程</title>
+      <link>https://qoanty.github.io/2020/06/vps-with-trojan-go/</link>
+      <pubDate>Mon, 01 Jun 2020 21:36:31 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2020/06/vps-with-trojan-go/</guid>
+      <description>简介 Trojan-Go使用Go实现的完整Trojan代理，与Trojan协议以及Trojan版本的配置文件格式兼容。安全，高效，轻巧，易用。 支持使用多路复用提升并发性能，使用路由模块实现国内直连。 支持CDN流量中转(基于WebSocket over</description>
+    </item>
+    
+    <item>
+      <title>在VPS上设置Debian 10服务器</title>
+      <link>https://qoanty.github.io/2019/07/set-up-debian-server/</link>
+      <pubDate>Sat, 20 Jul 2019 12:31:13 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/07/set-up-debian-server/</guid>
+      <description>本文假定（并强烈建议）仅使用密钥验证的ssh登录（建议使用4096位RSA加密）。 设置Root用户 如果已经设置好ssh公钥，先登录。 1 ssh root@YOUR_HOST 更改默认的编辑器，通常会预先安装vim，nano等。 1 update-alternatives --config editor 添加别名（可选） 1 2 3 editor .bashrc # add those `alias` commands to that file</description>
+    </item>
+    
+    <item>
+      <title>Trojan安装配置教程</title>
+      <link>https://qoanty.github.io/2019/04/vps-with-trojan/</link>
+      <pubDate>Tue, 30 Apr 2019 19:37:11 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/04/vps-with-trojan/</guid>
+      <description>简介 Trojan是近两年兴起的网络工具，与强调加密和混淆的SS/SSR等工具不同，trojan将通信流量伪装成互联网上最常见的https流量，从而有效防止流量被GFW检测和干扰。 v2ray和trojan的区别及特点： v2ray是一个网络框架</description>
+    </item>
+    
+    <item>
+      <title>Debian 10搭建KMS服务器及激活Windows和Office</title>
+      <link>https://qoanty.github.io/2019/04/vps-kms/</link>
+      <pubDate>Tue, 16 Apr 2019 16:32:41 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/04/vps-kms/</guid>
+      <description>vlmcsd是一个开源的KMS模拟器，可以在各种CPU架构和操作系统上运行，具体信息见GitHub。 安装 使用命令cat /proc/cpuinfo查看机器的CPU架构，一般都是intel架构。运行以下命令： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18</description>
+    </item>
+    
+    <item>
+      <title>安装Caddy&#43;PHP7&#43;Sqlite3环境并搭建Typecho博客</title>
+      <link>https://qoanty.github.io/2019/04/vps-caddy-php7-typecho/</link>
+      <pubDate>Mon, 15 Apr 2019 14:37:11 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/04/vps-caddy-php7-typecho/</guid>
+      <description>Caddy是一个用golang编写的Web服务器，默认开启HTTPS与HTTP/2，自带https证书（来自let&amp;rsquo;s encrypt），配置简洁，这里简单记录下在服务器中安装配置Caddy+PHP7+Sqlite3的过程。 安装C</description>
+    </item>
     
     <item>
       <title>使用V2Ray实现科学爱国</title>
@@ -17,7 +62,7 @@
       <pubDate>Fri, 12 Apr 2019 17:49:11 +0800</pubDate>
       
       <guid>https://qoanty.github.io/2019/04/vps-with-v2ray/</guid>
-      <description>前言 V2Ray是一个非常优秀的开源网络代理工具，支持TCP、mKCP、WebSocket这3种底层传输协议，支持HTTP、Socks、Shadowsocks、VMess这4种内容传输协议，并且还支持Windows、Mac、Android、iOS、Linux等所有主流操作系统。目前V2Ray已经更名为Project V，V2Ray则演变为Project V的内核。本教程介绍V2Ray的一些基本概念，如何搭建V2Ray，如何配置V2Ray服务器端和V2Ray客户端，以及V2Ray的优化，也可以直接访问项目官网 和白话文教程 。</description>
+      <description>前言 V2Ray是一个非常优秀的开源网络代理工具，支持TCP、mKCP、WebSocket这3种底层传输协议，支持HTTP、Socks、Shadowsocks、VMess这4种内容传输协议，并且还支持Windows、Mac、Android、i</description>
     </item>
     
   </channel>

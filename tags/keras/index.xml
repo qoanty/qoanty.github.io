@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>keras on 百年孤独的博客</title>
+    <link>https://qoanty.github.io/tags/keras/</link>
+    <description>Recent content in keras on 百年孤独的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Tue, 15 Oct 2019 10:06:45 +0800</lastBuildDate>
+    
+	<atom:link href="https://qoanty.github.io/tags/keras/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Tensorflow, Keras and deep learning, without a Phd</title>
+      <link>https://qoanty.github.io/2019/10/tensorflow-without-phd/</link>
+      <pubDate>Tue, 15 Oct 2019 10:06:45 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/10/tensorflow-without-phd/</guid>
+      <description>1. 概述 在本代码实验室中，你将学习如何构建和训练可识别手写数字的神经网络。在此过程中，随着你增强神经网络的准确率达到99%，你还将学习到专业人员用来训练模型的高效工具。 本代码实验室使用MNIST数据集，该数据集包含60,000个带标签的数字。</description>
+    </item>
+    
+    <item>
+      <title>TensorFlow加载CSV数据</title>
+      <link>https://qoanty.github.io/2019/10/tensorflow-load-csv-data/</link>
+      <pubDate>Sat, 12 Oct 2019 14:41:22 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/10/tensorflow-load-csv-data/</guid>
+      <description>本教程提供了有关如何将CSV数据从文件加载到tf.data.Dataset的示例。 本教程中使用的数据取自《泰坦尼克号》乘客列表。该模型将根据年龄，性别，机票等级以及是否独自旅行等特征来预测乘客幸存的可能性。 设定 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15</description>
+    </item>
+    
+    <item>
+      <title>具有预处理文本的文本分类：电影评论</title>
+      <link>https://qoanty.github.io/2019/10/tensorflow-text-classification/</link>
+      <pubDate>Thu, 10 Oct 2019 12:21:33 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/10/tensorflow-text-classification/</guid>
+      <description>本笔记使用评论文本将电影评论分为正面评论或负面评论。这是二进制（或两类）分类的一个示例，它是一种重要且广泛适用的机器学习问题。 我们将使用IMDB数据集，其中包含来自网络电影数据库的50,000个电影评论的文本。这些内容分为25,000条用于</description>
+    </item>
+    
+    <item>
+      <title>使用TensorFlow Hub进行文本分类：电影评论</title>
+      <link>https://qoanty.github.io/2019/10/tensorflow-text-classification-with-hub/</link>
+      <pubDate>Wed, 09 Oct 2019 14:01:25 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/10/tensorflow-text-classification-with-hub/</guid>
+      <description>本笔记使用评论内容将电影评论分为正面的或负面的。这是二进制（或两类）分类的一个示例，它是一种重要且广泛适用的机器学习问题。 本教程演示了使用TensorFlow Hub和Keras进行迁移学习的基本应用。 我们将使用IMDB数据集，其中包含来自网</description>
+    </item>
+    
+    <item>
+      <title>TensorFlow基本分类：对服装图像进行分类</title>
+      <link>https://qoanty.github.io/2019/10/tensorflow-image-classification/</link>
+      <pubDate>Tue, 08 Oct 2019 15:21:42 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/10/tensorflow-image-classification/</guid>
+      <description>本指南训练了一个神经网络模型，以对运动鞋和衬衫等服装图像进行分类。你可以不了解所有的细节，这是一个完整的TensorFlow程序的快速概述，详细内容会在你开始的时候解释。 本指南使用tf.keras，一个高级API来中构建和训练TensorF</description>
+    </item>
+    
+  </channel>
+</rss>

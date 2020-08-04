@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on 百年孤独的博客</title>
@@ -6,10 +6,208 @@
     <description>Recent content in Tags on 百年孤独的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Wed, 17 Apr 2019 20:02:32 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 18 Jul 2020 10:12:26 +0800</lastBuildDate>
     
 	<atom:link href="https://qoanty.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>KDE</title>
+      <link>https://qoanty.github.io/tags/kde/</link>
+      <pubDate>Sat, 18 Jul 2020 10:12:26 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/kde/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Manjaro</title>
+      <link>https://qoanty.github.io/tags/manjaro/</link>
+      <pubDate>Sat, 18 Jul 2020 10:12:26 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/manjaro/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Trojan-Go</title>
+      <link>https://qoanty.github.io/tags/trojan-go/</link>
+      <pubDate>Mon, 01 Jun 2020 21:36:31 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/trojan-go/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>VPS</title>
+      <link>https://qoanty.github.io/tags/vps/</link>
+      <pubDate>Mon, 01 Jun 2020 21:36:31 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/vps/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>deep learning</title>
+      <link>https://qoanty.github.io/tags/deep-learning/</link>
+      <pubDate>Tue, 15 Oct 2019 10:06:45 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/deep-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>keras</title>
+      <link>https://qoanty.github.io/tags/keras/</link>
+      <pubDate>Tue, 15 Oct 2019 10:06:45 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/keras/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tensorflow</title>
+      <link>https://qoanty.github.io/tags/tensorflow/</link>
+      <pubDate>Tue, 15 Oct 2019 10:06:45 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/tensorflow/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Debian</title>
+      <link>https://qoanty.github.io/tags/debian/</link>
+      <pubDate>Sun, 28 Jul 2019 18:22:37 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/debian/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Nginx</title>
+      <link>https://qoanty.github.io/tags/nginx/</link>
+      <pubDate>Sun, 28 Jul 2019 18:22:37 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/nginx/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>SSH</title>
+      <link>https://qoanty.github.io/tags/ssh/</link>
+      <pubDate>Tue, 16 Jul 2019 14:45:27 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/ssh/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Docker</title>
+      <link>https://qoanty.github.io/tags/docker/</link>
+      <pubDate>Wed, 15 May 2019 16:35:28 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Pipenv</title>
+      <link>https://qoanty.github.io/tags/pipenv/</link>
+      <pubDate>Wed, 15 May 2019 08:53:24 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/pipenv/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Python</title>
+      <link>https://qoanty.github.io/tags/python/</link>
+      <pubDate>Wed, 15 May 2019 08:53:24 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>geetest</title>
+      <link>https://qoanty.github.io/tags/geetest/</link>
+      <pubDate>Tue, 07 May 2019 09:24:08 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/geetest/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Trojan</title>
+      <link>https://qoanty.github.io/tags/trojan/</link>
+      <pubDate>Tue, 30 Apr 2019 19:37:11 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/trojan/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>data</title>
+      <link>https://qoanty.github.io/tags/data/</link>
+      <pubDate>Thu, 25 Apr 2019 15:36:02 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/data/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>scraping</title>
+      <link>https://qoanty.github.io/tags/scraping/</link>
+      <pubDate>Sun, 21 Apr 2019 21:06:02 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/scraping/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>asyncio</title>
+      <link>https://qoanty.github.io/tags/asyncio/</link>
+      <pubDate>Sun, 21 Apr 2019 15:01:59 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/asyncio/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>functions</title>
+      <link>https://qoanty.github.io/tags/functions/</link>
+      <pubDate>Sun, 21 Apr 2019 11:58:09 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/functions/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>processes</title>
+      <link>https://qoanty.github.io/tags/processes/</link>
+      <pubDate>Sat, 20 Apr 2019 20:07:34 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/processes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>OOP</title>
+      <link>https://qoanty.github.io/tags/oop/</link>
+      <pubDate>Sat, 20 Apr 2019 11:39:49 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/oop/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>features</title>
+      <link>https://qoanty.github.io/tags/features/</link>
+      <pubDate>Fri, 19 Apr 2019 15:04:36 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/features/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>CDN</title>
@@ -17,6 +215,33 @@
       <pubDate>Wed, 17 Apr 2019 20:02:32 +0800</pubDate>
       
       <guid>https://qoanty.github.io/tags/cdn/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>V2Ray</title>
+      <link>https://qoanty.github.io/tags/v2ray/</link>
+      <pubDate>Wed, 17 Apr 2019 20:02:32 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/v2ray/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>KMS</title>
+      <link>https://qoanty.github.io/tags/kms/</link>
+      <pubDate>Tue, 16 Apr 2019 16:32:41 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/kms/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Caddy</title>
+      <link>https://qoanty.github.io/tags/caddy/</link>
+      <pubDate>Mon, 15 Apr 2019 14:37:11 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/tags/caddy/</guid>
       <description></description>
     </item>
     
@@ -48,97 +273,7 @@
     </item>
     
     <item>
-      <title>OOP</title>
-      <link>https://qoanty.github.io/tags/oop/</link>
-      <pubDate>Sat, 20 Apr 2019 11:39:49 +0800</pubDate>
-      
-      <guid>https://qoanty.github.io/tags/oop/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>V2Ray</title>
-      <link>https://qoanty.github.io/tags/v2ray/</link>
-      <pubDate>Wed, 17 Apr 2019 20:02:32 +0800</pubDate>
-      
-      <guid>https://qoanty.github.io/tags/v2ray/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>VPS</title>
-      <link>https://qoanty.github.io/tags/vps/</link>
-      <pubDate>Fri, 12 Apr 2019 17:49:11 +0800</pubDate>
-      
-      <guid>https://qoanty.github.io/tags/vps/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>asyncio</title>
-      <link>https://qoanty.github.io/tags/asyncio/</link>
-      <pubDate>Sun, 21 Apr 2019 15:01:59 +0800</pubDate>
-      
-      <guid>https://qoanty.github.io/tags/asyncio/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>features</title>
-      <link>https://qoanty.github.io/tags/features/</link>
-      <pubDate>Fri, 19 Apr 2019 15:04:36 +0800</pubDate>
-      
-      <guid>https://qoanty.github.io/tags/features/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>functions</title>
-      <link>https://qoanty.github.io/tags/functions/</link>
-      <pubDate>Sun, 21 Apr 2019 11:58:09 +0800</pubDate>
-      
-      <guid>https://qoanty.github.io/tags/functions/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>geetest</title>
-      <link>https://qoanty.github.io/tags/geetest/</link>
-      <pubDate>Tue, 07 May 2019 09:24:08 +0800</pubDate>
-      
-      <guid>https://qoanty.github.io/tags/geetest/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>processes</title>
-      <link>https://qoanty.github.io/tags/processes/</link>
-      <pubDate>Sat, 20 Apr 2019 20:07:34 +0800</pubDate>
-      
-      <guid>https://qoanty.github.io/tags/processes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>python</title>
-      <link>https://qoanty.github.io/tags/python/</link>
-      <pubDate>Tue, 07 May 2019 09:24:08 +0800</pubDate>
-      
-      <guid>https://qoanty.github.io/tags/python/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>scraping</title>
-      <link>https://qoanty.github.io/tags/scraping/</link>
-      <pubDate>Sun, 21 Apr 2019 21:06:02 +0800</pubDate>
-      
-      <guid>https://qoanty.github.io/tags/scraping/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>vim</title>
+      <title>Vim</title>
       <link>https://qoanty.github.io/tags/vim/</link>
       <pubDate>Fri, 05 Apr 2019 16:57:01 +0800</pubDate>
       

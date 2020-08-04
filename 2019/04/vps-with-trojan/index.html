@@ -1,0 +1,961 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Trojan安装配置教程 | 百年孤独的博客</title>
+    <meta property="og:title" content="Trojan安装配置教程 - 百年孤独的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2019-04-30T19:37:11&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2019-04-30T19:37:11&#43;08:00'>
+        
+    <meta name="Keywords" content="VPS, python, android, 博客, 小程序">
+    <meta name="description" content="Trojan安装配置教程">
+        
+    <meta name="author" content="百年孤独">
+    <meta property="og:url" content="https://qoanty.github.io/2019/04/vps-with-trojan/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+
+
+    
+    
+</head>
+
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://qoanty.github.io/">
+                        百年孤独的博客
+                    </a>
+                
+                <p class="description">艺术家用谎言揭露真相，政治家用谎言隐瞒真相</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://qoanty.github.io/">首页</a>
+                    
+                    <a  href="https://qoanty.github.io/tools/" title="工具">工具</a>
+                    
+                    <a  href="https://qoanty.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://qoanty.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">Trojan安装配置教程</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2019年4月30日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='https://qoanty.github.io/categories/trojan'>Trojan</a></span>
+            
+            <span class="meta-category"><a href='https://qoanty.github.io/categories/vps'>VPS</a></span>
+            
+        </div>
+        
+        
+        
+        <div class="post-content">
+            <h2 id="简介">简介</h2>
+<p><a href="https://github.com/trojan-gfw/trojan">Trojan</a>是近两年兴起的网络工具，与强调加密和混淆的SS/SSR等工具不同，trojan将通信流量伪装成互联网上最常见的https流量，从而有效防止流量被GFW检测和干扰。</p>
+<h3 id="v2ray和trojan的区别及特点">v2ray和trojan的区别及特点：</h3>
+<ul>
+<li>v2ray是一个网络框架，功能齐全；trojan只是一个绕过防火墙的工具，轻量级、功能简单；</li>
+<li>v2ray和trojan都能实现https流量伪装；</li>
+<li>v2ray内核用go语言开发，trojan是c++实现，理论上trojan比v2ray性能更好；</li>
+<li>v2ray使用的人多，客户端很好用；trojan关注和使用的人少，官方客户端简陋，生态完善度不高。</li>
+</ul>
+<h3 id="trojan工作原理">Trojan工作原理</h3>
+<p>Trojan是一个比较新的翻墙软件，在设计时采用了更适应国情的思路。在穿透GFW时，人们认为强加密和随机混淆可能会欺骗GFW的过滤机制。然而，trojan实现了这个思路的反面：它模仿了互联网上最常见的https协议，以诱骗GFW认为它就是https，从而不被识别。</p>
+<p><img src="/images/trojan.svg" alt=""></p>
+<p>如图所示，trojan工作在443端口，并且处理来自外界的https请求，如果是合法的trojan请求，那么为该请求提供服务，否则将该流量转交给web服务Nginx，由Nginx为其提供服务。基于这个工作过程可以知道，trojan的一切表现均与Nginx一致，不会引入额外特征，从而达到无法识别的效果。当然，为了防止恶意探测，我们需要将80端口的流量全部重定向到443端口，并且服务器只开放80和443端口，这样可以使得服务器与常见的Web服务器表现一致。</p>
+<h2 id="先决条件">先决条件</h2>
+<p>按照本教程部署trojan需要一台运行Linux的境外vps，一个解析到vps的域名以及为域名申请的一个证书，需通过SSH终端连接到vps。</p>
+<h2 id="创建新用户可选">创建新用户（可选）</h2>
+<p>为了系统安全，一般不建议直接使用<code>root</code>用户对系统做设置，而<code>VPS</code>默认只有<code>root</code>用户，因此可以自己新建一个具有<code>sudo</code>权限的用户继续后面的操作，代码如下所示，注意密码强度不能太低。第一条命令创建用户，第二条命令设置密码，第三条命令将该用户加入<code>sudo</code>组，第四条命令切换到该用户。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">useradd -m -s /bin/bash qoant
+passwd qoant
+usermod -G sudo qoant
+su -l qoant
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="创建服务用户">创建服务用户</h2>
+<p>这里解释下为什么不直接使用<code>root</code>用户，因为<code>trojan</code>是占用443端口，使用<code>https</code>协议，所以必然是要安装证书的。本教程使用<a href="https://github.com/Neilpang/acme.sh">acme.sh</a>为<code>trojan</code>生成证书，并配置了<code>acme.sh</code>的自动更新，包括代码和证书的更新。一方面，既然有配置自动更新就有可能出各种问题，毕竟你对更新之后的代码和证书是否可用一无所知。另一方面，<code>acme.sh</code>和<code>trojan</code>均为开源软件，不一定值得完全信赖。基于此，为了降低<code>acme.sh</code>和<code>trojan</code>对系统的影响和其相互影响，故需要单独为<code>acme.sh</code>和<code>trojan</code>建立没有<code>sudo</code>权限的用户。如果执意使用具有<code>sudo</code>权限的用户，或者直接使用<code>root</code>，出了问题是要自己承担后果的。</p>
+<p>这里我们创建两个用户，分别为<code>trojan</code>和<code>acme</code>。其中用户<code>trojan</code>只需要运行<code>trojan</code>服务，无需登录，也无需家目录，故设置为系统用户即可。这里将用户<code>acme</code>也设置为系统用户，但是区别在于<code>acme</code>需要配置<code>acme.sh</code>，故需要家目录。注意到，我并未给用户<code>acme</code>设置密码，所以该用户也不能登录，只能通过其他已经登录的用户切换过去，这样尽可能的保证了系统的安全与任务的独立。因为<code>trojan</code>和<code>acme</code>都需要读写证书文件，所以将<code>acme</code>和<code>trojan</code>添加到同一个用户组<code>certusers</code>，待申请到证书后将证书所有权交给用户组<code>certusers</code>并允许组内用户访问即可。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo groupadd certusers
+sudo useradd -r -M -G certusers trojan
+sudo useradd -r -m -G certusers acme
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="配置nginx">配置Nginx</h2>
+<p>若你已经有配置<code>Nginx</code>虚拟主机，配置<code>Nginx</code>之前请，可以使用<code>cp</code>命令备份一下原来的虚拟主机，等介绍完基本配置再讲如何与现有服务集成。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo apt update
+sudo apt install nginx
+</code></pre></td></tr></table>
+</div>
+</div><p><code>Nginx</code>的虚拟主机配置文件在<code>/etc/nginx/sites-available/</code>文件夹中，如果要开启某一个虚拟主机，则建立一个软连接到<code>/etc/nginx/sites-enabled/</code>文件夹并重启<code>Nginx</code>即可。默认虚拟主机在<code>/etc/nginx/sites-enabled/</code>文件夹，需要关闭掉，否则会冲突。</p>
+<p>使用如下命令关闭<code>Nginx</code>默认虚拟主机。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo rm /etc/nginx/sites-enabled/default
+</code></pre></td></tr></table>
+</div>
+</div><p>输入以下命令添加虚拟主机。（注意域名<code>&lt;qoant.com&gt;</code>改为你自己的域名，这是虚拟主机的文件名，只是用来自己识别的。）</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo vim /etc/nginx/sites-available/&lt;qoant.com&gt;
+</code></pre></td></tr></table>
+</div>
+</div><p>基于<code>trojan</code>工作原理，现给定<code>Nginx</code>虚拟主机如下所示。这些内容可以直接拷贝到上面的配置文件中再修改为你自己的，其中要修改的地方为：</p>
+<ol>
+<li>第4行的<code>server_name</code>的值<code>&lt;qoant.com&gt;</code>改为你自己的域名；</li>
+<li>第7行的<code>proxy_pass</code>随便指向一个没有敏感信息的网站都可以，这就是你要反向代理的网站，这里是用的Debian地址；</li>
+<li>第15行的<code>server_name</code>的值<code>&lt;8.8.8.8&gt;</code>改为你自己的IP；</li>
+<li>第17行<code>&lt;qoant.com&gt;</code>改为自己的域名。</li>
+</ol>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">server {
+    listen 127.0.0.1:80 default_server;
+
+    server_name &lt;qoant.com&gt;;
+
+    location / {
+        proxy_pass https://www.debian.org;
+    }
+
+}
+
+server {
+    listen 127.0.0.1:80;
+
+    server_name &lt;8.8.8.8&gt;;
+
+    return 301 https://&lt;qoant.com&gt;$request_uri;
+}
+
+server {
+    listen 0.0.0.0:80;
+    listen [::]:80;
+
+    server_name _;
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+
+    location /.well-known/acme-challenge {
+       root /var/www/acme-challenge;
+    }
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>解释一下这些虚拟主机的一些细节：第一个<code>server</code>接收来自<code>trojan</code>的流量，与上面<code>trojan</code>配置文件对应；第二个<code>server</code>也是接收来自<code>trojan</code>的流量，但是这个流量尝试使用IP而不是域名访问服务器，所以将其认为是异常流量，并重定向到域名；第三个<code>server</code>接收除<code>127.0.0.1:80</code>外的所有80端口的流量并重定向到443端口，这样便开启了全站<code>https</code>，可有效的防止恶意探测，其中<code>.well-known</code>是为申请证书所准备的，下文用到的时候自然明白。注意到，第一个和第二个<code>server</code>对应原理图中的蓝色数据流，第三个<code>server</code>对应原理图中的红色数据流，原理图中的绿色数据流不会流到<code>Nginx</code>。</p>
+<p>创建指向上述配置文件的符号链接并启用此虚拟主机，注意域名<code>&lt;qoant.com&gt;</code>改为你自己的域名。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo ln -s /etc/nginx/sites-available/&lt;qoant.com&gt; /etc/nginx/sites-enabled/
+sudo systemctl restart nginx
+sudo systemctl status nginx
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="配置证书">配置证书</h2>
+<p>当从<code>Let’s Encrypt</code>获得证书时，<code>Let’s Encrypt</code>会验证证书中域名的控制权。一般采用<code>HTTP-01</code>或<code>DNS-01</code>方式来验证，详情参考官方文档<a href="https://letsencrypt.org/zh-cn/docs/challenge-types/">验证方式</a>。本文使用<code>HTTP-01</code>方式验证，若需要使用<code>DNS-01</code>方式验证，参考<code>acme.sh</code>官方文档<a href="https://github.com/acmesh-official/acme.sh/wiki/dnsapi"><code>How to use DNS API</code></a>。</p>
+<h3 id="创建证书文件夹">创建证书文件夹</h3>
+<p>第一条命令新建一个文件夹<code>/etc/letsencrypt/live</code>用于存放证书。第二条命令将证书文件夹所有者改为<code>acme</code>，使得用户<code>acme</code>有权限写入证书。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo mkdir -p /etc/letsencrypt/live
+sudo chown -R acme:acme /etc/letsencrypt/live
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="创建webroot并修改所有者">创建webroot并修改所有者</h3>
+<p>本文使用<code>acme.sh</code>的<code>http</code>方式申请证书，<code>http</code>方式需要在网站根目录下放置一个文件来验证域名所有权，故需要<code>acme.sh</code>和<code>nginx</code>均对<code>webroot</code>目录有权限，故将运行<code>Nginx</code>的<code>worker</code>进程加入<code>certusers</code>组，然后再将<code>webroot</code>目录附加给<code>certusers</code>组即可。</p>
+<p>在不同的<code>Linux</code>发新版本中，<code>nginx</code>可能使用不同的用户运行<code>worker process</code>，可能为<code>www-data</code>，<code>nginx</code>，<code>nobody</code>中的一个，故需要自己运行以下命令查找<code>nginx: worker process</code>所属用户，然后根据实际情况，添加到<code>certusers</code>组：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ps -eo user,command | grep nginx
+sudo usermod -G certusers www-data
+</code></pre></td></tr></table>
+</div>
+</div><p>运行下面两条命令，第一条命令新建一个文件夹<code>/var/www/acme-challenge</code>用于给<code>acme.sh</code>存放域名验证文件。第二条命令将证书文件夹所有者改为<code>acme</code>，使得用户<code>acme</code>有权限写入文件，同时当验证的时候<code>Nginx</code>可以读取该文件。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo mkdir -p  /var/www/acme-challenge
+sudo chown -R acme:certusers /var/www/acme-challenge
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="安装acmesh自动管理ca证书脚本">安装acme.sh自动管理CA证书脚本</h3>
+<p>分别执行如下命令，注意看是否报错。第一条命令切换到用户<code>acme</code>。第二条命令安装<code>acme.sh</code>。第三条命令退出当前用户。第四条命令再次切换到用户<code>acme</code>。注意到这里两次切换用户的操作不能省略，因为安装完<code>acme.sh</code>之后要重新登录当前用户，否则无法识别出<code>acme.sh</code>命令。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo su -l -s /bin/bash acme
+curl https://get.acme.sh | sh
+<span style="color:#0086b3">exit</span>
+sudo su -l -s /bin/bash acme
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="申请证书">申请证书</h3>
+<p>执行如下命令（注意域名<code>&lt;qoant.com&gt;</code>改为你自己的域名），等待一会儿，会有证书申请成功的提示。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">acme.sh --issue -d &lt;qoant.com&gt; -w /var/www/acme-challenge
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>申请失败怎么办？</strong> 证书申请失败的可能性一般有：1. 文件夹权限问题，请仔细检查每一步是否都正确；2. 证书申请次数超限，此时切忌反复尝试。证书每一个周申请次数是有限制的（20次），如果超限了就需要等一个周或者更换域名了（这个限制是争对每一个子域单独做的限制，所以万一超限了还可以用子域名继续部署）。解决方案是：在上述命令后加<code>--staging</code>参数继续测试。测试通过之后，删除生成的四个证书文件以及该域名对应的文件夹并取消<code>--staging</code>参数再执行一次。<code>--staging</code>参数申请的证书只作为测试用，客户端是无法认证通过的（提示<code>SSL handshake failed: tlsv1 alert unknown ca</code>），所以使用<code>--staging</code>参数申请到了证书之后要去掉<code>--staging</code>参数重新申请一次。</p>
+<h3 id="安装证书">安装证书</h3>
+<p>执行如下命令（注意域名<code>&lt;qoant.com&gt;</code>改为你自己的域名），第一条命令使用<code>acme.sh</code>将证书安装到<code>certfiles</code>目录，这样<code>acme.sh</code>更新证书的时候会自动将新的证书安装到这里。第二条命令是配置<code>acme.sh</code>自动更新和自动更新证书，这样配置完<code>trojan</code>之后一般不用管服务器。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">acme.sh --install-cert -d &lt;qoant.com&gt; <span style="color:#d14">\
+</span><span style="color:#d14"></span>	--key-file /etc/letsencrypt/live/private.key <span style="color:#d14">\
+</span><span style="color:#d14"></span>	--fullchain-file /etc/letsencrypt/live/certificate.crt
+acme.sh --upgrade  --auto-upgrade
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="修改权限">修改权限</h3>
+<p>最后还要允许组内用户访问证书。可通过如下命令实现。第一条命令将证书文件夹所在用户组改为<code>certusers</code>。第二条命令是赋予证书文件夹组内用户读取权限。运行这两条命令之后用户<code>trojan</code>就有权限读取证书了。第三条命令退出用户<code>acme</code>，因为证书已经安装完成。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">chown -R acme:certusers /etc/letsencrypt/live
+chmod -R <span style="color:#099">750</span> /etc/letsencrypt/live
+<span style="color:#0086b3">exit</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="配置trojan">配置Trojan</h2>
+<h3 id="安装trojan">安装trojan</h3>
+<p>分别执行如下四个命令，注意看是否报错。第一个命令是安装<code>trojan</code>，安装完成一般会提示版本号注意看是否是最新版本。第二个命令是将<code>trojan</code>配置文件的所有者修改为用户<code>trojan</code>，由于使用<code>sudo</code>安装的<code>trojan</code>，该配置文件默认是属于<code>root</code>用户的，而我们需要使用<code>trojan</code>用户运行<code>trojan</code>，不修改所有者会导致启动<code>trojan</code>遇到权限问题。第三个命令备份<code>trojan</code>配置文件，以防万一。第四个命令是使用<code>vim</code>修改配置文件。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo bash -c <span style="color:#d14">&#34;</span><span style="color:#000;font-weight:bold">$(</span>curl -fsSL https://raw.githubusercontent.com/trojan-gfw/trojan-quickstart/master/trojan-quickstart.sh<span style="color:#000;font-weight:bold">)</span><span style="color:#d14">&#34;</span>
+sudo chown -R trojan:trojan /usr/local/etc/trojan
+sudo cp /usr/local/etc/trojan/config.json /usr/local/etc/trojan/config.json.bak
+sudo vim /usr/local/etc/trojan/config.json
+</code></pre></td></tr></table>
+</div>
+</div><p>第四个命令执行完之后屏幕会显示<code>trojan</code>的配置文件，定位到<code>password</code>、<code>cert</code>和<code>key</code>并修改。密码按自己喜好，<code>cert</code>和<code>key</code>分别改为<code>/etc/letsencrypt/live/certificate.crt</code>和<code>/etc/letsencrypt/live/private.key</code>，编辑完配置文件后保存退出。修改之后的<code>config</code>文件如下所示。另外，如果有<code>IPv6</code>地址，将<code>local_addr</code>的<code>0.0.0.0</code>改为<code>::</code>才可以使用。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#000080">&#34;run_type&#34;</span>: <span style="color:#d14">&#34;server&#34;</span>,
+    <span style="color:#000080">&#34;local_addr&#34;</span>: <span style="color:#d14">&#34;0.0.0.0&#34;</span>,
+    <span style="color:#000080">&#34;local_port&#34;</span>: <span style="color:#099">443</span>,
+    <span style="color:#000080">&#34;remote_addr&#34;</span>: <span style="color:#d14">&#34;127.0.0.1&#34;</span>,
+    <span style="color:#000080">&#34;remote_port&#34;</span>: <span style="color:#099">80</span>,
+    <span style="color:#000080">&#34;password&#34;</span>: [
+        <span style="color:#d14">&#34;password1&#34;</span>,
+        <span style="color:#d14">&#34;password2&#34;</span>
+    ],
+    <span style="color:#000080">&#34;log_level&#34;</span>: <span style="color:#099">1</span>,
+    <span style="color:#000080">&#34;ssl&#34;</span>: {
+        <span style="color:#000080">&#34;cert&#34;</span>: <span style="color:#d14">&#34;/etc/letsencrypt/live/certificate.crt&#34;</span>,
+        <span style="color:#000080">&#34;key&#34;</span>: <span style="color:#d14">&#34;/etc/letsencrypt/live/private.key&#34;</span>,
+        <span style="color:#000080">&#34;key_password&#34;</span>: <span style="color:#d14">&#34;&#34;</span>,
+        <span style="color:#000080">&#34;cipher&#34;</span>: <span style="color:#d14">&#34;ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384&#34;</span>,
+        <span style="color:#000080">&#34;cipher_tls13&#34;</span>: <span style="color:#d14">&#34;TLS_AES_128_GCM_SHA256:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_256_GCM_SHA384&#34;</span>,
+        <span style="color:#000080">&#34;prefer_server_cipher&#34;</span>: <span style="color:#000;font-weight:bold">true</span>,
+        <span style="color:#000080">&#34;alpn&#34;</span>: [
+            <span style="color:#d14">&#34;http/1.1&#34;</span>
+        ],
+        <span style="color:#000080">&#34;reuse_session&#34;</span>: <span style="color:#000;font-weight:bold">true</span>,
+        <span style="color:#000080">&#34;session_ticket&#34;</span>: <span style="color:#000;font-weight:bold">false</span>,
+        <span style="color:#000080">&#34;session_timeout&#34;</span>: <span style="color:#099">600</span>,
+        <span style="color:#000080">&#34;plain_http_response&#34;</span>: <span style="color:#d14">&#34;&#34;</span>,
+        <span style="color:#000080">&#34;curves&#34;</span>: <span style="color:#d14">&#34;&#34;</span>,
+        <span style="color:#000080">&#34;dhparam&#34;</span>: <span style="color:#d14">&#34;&#34;</span>
+    },
+    <span style="color:#000080">&#34;tcp&#34;</span>: {
+        <span style="color:#000080">&#34;prefer_ipv4&#34;</span>: <span style="color:#000;font-weight:bold">false</span>,
+        <span style="color:#000080">&#34;no_delay&#34;</span>: <span style="color:#000;font-weight:bold">true</span>,
+        <span style="color:#000080">&#34;keep_alive&#34;</span>: <span style="color:#000;font-weight:bold">true</span>,
+        <span style="color:#000080">&#34;reuse_port&#34;</span>: <span style="color:#000;font-weight:bold">false</span>,
+        <span style="color:#000080">&#34;fast_open&#34;</span>: <span style="color:#000;font-weight:bold">false</span>,
+        <span style="color:#000080">&#34;fast_open_qlen&#34;</span>: <span style="color:#099">20</span>
+    },
+    <span style="color:#000080">&#34;mysql&#34;</span>: {
+        <span style="color:#000080">&#34;enabled&#34;</span>: <span style="color:#000;font-weight:bold">false</span>,
+        <span style="color:#000080">&#34;server_addr&#34;</span>: <span style="color:#d14">&#34;127.0.0.1&#34;</span>,
+        <span style="color:#000080">&#34;server_port&#34;</span>: <span style="color:#099">3306</span>,
+        <span style="color:#000080">&#34;database&#34;</span>: <span style="color:#d14">&#34;trojan&#34;</span>,
+        <span style="color:#000080">&#34;username&#34;</span>: <span style="color:#d14">&#34;trojan&#34;</span>,
+        <span style="color:#000080">&#34;password&#34;</span>: <span style="color:#d14">&#34;&#34;</span>
+    }
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>请重点关注配置文件中的如下参数：</p>
+<ol>
+<li><code>local_port</code>：监听的端口，默认是443，除非端口被墙，不建议改成其他端口；</li>
+<li><code>remote_addr</code>和<code>remote_port</code>：非<code>trojan</code>协议时，将请求转发处理的地址和端口。可以是任意有效的ip/域名和端口号，默认是本机和80端口；</li>
+<li><code>password</code>：密码，｀需要几个密码就填几行，最后一行结尾不能有逗号；</li>
+<li><code>cert</code>和<code>key</code>：域名的证书和密钥；</li>
+<li><code>key_password</code>：默认没有密码（如果证书文件有密码就要填上）；</li>
+<li><code>alpn</code>：建议填两行：<code>http/1.1</code>和<code>h2</code>，保持默认也没有问题。</li>
+</ol>
+<h3 id="启动trojan">启动trojan</h3>
+<p>打开<code>trojan.service</code>文件，并将用户修改为<code>trojan</code>，内容如下。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">[Unit]
+Description=trojan
+Documentation=https://trojan-gfw.github.io/trojan
+After=network.target network-online.target nss-lookup.target
+
+[Service]
+Type=simple
+StandardError=journal
+User=trojan
+ExecStart=/usr/local/bin/trojan /usr/local/etc/trojan/config.json
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
+</code></pre></td></tr></table>
+</div>
+</div><p>然后重新加载配置文件。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo systemctl daemon-reload
+</code></pre></td></tr></table>
+</div>
+</div><p>执行以下命令，赋予<code>trojan</code>监听1024以下端口的能力，使得<code>trojan</code>可以监听到443端口。这是由于我们使用非<code>root</code>用户启动<code>trojan</code>，但是Linux默认不允许非<code>root</code>用户启动的进程监听1024以下的端口，除非为每一个二进制文件显式声明。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo setcap <span style="color:#008080">CAP_NET_BIND_SERVICE</span><span style="color:#000;font-weight:bold">=</span>+eip /usr/local/bin/trojan
+</code></pre></td></tr></table>
+</div>
+</div><p><code>trojan</code>启动、查看状态命令分别如下，第一条是启动<code>trojan</code>，第二条是查看<code>trojan</code>运行状态，第三条是检查<code>trojan</code>是否在运行。启动之后再查看一下状态，<code>trojan</code>显示<code>active (running)</code>即表示正常启动了。如果出现<code>fatal: config.json(n): invalid code sequence</code>错误，那么是你的配置文件第n行有错误，请检查。如果启动失败，还可以用<code>journalctl -f -u trojan</code>查看<code>systemd</code>的日志。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo systemctl restart trojan
+sudo systemctl status trojan
+sudo ss -lp | grep trojan
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="检查服务器配置">检查服务器配置</h3>
+<p>到这里服务器就配置完成了。此时你可以在浏览器里面输入你的网站看是否能够访问，如果你的网站可以访问了，那么就一切正常啦。</p>
+<p>另外，基于以上考虑到的可能的恶意探测，可以验证一下以下情况是否正常。</p>
+<ol>
+<li>浏览器中使用<code>ip</code>访问：重定向到<a href="https://qoant.com"><code>https://qoant.com</code></a>;</li>
+<li>浏览器中使用<code>https://ip</code>访问：重定向到<a href="https://qoant.com"><code>https://qoant.com</code></a>（跳转的时候浏览器可能提示不安全是正常的）;</li>
+<li>浏览器中使用<code>qoant.com</code>访问：重定向到<a href="https://qoant.com"><code>https://qoant.com</code></a>。</li>
+</ol>
+<h2 id="配置防火墙可选">配置防火墙（可选）</h2>
+<p>只打开22、80和443端口可以有效的阻止外部恶意流量，降低服务器暴露的风险。此步骤非必须，而且自己有其他服务记得其他服务的端口也要处理。</p>
+<p>本文以<code>ufw</code>为例配置防火墙，<code>ufw</code>是一个很好用的防火墙配置命令，可以简化操作，减少错误的发生。</p>
+<p>执行以下命令即可成功配置防火墙。注意，如果<code>ssh</code>端口不是22那么第二行需要调整（将<code>ssh</code>改为端口号）。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo ufw disable
+sudo ufw allow ssh
+sudo ufw allow https
+sudo ufw allow http
+sudo ufw <span style="color:#0086b3">enable</span>
+sudo ufw status
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="与现有nginx服务集成">与现有Nginx服务集成</h2>
+<p>如果你本机已经有<code>Nginx</code>服务，那么<code>Nginx</code>配置文件需要做适当修改以和现有服务兼容。</p>
+<ol>
+<li>
+<p>在原服务与<code>trojan</code>使用同一个域名且原来是监听443端口的情况下，那么需要将你的<code>ssl</code>配置删除并将监听地址改为第一个<code>server</code>监听的地址<code>127.0.0.1:80</code>，然后直接用修改好的<code>server</code>代替上述配置文件中第一个<code>server</code>即可。这样<code>https</code>加密部分将会由<code>trojan</code>处理之后转发给<code>Nginx</code>而不是由<code>Nginx</code>处理，原来的服务对于客户端来说就没有变化。</p>
+</li>
+<li>
+<p>如果原来的服务与<code>trojan</code>使用不同的域名，建议是修改<code>trojan</code>与原来的服务使用同一个域名，如果非要使用不同的域名，请参考第3点。</p>
+</li>
+<li>
+<p>如果原来的服务就监听了多个域名，那么请参考<a href="https://nginx.org/en/docs/stream/ngx_stream_ssl_preread_module.html"><code>ngx_stream_ssl_preread_module</code></a>修改<code>Nginx</code>的<code>sni</code>。</p>
+</li>
+<li>
+<p>如果原来的服务是监听80端口，想要继续监听80端口那么直接去除第三个<code>server</code>即可（将域名验证相关<code>location</code>与自己的虚拟主机组合，否则无法更新证书），如果要改为监听443端口参考第1点。</p>
+</li>
+</ol>
+<h2 id="配置trojan客户端">配置trojan客户端</h2>
+<p>打开<code>trojan</code>客户端的配置文件，更改<code>remote_addr</code>为你的域名，<code>password</code>为你配置服务端时设置的密码，其它保持不变，内容如下。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#000080">&#34;run_type&#34;</span>: <span style="color:#d14">&#34;client&#34;</span>,
+    <span style="color:#000080">&#34;local_addr&#34;</span>: <span style="color:#d14">&#34;127.0.0.1&#34;</span>,
+    <span style="color:#000080">&#34;local_port&#34;</span>: <span style="color:#099">1080</span>,
+    <span style="color:#000080">&#34;remote_addr&#34;</span>: <span style="color:#d14">&#34;qoant.com&#34;</span>,
+    <span style="color:#000080">&#34;remote_port&#34;</span>: <span style="color:#099">443</span>,
+    <span style="color:#000080">&#34;password&#34;</span>: [
+        <span style="color:#d14">&#34;fuckgfw&#34;</span>
+    ],
+    <span style="color:#000080">&#34;log_level&#34;</span>: <span style="color:#099">1</span>,
+    <span style="color:#000080">&#34;ssl&#34;</span>: {
+        <span style="color:#000080">&#34;verify&#34;</span>: <span style="color:#000;font-weight:bold">true</span>,
+        <span style="color:#000080">&#34;verify_hostname&#34;</span>: <span style="color:#000;font-weight:bold">true</span>,
+        <span style="color:#000080">&#34;cert&#34;</span>: <span style="color:#d14">&#34;&#34;</span>,
+        <span style="color:#000080">&#34;cipher&#34;</span>: <span style="color:#d14">&#34;ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES128-SHA:ECDHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA:AES128-SHA:AES256-SHA:DES-CBC3-SHA&#34;</span>,
+        <span style="color:#000080">&#34;sni&#34;</span>: <span style="color:#d14">&#34;&#34;</span>,
+        <span style="color:#000080">&#34;alpn&#34;</span>: [
+            <span style="color:#d14">&#34;http/1.1&#34;</span>
+        ],
+        <span style="color:#000080">&#34;reuse_session&#34;</span>: <span style="color:#000;font-weight:bold">true</span>,
+        <span style="color:#000080">&#34;session_ticket&#34;</span>: <span style="color:#000;font-weight:bold">false</span>,
+        <span style="color:#000080">&#34;curves&#34;</span>: <span style="color:#d14">&#34;&#34;</span>
+    },
+    <span style="color:#000080">&#34;tcp&#34;</span>: {
+        <span style="color:#000080">&#34;no_delay&#34;</span>: <span style="color:#000;font-weight:bold">true</span>,
+        <span style="color:#000080">&#34;keep_alive&#34;</span>: <span style="color:#000;font-weight:bold">true</span>,
+        <span style="color:#000080">&#34;reuse_port&#34;</span>: <span style="color:#000;font-weight:bold">false</span>,
+        <span style="color:#000080">&#34;fast_open&#34;</span>: <span style="color:#000;font-weight:bold">false</span>,
+        <span style="color:#000080">&#34;fast_open_qlen&#34;</span>: <span style="color:#099">20</span>
+    }
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>浏览器配置好<code>SwitchyOmega</code>插件，运行<code>trojan</code>命令即可翻越长城。</p>
+
+        </div>
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://qoanty.github.io/">百年孤独</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://qoanty.github.io/2019/04/vps-with-trojan/">https://qoanty.github.io/2019/04/vps-with-trojan/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/2019/04/vps-kms/">Debian 10搭建KMS服务器及激活Windows和Office</a></li>
+        
+        <li><a href="/2019/04/vps-caddy-php7-typecho/">安装Caddy&#43;PHP7&#43;Sqlite3环境并搭建Typecho博客</a></li>
+        
+        <li><a href="/2019/04/vps-with-v2ray/">使用V2Ray实现科学爱国</a></li>
+        
+        <li><a href="/2019/04/python3-data-structure/">Python3 数据结构</a></li>
+        
+        <li><a href="/2019/04/python3-web-scraping/">Python3 学习笔记（异步爬虫）</a></li>
+        
+    </ul>
+</div>
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='https://qoanty.github.io/tags/vps'>VPS</a></li>
+                
+                <li><a href='https://qoanty.github.io/tags/trojan'>Trojan</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+</div>
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='https://qoanty.github.io/search/' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://qoanty.github.io/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://qoanty.github.io/2020/07/install-manjaro-kde/" title="Manjaro-KDE 安装与设置">Manjaro-KDE 安装与设置</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2020/06/vps-with-trojan-go/" title="Trojan-Go 安装配置教程">Trojan-Go 安装配置教程</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-without-phd/" title="Tensorflow, Keras and deep learning, without a Phd">Tensorflow, Keras and deep learning, without a Phd</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-load-csv-data/" title="TensorFlow加载CSV数据">TensorFlow加载CSV数据</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-text-classification/" title="具有预处理文本的文本分类：电影评论">具有预处理文本的文本分类：电影评论</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-text-classification-with-hub/" title="使用TensorFlow Hub进行文本分类：电影评论">使用TensorFlow Hub进行文本分类：电影评论</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-image-classification/" title="TensorFlow基本分类：对服装图像进行分类">TensorFlow基本分类：对服装图像进行分类</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/07/install-lemp-on-debian/" title="在Debian 10上安装Linux，Nginx，MariaDB，PHP">在Debian 10上安装Linux，Nginx，MariaDB，PHP</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/07/install-nginx-on-debian/" title="在Debian 10上安装Nginx">在Debian 10上安装Nginx</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/07/set-up-debian-server/" title="在VPS上设置Debian 10服务器">在VPS上设置Debian 10服务器</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li><a href="https://qoanty.github.io/categories/blog/">Blog (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/caddy/">Caddy (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/captcha/">Captcha (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/debian/">Debian (5)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/docker/">Docker (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/hugo/">Hugo (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/kde/">KDE (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/kms/">KMS (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/learn/">Learn (14)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/manjaro/">Manjaro (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/nginx/">Nginx (2)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/pipenv/">Pipenv (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/python/">Python (12)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/ssh/">SSH (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/tensorflow/">TensorFlow (5)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/trojan/">Trojan (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/trojan-go/">Trojan-Go (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/v2ray/">V2Ray (2)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/vim/">Vim (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/vps/">VPS (7)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="https://qoanty.github.io/tags/asyncio/">asyncio</a>
+    
+    <a href="https://qoanty.github.io/tags/caddy/">Caddy</a>
+    
+    <a href="https://qoanty.github.io/tags/cdn/">CDN</a>
+    
+    <a href="https://qoanty.github.io/tags/data/">data</a>
+    
+    <a href="https://qoanty.github.io/tags/debian/">Debian</a>
+    
+    <a href="https://qoanty.github.io/tags/deep-learning/">deep learning</a>
+    
+    <a href="https://qoanty.github.io/tags/docker/">Docker</a>
+    
+    <a href="https://qoanty.github.io/tags/features/">features</a>
+    
+    <a href="https://qoanty.github.io/tags/functions/">functions</a>
+    
+    <a href="https://qoanty.github.io/tags/geetest/">geetest</a>
+    
+    <a href="https://qoanty.github.io/tags/github/">Github</a>
+    
+    <a href="https://qoanty.github.io/tags/hugo/">Hugo</a>
+    
+    <a href="https://qoanty.github.io/tags/ide/">IDE</a>
+    
+    <a href="https://qoanty.github.io/tags/kde/">KDE</a>
+    
+    <a href="https://qoanty.github.io/tags/keras/">keras</a>
+    
+    <a href="https://qoanty.github.io/tags/kms/">KMS</a>
+    
+    <a href="https://qoanty.github.io/tags/manjaro/">Manjaro</a>
+    
+    <a href="https://qoanty.github.io/tags/nginx/">Nginx</a>
+    
+    <a href="https://qoanty.github.io/tags/oop/">OOP</a>
+    
+    <a href="https://qoanty.github.io/tags/pipenv/">Pipenv</a>
+    
+    <a href="https://qoanty.github.io/tags/processes/">processes</a>
+    
+    <a href="https://qoanty.github.io/tags/python/">Python</a>
+    
+    <a href="https://qoanty.github.io/tags/scraping/">scraping</a>
+    
+    <a href="https://qoanty.github.io/tags/ssh/">SSH</a>
+    
+    <a href="https://qoanty.github.io/tags/tensorflow/">tensorflow</a>
+    
+    <a href="https://qoanty.github.io/tags/trojan/">Trojan</a>
+    
+    <a href="https://qoanty.github.io/tags/trojan-go/">Trojan-Go</a>
+    
+    <a href="https://qoanty.github.io/tags/v2ray/">V2Ray</a>
+    
+    <a href="https://qoanty.github.io/tags/vim/">Vim</a>
+    
+    <a href="https://qoanty.github.io/tags/vps/">VPS</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">友情链接</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://python3-cookbook.readthedocs.io/zh_CN/latest/index.html" title="Python Cookbook 3rd Edition">Python Cookbook</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="https://seancheney.gitbook.io/python-for-data-analysis-2nd/" title="Python for Data Analysis 2nd Edition">Python for Data Analysis</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="https://codelabs.developers.google.com/codelabs/cloud-tensorflow-mnist/#0" title="TensorFlow and deep learning, without a PhD">TensorFlow and deep learning</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://qoanty.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+    <footer id="footer">
+    <div class="container">
+        &copy; 2020 <a href="https://qoanty.github.io/">百年孤独的博客 By 百年孤独</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/flysnow-org/maupassant-hugo" target="_blank">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+
+
+
+
+
+
+</body>
+
+</html>

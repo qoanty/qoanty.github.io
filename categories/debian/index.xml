@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Debian on 百年孤独的博客</title>
+    <link>https://qoanty.github.io/categories/debian/</link>
+    <description>Recent content in Debian on 百年孤独的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sun, 28 Jul 2019 18:22:37 +0800</lastBuildDate>
+    
+	<atom:link href="https://qoanty.github.io/categories/debian/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>在Debian 10上安装Linux，Nginx，MariaDB，PHP</title>
+      <link>https://qoanty.github.io/2019/07/install-lemp-on-debian/</link>
+      <pubDate>Sun, 28 Jul 2019 18:22:37 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/07/install-lemp-on-debian/</guid>
+      <description>介绍 LEMP软件包是一组可用于提供动态网页和Web应用程序的软件。“LEMP”是一个首字母缩略词，用于描述Linux操作系统和(E)Nginx网络服务，后端数据存储在MariaDB数据库中，动态处理由PHP处理。 尽管此软件包通常包括MySQ</description>
+    </item>
+    
+    <item>
+      <title>在Debian 10上安装Nginx</title>
+      <link>https://qoanty.github.io/2019/07/install-nginx-on-debian/</link>
+      <pubDate>Tue, 23 Jul 2019 11:25:15 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/07/install-nginx-on-debian/</guid>
+      <description>介绍 Nginx是世界上最受欢迎的Web服务之一，负责托管互联网上一些规模很大，流量很高的网站。在大多数情况下，它比Apache更具资源友好性，可以用作Web服务或反向代理。 在本教程中，我们将讨论如何在Debian 10服务器上安装Nginx。</description>
+    </item>
+    
+    <item>
+      <title>在VPS上设置Debian 10服务器</title>
+      <link>https://qoanty.github.io/2019/07/set-up-debian-server/</link>
+      <pubDate>Sat, 20 Jul 2019 12:31:13 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/07/set-up-debian-server/</guid>
+      <description>本文假定（并强烈建议）仅使用密钥验证的ssh登录（建议使用4096位RSA加密）。 设置Root用户 如果已经设置好ssh公钥，先登录。 1 ssh root@YOUR_HOST 更改默认的编辑器，通常会预先安装vim，nano等。 1 update-alternatives --config editor 添加别名（可选） 1 2 3 editor .bashrc # add those `alias` commands to that file</description>
+    </item>
+    
+    <item>
+      <title>Debian 10进行初始服务器设置</title>
+      <link>https://qoanty.github.io/2019/07/initial-server-with-debian/</link>
+      <pubDate>Tue, 16 Jul 2019 14:45:27 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/07/initial-server-with-debian/</guid>
+      <description>介绍 首次创建新的Debian 10服务器时，您应在基本设置的早期阶段执行一些配置步骤，这将提高服务器的安全性和可用性，并为后续操作奠定坚实的基础。 在本教程中，我们将学习如何以root用户登录到服务器，创建具有管理员权限的新用户以及如何设置基本</description>
+    </item>
+    
+    <item>
+      <title>Debian 10使用Docker方式安装Weixin和QQ</title>
+      <link>https://qoanty.github.io/2019/05/debian-docker/</link>
+      <pubDate>Wed, 15 May 2019 16:35:28 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/05/debian-docker/</guid>
+      <description>Docker简介 Docker是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中,然后发布到任何流行的Linux机器或Windows机器上，也可以实现虚拟化，容器是完全使用沙箱机制，相互之间不会有任何接口。 Do</description>
+    </item>
+    
+  </channel>
+</rss>

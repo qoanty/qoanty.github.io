@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Python on 百年孤独的博客</title>
@@ -6,10 +6,19 @@
     <description>Recent content in Python on 百年孤独的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Tue, 07 May 2019 09:24:08 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 15 May 2019 08:53:24 +0800</lastBuildDate>
     
 	<atom:link href="https://qoanty.github.io/categories/python/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Python虚拟环境和包管理工具Pipenv</title>
+      <link>https://qoanty.github.io/2019/05/python-pipenv/</link>
+      <pubDate>Wed, 15 May 2019 08:53:24 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/05/python-pipenv/</guid>
+      <description>Pipenv是Kenneth Reitz的作品，Python官方推荐的包管理工具，它能够有效管理python多个版本及各种包。 它主要有以下特性： Pipenv集成了pip，virtualenv两者的功能，且完善了两者的一些缺陷。 Pipenv使用</description>
+    </item>
     
     <item>
       <title>极验滑动验证码识别</title>
@@ -17,7 +26,16 @@
       <pubDate>Tue, 07 May 2019 09:24:08 +0800</pubDate>
       
       <guid>https://qoanty.github.io/2019/05/sliding-captcha/</guid>
-      <description>搭建测试环境 从Python官网下载64位Python并安装，打开CMD窗口输入pip install selenium安装web应用程序测试系统，下载chrome安装包，根据安装引导安装chrome浏览器，从WebDriver for Chrome网上下载与chrome版本相对应的ChromeDriver并解压到相关位置，将以上安装好的文件的路径添加到系统环境变量中，至此selenium webdriver的运行环境已配置好。</description>
+      <description>搭建测试环境 从Python官网下载64位Python并安装，打开CMD窗口输入pip install selenium安装web应用程序测试系统，下载chrome安装包，根据安装引导安装chrome浏览器，从WebDriver for Chrome网上下载与chr</description>
+    </item>
+    
+    <item>
+      <title>Python3 数据结构</title>
+      <link>https://qoanty.github.io/2019/04/python3-data-structure/</link>
+      <pubDate>Thu, 25 Apr 2019 15:36:02 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/04/python3-data-structure/</guid>
+      <description>Python支持以下数据结构：列表list，字典dict，元组tuple，集合set。 使用字典： 需要键：值对之间的逻辑关联时。 需要基于自定义密钥快速查找数据时。 数据不断修改时，字典是可变的。 使用其他类型： 不需要随机访问的数据集合，请使用列表</description>
     </item>
     
     <item>
@@ -26,9 +44,7 @@
       <pubDate>Sun, 21 Apr 2019 21:06:02 +0800</pubDate>
       
       <guid>https://qoanty.github.io/2019/04/python3-web-scraping/</guid>
-      <description>异步爬虫不同于多进程爬虫，它使用单线程(即仅创建一个事件循环，然后把所有任务添加到事件循环中)就能并发处理多任务。在轮询到某个任务后，当遇到耗时操作(如请求URL)时，挂起该任务并进行下一个任务，当之前被挂起的任务更新了状态(如获得了网页响应)，则被唤醒，程序继续从上次挂起的地方运行下去。极大的减少了中间不必要的等待时间。
-有了Asyncio异步IO库实现协程后，我们还需要实现异步网页请求。普通的爬虫程序会经常用到requests库用以请求网页并获得服务器响应。而在协程中，由于requests库提供的相关方法不是可等待对象（awaitable），使得无法放在await后面，因此无法使用requests库在协程程序中实现请求。
-官方专门提供了一个aiohttp库，用来实现异步网页请求等功能，简直就是异步版的requests库。在协程中使用ClientSession()的get()或request()方法来请求网页（其中async with是异步上下文管理器，其封装了异步实现等功能），完整的aiohttp使用方法，请见官方文档。</description>
+      <description>异步爬虫不同于多进程爬虫，它使用单线程(即仅创建一个事件循环，然后把所有任务添加到事件循环中)就能并发处理多任务。在轮询到某个任务后，当遇到耗时操作(如请求URL)时，挂起该任务并进行下一个任务，当之前被挂起的任务更新了状态(如获得了网页响</description>
     </item>
     
     <item>
@@ -37,10 +53,7 @@
       <pubDate>Sun, 21 Apr 2019 15:01:59 +0800</pubDate>
       
       <guid>https://qoanty.github.io/2019/04/python3-asyncio/</guid>
-      <description>由于CPU的速度远远快于磁盘、网络等IO，在一个线程中CPU执行代码的速度极快，一旦遇到IO操作，如读写文件、发送网络数据时，就需要等待IO操作完成，才能继续进行下一步操作，这种情况称为同步IO。
-异步IO是当代码需要执行一个耗时的IO操作时，它只发出IO指令，并不等待IO结果，然后就去执行其他代码了，一段时间后，当IO返回结果时，再通知CPU进行处理。
-同步：就是发出一个“调用”时，在没有得到结果之前，该“调用”就不返回，“调用者”需要一直等待该“调用”结束，才能进行下一步工作。
-异步：“调用”在发出之后，就直接返回了，也就没有返回结果。“被调用者”完成任务后，通过状态来通知“调用者”继续回来处理该“调用”。</description>
+      <description>由于CPU的速度远远快于磁盘、网络等IO，在一个线程中CPU执行代码的速度极快，一旦遇到IO操作，如读写文件、发送网络数据时，就需要等待IO操作完成，才能继续进行下一步操作，这种情况称为同步IO。 异步IO是当代码需要执行一个耗时的IO操作时</description>
     </item>
     
     <item>
@@ -49,7 +62,7 @@
       <pubDate>Sun, 21 Apr 2019 11:58:09 +0800</pubDate>
       
       <guid>https://qoanty.github.io/2019/04/python3-built-in-functions-modules/</guid>
-      <description>常用内建模块 datetime 获取当前日期和时间</description>
+      <description>常用内建模块 datetime 获取当前日期和时间 1 2 3 4 5 6 7 &amp;gt;&amp;gt;&amp;gt; from datetime import datetime &amp;gt;&amp;gt;&amp;gt; now = datetime.now() # 获取当前datetime &amp;gt;&amp;gt;&amp;gt; print(now) 2019-05-15 19:34:57.142524 &amp;gt;&amp;gt;&amp;gt; print(type(now)) &amp;lt;class &amp;#39;datetime.datetime&amp;#39;&amp;gt; &amp;gt;&amp;gt;&amp;gt; 注意到datetime是模块，datetime模块还包含一个datetime类，通过from datetime import datetime导入的才是datet</description>
     </item>
     
     <item>
@@ -58,8 +71,7 @@
       <pubDate>Sat, 20 Apr 2019 20:07:34 +0800</pubDate>
       
       <guid>https://qoanty.github.io/2019/04/python3-distributed-processes/</guid>
-      <description>进程与多进程 对于操作系统来说，一个任务就是一个进程（Process），比如打开一个浏览器就是启动一个浏览器进程，打开一个记事本就启动了一个记事本进程，打开两个记事本就启动了两个记事本进程，打开一个Word就启动了一个Word进程。
-Python中的multiprocessing模块提供了一个Process类来代表一个进程对象，例如启动一个子进程并等待其结束：</description>
+      <description>进程与多进程 对于操作系统来说，一个任务就是一个进程（Process），比如打开一个浏览器就是启动一个浏览器进程，打开一个记事本就启动了一个记事本进程，打开两个记事本就启动了两个记事本进程，打开一个Word就启动了一个Word进程。 Pytho</description>
     </item>
     
     <item>
@@ -68,7 +80,7 @@ Python中的multiprocessing模块提供了一个Process类来代表一个进程�
       <pubDate>Sat, 20 Apr 2019 11:39:49 +0800</pubDate>
       
       <guid>https://qoanty.github.io/2019/04/python3-object-oriented-programming/</guid>
-      <description>面向对象编程 面向对象编程——Object Oriented Programming，简称OOP，是一种程序设计思想。OOP把对象作为程序的基本单元，一个对象包含了数据和操作数据的函数。</description>
+      <description>面向对象编程 面向对象编程——Object Oriented Programming，简称OOP，是一种程序设计思想。OOP把对象作为程序的基本单元，一个对象包含了数据和操作数据的函数。 面向对象的程序设计把计算机程序视为一组对象的集合，而每个对象都可以接收其他</description>
     </item>
     
     <item>
@@ -77,8 +89,7 @@ Python中的multiprocessing模块提供了一个Process类来代表一个进程�
       <pubDate>Fri, 19 Apr 2019 19:23:49 +0800</pubDate>
       
       <guid>https://qoanty.github.io/2019/04/python3-functional-programming/</guid>
-      <description>函数式编程 函数是Python内建支持的一种封装，我们通过把大段代码拆成函数，通过一层一层的函数调用，就可以把复杂任务分解成简单的任务，这种分解可以称之为面向过程的程序设计。函数就是面向过程的程序设计的基本单元。
-对于编程语言，就是越低级的语言，越贴近计算机，抽象程度低，执行效率高，比如C语言；越高级的语言，越贴近计算，抽象程度高，执行效率低，比如Lisp语言。</description>
+      <description>函数式编程 函数是Python内建支持的一种封装，我们通过把大段代码拆成函数，通过一层一层的函数调用，就可以把复杂任务分解成简单的任务，这种分解可以称之为面向过程的程序设计。函数就是面向过程的程序设计的基本单元。 对于编程语言，就是越低级的语言</description>
     </item>
     
     <item>
@@ -87,8 +98,7 @@ Python中的multiprocessing模块提供了一个Process类来代表一个进程�
       <pubDate>Fri, 19 Apr 2019 15:04:36 +0800</pubDate>
       
       <guid>https://qoanty.github.io/2019/04/python3-advanced-features/</guid>
-      <description>高级特性 在Python中，代码不是越多越好，而是越少越好。代码不是越复杂越好，而是越简单越好，代码越少，开发效率越高。
-切片 先创建一个0-99的数列：</description>
+      <description>高级特性 在Python中，代码不是越多越好，而是越少越好。代码不是越复杂越好，而是越简单越好，代码越少，开发效率越高。 切片 先创建一个0-99的数列： 1 2 3 &amp;gt;&amp;gt;&amp;gt; L = list(range(100)) &amp;gt;&amp;gt;&amp;gt; L [0, 1, 2, 3, ..., 99] 可以通过切片轻松取出某一段数列。比如前10个数： 1 2 &amp;gt;&amp;gt;&amp;gt; L[:10] [0, 1, 2,</description>
     </item>
     
     <item>
@@ -97,7 +107,7 @@ Python中的multiprocessing模块提供了一个Process类来代表一个进程�
       <pubDate>Fri, 19 Apr 2019 10:14:31 +0800</pubDate>
       
       <guid>https://qoanty.github.io/2019/04/python3-functions/</guid>
-      <description>函数 调用函数 Python内置了很多有用的函数，可以直接调用，参见官方文档。</description>
+      <description>函数 调用函数 Python内置了很多有用的函数，可以直接调用，参见官方文档。 调用abs、max函数： 1 2 3 4 5 6 7 8 &amp;gt;&amp;gt;&amp;gt; abs(-20) 20 &amp;gt;&amp;gt;&amp;gt; abs(12.34) 12.34 &amp;gt;&amp;gt;&amp;gt; max(1, 2) 2 &amp;gt;&amp;gt;&amp;gt; max(2, 3, 1, -5) 3 调用数据类型转换函数： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 &amp;gt;&amp;gt;&amp;gt; int(&amp;#39;123&amp;#39;) 123 &amp;gt;&amp;gt;&amp;gt; int(12.34) 12 &amp;gt;&amp;gt;&amp;gt; float(&amp;#39;12.34&amp;#39;) 12.34 &amp;gt;&amp;gt;&amp;gt; str(1.23) &amp;#39;1.23&amp;#39; &amp;gt;&amp;gt;&amp;gt; str(100) &amp;#39;100&amp;#39; &amp;gt;&amp;gt;&amp;gt; bool(1) True &amp;gt;&amp;gt;&amp;gt; bool(&amp;#39;&amp;#39;) False 定</description>
     </item>
     
     <item>
@@ -106,8 +116,7 @@ Python中的multiprocessing模块提供了一个Process类来代表一个进程�
       <pubDate>Fri, 05 Apr 2019 16:57:01 +0800</pubDate>
       
       <guid>https://qoanty.github.io/2019/04/vim-python/</guid>
-      <description>安装Python与Vim 从Python官网下载64位Python并安装，从Vim网站下载64位Vim并安装。
-运行vim --version，如果列表中有+python/dyn和+python3/dyn， 则Vim编辑器支持Python。在Vim编辑器中运行:python3 import sys; print(sys.</description>
+      <description>安装Python与Vim 从Python官网下载64位Python并安装，从Vim网站下载64位Vim并安装。 运行vim --version，如果列表中有+python/dyn和+python3/dyn， 则Vim编辑器支持Python。在Vim</description>
     </item>
     
   </channel>

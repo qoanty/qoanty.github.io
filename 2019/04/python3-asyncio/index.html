@@ -3,7 +3,6 @@
 <head>
 
     <meta charset="utf-8">
-    <meta name="generator" content="Hugo 0.54.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -11,10 +10,10 @@
     <meta property="og:title" content="Python3 学习笔记（异步IO） - 百年孤独的博客">
     <meta property="og:type" content="article">
         
-    <meta property="article:published_time" content="2019-04-21T15:01:59&#43;08:00">
+    <meta property="article:published_time" content='2019-04-21T15:01:59&#43;08:00'>
         
         
-    <meta property="article:modified_time" content="2019-04-21T15:01:59&#43;08:00">
+    <meta property="article:modified_time" content='2019-04-21T15:01:59&#43;08:00'>
         
     <meta name="Keywords" content="VPS, python, android, 博客, 小程序">
     <meta name="description" content="Python3 学习笔记（异步IO）">
@@ -23,12 +22,9 @@
     <meta property="og:url" content="https://qoanty.github.io/2019/04/python3-asyncio/">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
-    <link rel="stylesheet" href="/css/normalize.css">
-    
-        <link rel="stylesheet" href="/css/prism.css">
-    
-    <link rel="stylesheet" href="/css/style.css">
-    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
 
@@ -37,8 +33,9 @@
     
 </head>
 
+
 <body>
-<header id="header" class="clearfix">
+    <header id="header" class="clearfix">
     <div class="container">
         <div class="col-group">
             <div class="site-name ">
@@ -51,7 +48,7 @@
             </div>
             <div>
                 <nav id="nav-menu" class="clearfix">
-                    <a class="" href="https://qoanty.github.io/">首页</a>
+                    <a class="current" href="https://qoanty.github.io/">首页</a>
                     
                     <a  href="https://qoanty.github.io/tools/" title="工具">工具</a>
                     
@@ -65,183 +62,289 @@
     </div>
 </header>
 
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
 
-<div id="body">
-    <div class="container">
-        <div class="col-group">
-
-            <div class="col-8" id="main">
-                <div class="res-cons">
-                    <article class="post">
-                        <header>
-                            <h1 class="post-title">Python3 学习笔记（异步IO）</h1>
-                        </header>
-                        <date class="post-meta meta-date">
-                            2019年4月21日
-                        </date>
-                        
-                        <div class="post-meta">
-                            <span>|</span>
-                            
-                                <span class="meta-category"><a href="https://qoanty.github.io/categories/learn">Learn</a></span>
-                            
-                                <span class="meta-category"><a href="https://qoanty.github.io/categories/python">Python</a></span>
-                            
-                        </div>
-                        
-                        
-                        
-                        <div class="post-content">
-                            <p>由于CPU的速度远远快于磁盘、网络等IO，在一个线程中CPU执行代码的速度极快，一旦遇到IO操作，如读写文件、发送网络数据时，就需要等待IO操作完成，才能继续进行下一步操作，这种情况称为同步IO。</p>
-
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">Python3 学习笔记（异步IO）</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2019年4月21日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='https://qoanty.github.io/categories/learn'>Learn</a></span>
+            
+            <span class="meta-category"><a href='https://qoanty.github.io/categories/python'>Python</a></span>
+            
+        </div>
+        
+        
+        
+        <div class="post-content">
+            <p>由于CPU的速度远远快于磁盘、网络等IO，在一个线程中CPU执行代码的速度极快，一旦遇到IO操作，如读写文件、发送网络数据时，就需要等待IO操作完成，才能继续进行下一步操作，这种情况称为同步IO。</p>
 <p>异步IO是当代码需要执行一个耗时的IO操作时，它只发出IO指令，并不等待IO结果，然后就去执行其他代码了，一段时间后，当IO返回结果时，再通知CPU进行处理。</p>
-
 <p>同步：就是发出一个“调用”时，在没有得到结果之前，该“调用”就不返回，“调用者”需要一直等待该“调用”结束，才能进行下一步工作。</p>
-
 <p>异步：“调用”在发出之后，就直接返回了，也就没有返回结果。“被调用者”完成任务后，通过状态来通知“调用者”继续回来处理该“调用”。</p>
-
 <p>协程，又称微线程，纤程，英文名Coroutine。在执行过程中，在子程序内部可中断，然后转而执行别的子程序，在适当的时候再返回来接着执行。</p>
-
 <p>Python对协程的支持是通过<code>generator</code>（生成器）实现的。在Python3.4中，协程都是通过使用<code>yield from</code>和<code>asyncio</code>模块中的@asyncio.coroutine来实现的。<code>asyncio</code>专门被用来实现异步IO操作。</p>
-
 <p>生成器中的关键字<code>yield</code>可以实现中断功能，可以传出值，也可以从函数外部接收值，而<code>yield from</code>的实现就是简化了<code>yield</code>操作。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">generator_1</span>(titles):
+    <span style="color:#000;font-weight:bold">yield</span> titles
 
-<pre><code class="language-python">def generator_1(titles):
-    yield titles
+<span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">generator_2</span>(titles):
+    <span style="color:#000;font-weight:bold">yield</span> <span style="color:#000;font-weight:bold">from</span> <span style="color:#555">titles</span>
 
-def generator_2(titles):
-    yield from titles
+titles <span style="color:#000;font-weight:bold">=</span> [<span style="color:#d14">&#39;Python&#39;</span>,<span style="color:#d14">&#39;Java&#39;</span>,<span style="color:#d14">&#39;C++&#39;</span>]
 
-titles = ['Python','Java','C++']
+<span style="color:#000;font-weight:bold">for</span> title <span style="color:#000;font-weight:bold">in</span> generator_1(titles):
+    <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;生成器1:&#39;</span>,title)
 
-for title in generator_1(titles):
-    print('生成器1:',title)
-
-for title in generator_2(titles):
-    print('生成器2:',title)
-</code></pre>
-
-<p>执行结果如下：</p>
-
-<pre><code class="language-python">生成器1: ['Python', 'Java', 'C++']
-生成器2: Python
-生成器2: Java
-生成器2: C++
-</code></pre>
-
-<p><code>yield from</code>还有一个主要功能是省去了很多异常的处理，其内部已经实现大部分异常处理。</p>
-
+<span style="color:#000;font-weight:bold">for</span> title <span style="color:#000;font-weight:bold">in</span> generator_2(titles):
+    <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;生成器2:&#39;</span>,title)
+</code></pre></td></tr></table>
+</div>
+</div><p>执行结果如下：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a61717;background-color:#e3d2d2">生成器</span><span style="color:#099">1</span>: [<span style="color:#d14">&#39;Python&#39;</span>, <span style="color:#d14">&#39;Java&#39;</span>, <span style="color:#d14">&#39;C++&#39;</span>]
+<span style="color:#a61717;background-color:#e3d2d2">生成器</span><span style="color:#099">2</span>: Python
+<span style="color:#a61717;background-color:#e3d2d2">生成器</span><span style="color:#099">2</span>: Java
+<span style="color:#a61717;background-color:#e3d2d2">生成器</span><span style="color:#099">2</span>: C<span style="color:#000;font-weight:bold">++</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>yield from</code>还有一个主要功能是省去了很多异常的处理，其内部已经实现大部分异常处理。</p>
 <p>在协程中，只要是和IO任务类似的、耗费时间的任务都可以使用<code>yield from</code>来进行中断，达到异步功能。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">time</span>
+<span style="color:#000;font-weight:bold">import</span> <span style="color:#555">asyncio</span>
 
-<pre><code class="language-python">import time
-import asyncio
+<span style="color:#3c5d5d;font-weight:bold">@asyncio.coroutine</span>  <span style="color:#998;font-style:italic"># 标志协程的装饰器</span>
+<span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">taskIO_1</span>():
+    <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;开始运行IO任务1...&#39;</span>)
+    <span style="color:#000;font-weight:bold">yield</span> <span style="color:#000;font-weight:bold">from</span> <span style="color:#555">asyncio.sleep</span>(<span style="color:#099">2</span>)  <span style="color:#998;font-style:italic"># 假设该任务耗时2s</span>
+    <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;IO任务1已完成，耗时2s&#39;</span>)
+    <span style="color:#000;font-weight:bold">return</span> taskIO_1<span style="color:#000;font-weight:bold">.</span>__name__
 
-@asyncio.coroutine  # 标志协程的装饰器
-def taskIO_1():
-    print('开始运行IO任务1...')
-    yield from asyncio.sleep(2)  # 假设该任务耗时2s
-    print('IO任务1已完成，耗时2s')
-    return taskIO_1.__name__
+<span style="color:#3c5d5d;font-weight:bold">@asyncio.coroutine</span>  <span style="color:#998;font-style:italic"># 标志协程的装饰器</span>
+<span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">taskIO_2</span>():
+    <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;开始运行IO任务2...&#39;</span>)
+    <span style="color:#000;font-weight:bold">yield</span> <span style="color:#000;font-weight:bold">from</span> <span style="color:#555">asyncio.sleep</span>(<span style="color:#099">3</span>)  <span style="color:#998;font-style:italic"># 假设该任务耗时3s</span>
+    <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;IO任务2已完成，耗时3s&#39;</span>)
+    <span style="color:#000;font-weight:bold">return</span> taskIO_2<span style="color:#000;font-weight:bold">.</span>__name__
 
-@asyncio.coroutine  # 标志协程的装饰器
-def taskIO_2():
-    print('开始运行IO任务2...')
-    yield from asyncio.sleep(3)  # 假设该任务耗时3s
-    print('IO任务2已完成，耗时3s')
-    return taskIO_2.__name__
+<span style="color:#3c5d5d;font-weight:bold">@asyncio.coroutine</span>  <span style="color:#998;font-style:italic"># 标志协程的装饰器</span>
+<span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">main</span>():  <span style="color:#998;font-style:italic"># 调用方</span>
+    tasks <span style="color:#000;font-weight:bold">=</span> [taskIO_1(), taskIO_2()]  <span style="color:#998;font-style:italic"># 把所有任务添加到task中</span>
+    done, pending <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">yield</span> <span style="color:#000;font-weight:bold">from</span> <span style="color:#555">asyncio.wait</span>(tasks)  <span style="color:#998;font-style:italic"># 子生成器</span>
+    <span style="color:#000;font-weight:bold">for</span> r <span style="color:#000;font-weight:bold">in</span> done:  <span style="color:#998;font-style:italic"># done和pending都是一个任务，所以返回结果需要逐个调用result()</span>
+        <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;协程无序返回值：&#39;</span> <span style="color:#000;font-weight:bold">+</span> r<span style="color:#000;font-weight:bold">.</span>result())
 
-@asyncio.coroutine  # 标志协程的装饰器
-def main():  # 调用方
-    tasks = [taskIO_1(), taskIO_2()]  # 把所有任务添加到task中
-    done, pending = yield from asyncio.wait(tasks)  # 子生成器
-    for r in done:  # done和pending都是一个任务，所以返回结果需要逐个调用result()
-        print('协程无序返回值：' + r.result())
-
-if __name__ == '__main__':
-    start = time.time()
-    loop = asyncio.get_event_loop()  # 创建一个事件循环对象loop
-    try:
-        loop.run_until_complete(main())  # 完成事件循环，直到最后一个任务结束
-    finally:
-        loop.close()  # 结束事件循环
-    print('所有IO任务总耗时%.2f秒' % float(time.time()-start))
-</code></pre>
-
-<p>执行结果如下：</p>
-
-<pre><code class="language-python">开始运行IO任务1...
-开始运行IO任务2...
-IO任务1已完成，耗时2s
-IO任务2已完成，耗时3s
-协程无序返回值：taskIO_2
-协程无序返回值：taskIO_1
-所有IO任务总耗时3.02秒
-</code></pre>
-
-<p>执行过程：</p>
-
+<span style="color:#000;font-weight:bold">if</span> __name__ <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;__main__&#39;</span>:
+    start <span style="color:#000;font-weight:bold">=</span> time<span style="color:#000;font-weight:bold">.</span>time()
+    loop <span style="color:#000;font-weight:bold">=</span> asyncio<span style="color:#000;font-weight:bold">.</span>get_event_loop()  <span style="color:#998;font-style:italic"># 创建一个事件循环对象loop</span>
+    <span style="color:#000;font-weight:bold">try</span>:
+        loop<span style="color:#000;font-weight:bold">.</span>run_until_complete(main())  <span style="color:#998;font-style:italic"># 完成事件循环，直到最后一个任务结束</span>
+    <span style="color:#000;font-weight:bold">finally</span>:
+        loop<span style="color:#000;font-weight:bold">.</span>close()  <span style="color:#998;font-style:italic"># 结束事件循环</span>
+    <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;所有IO任务总耗时</span><span style="color:#d14">%.2f</span><span style="color:#d14">秒&#39;</span> <span style="color:#000;font-weight:bold">%</span> <span style="color:#0086b3">float</span>(time<span style="color:#000;font-weight:bold">.</span>time()<span style="color:#000;font-weight:bold">-</span>start))
+</code></pre></td></tr></table>
+</div>
+</div><p>执行结果如下：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a61717;background-color:#e3d2d2">开始运行</span>IO任务1<span style="color:#000;font-weight:bold">...</span>
+<span style="color:#a61717;background-color:#e3d2d2">开始运行</span>IO任务2<span style="color:#000;font-weight:bold">...</span>
+IO任务1已完成<span style="color:#a61717;background-color:#e3d2d2">，耗时</span><span style="color:#099">2</span>s
+IO任务2已完成<span style="color:#a61717;background-color:#e3d2d2">，耗时</span><span style="color:#099">3</span>s
+<span style="color:#a61717;background-color:#e3d2d2">协程无序返回值：</span>taskIO_2
+<span style="color:#a61717;background-color:#e3d2d2">协程无序返回值：</span>taskIO_1
+<span style="color:#a61717;background-color:#e3d2d2">所有</span>IO任务总耗时3<span style="color:#000;font-weight:bold">.</span><span style="color:#099">02</span><span style="color:#a61717;background-color:#e3d2d2">秒</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>执行过程：</p>
 <ol>
-<li><p>首先通过<code>get_event_loop()</code>获取了一个标准事件循环loop（因为是一个，所以协程是单线程）。</p></li>
-
-<li><p>然后通过<code>run_until_complete(main())</code>来运行协程（此处把调用方协程main()作为参数，调用方负责调用其他委托生成器），该函数的特点是直到循环事件的所有事件都处理完才能完整结束。</p></li>
-
-<li><p>进入调用方协程，把多个任务<code>taskIO_1()</code>和<code>taskIO_2()</code>放到一个<code>task</code>列表中，可理解为打包任务。</p></li>
-
-<li><p>现在使用<code>asyncio.wait(tasks)</code>来获取一个<code>awaitable objects</code>，即可等待对象的集合（此处的aws是协程的列表），并发运行传入的aws，同时通过<code>yield from</code>返回一个包含<code>(done, pending)</code>的元组，<code>done</code>表示已完成的任务列表，<code>pending</code>表示未完成的任务列表；如果使用<code>asyncio.as_completed(tasks)</code>则会按完成顺序生成协程的迭代器（常用于for循环中），因此当你用它迭代时，会尽快得到每个可用的结果。此外，当轮询到某个事件时（如<code>taskIO_1()</code>），直到遇到该任务中的<code>yield from</code>中断，开始处理下一个事件（如<code>taskIO_2()</code>），当<code>yield from</code>后面的子生成器完成任务时，该事件才再次被唤醒。</p></li>
-
-<li><p>因为<code>done</code>里面有需要的返回结果，但它目前还是个任务列表，所以要取出返回的结果值，要遍历它并逐个调用<code>result()</code>取出结果即可。（注：对于<code>asyncio.wait()</code>和<code>asyncio.as_completed()</code>返回的结果均是先完成的任务结果排在前面，所以此时打印出的结果不一定和原始顺序相同，但使用<code>gather()</code>的话可以得到原始顺序的结果集。）</p></li>
-
-<li><p>最后通过<code>loop.close()</code>关闭事件循环。</p></li>
+<li>
+<p>首先通过<code>get_event_loop()</code>获取了一个标准事件循环loop（因为是一个，所以协程是单线程）。</p>
+</li>
+<li>
+<p>然后通过<code>run_until_complete(main())</code>来运行协程（此处把调用方协程main()作为参数，调用方负责调用其他委托生成器），该函数的特点是直到循环事件的所有事件都处理完才能完整结束。</p>
+</li>
+<li>
+<p>进入调用方协程，把多个任务<code>taskIO_1()</code>和<code>taskIO_2()</code>放到一个<code>task</code>列表中，可理解为打包任务。</p>
+</li>
+<li>
+<p>现在使用<code>asyncio.wait(tasks)</code>来获取一个<code>awaitable objects</code>，即可等待对象的集合（此处的aws是协程的列表），并发运行传入的aws，同时通过<code>yield from</code>返回一个包含<code>(done, pending)</code>的元组，<code>done</code>表示已完成的任务列表，<code>pending</code>表示未完成的任务列表；如果使用<code>asyncio.as_completed(tasks)</code>则会按完成顺序生成协程的迭代器（常用于for循环中），因此当你用它迭代时，会尽快得到每个可用的结果。此外，当轮询到某个事件时（如<code>taskIO_1()</code>），直到遇到该任务中的<code>yield from</code>中断，开始处理下一个事件（如<code>taskIO_2()</code>），当<code>yield from</code>后面的子生成器完成任务时，该事件才再次被唤醒。</p>
+</li>
+<li>
+<p>因为<code>done</code>里面有需要的返回结果，但它目前还是个任务列表，所以要取出返回的结果值，要遍历它并逐个调用<code>result()</code>取出结果即可。（注：对于<code>asyncio.wait()</code>和<code>asyncio.as_completed()</code>返回的结果均是先完成的任务结果排在前面，所以此时打印出的结果不一定和原始顺序相同，但使用<code>gather()</code>的话可以得到原始顺序的结果集。）</p>
+</li>
+<li>
+<p>最后通过<code>loop.close()</code>关闭事件循环。</p>
+</li>
 </ol>
-
 <p>在Python 3.5开始引入了新的语法<code>async</code>和<code>await</code>，以简化并更好地标识异步IO。</p>
-
 <p>要使用新的语法，只需要做两步简单的替换：</p>
-
 <ul>
 <li>把<code>@asyncio.coroutine</code>替换为<code>async</code>；</li>
 <li>把<code>yield from</code>替换为<code>await</code>。</li>
 </ul>
-
 <p>更改上面的代码如下，可得到同样的结果：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">time</span>
+<span style="color:#000;font-weight:bold">import</span> <span style="color:#555">asyncio</span>
 
-<pre><code class="language-python">import time
-import asyncio
+async <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">taskIO_1</span>():
+    <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;开始运行IO任务1...&#39;</span>)
+    await asyncio<span style="color:#000;font-weight:bold">.</span>sleep(<span style="color:#099">2</span>)  <span style="color:#998;font-style:italic"># 假设该任务耗时2s</span>
+    <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;IO任务1已完成，耗时2s&#39;</span>)
+    <span style="color:#000;font-weight:bold">return</span> taskIO_1<span style="color:#000;font-weight:bold">.</span>__name__
 
-async def taskIO_1():
-    print('开始运行IO任务1...')
-    await asyncio.sleep(2)  # 假设该任务耗时2s
-    print('IO任务1已完成，耗时2s')
-    return taskIO_1.__name__
+async <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">taskIO_2</span>():
+    <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;开始运行IO任务2...&#39;</span>)
+    await asyncio<span style="color:#000;font-weight:bold">.</span>sleep(<span style="color:#099">3</span>)  <span style="color:#998;font-style:italic"># 假设该任务耗时3s</span>
+    <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;IO任务2已完成，耗时3s&#39;</span>)
+    <span style="color:#000;font-weight:bold">return</span> taskIO_2<span style="color:#000;font-weight:bold">.</span>__name__
 
-async def taskIO_2():
-    print('开始运行IO任务2...')
-    await asyncio.sleep(3)  # 假设该任务耗时3s
-    print('IO任务2已完成，耗时3s')
-    return taskIO_2.__name__
+async <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">main</span>():  <span style="color:#998;font-style:italic"># 调用方</span>
+    tasks <span style="color:#000;font-weight:bold">=</span> [taskIO_1(), taskIO_2()]  <span style="color:#998;font-style:italic"># 把所有任务添加到task中</span>
+    done, pending <span style="color:#000;font-weight:bold">=</span> await asyncio<span style="color:#000;font-weight:bold">.</span>wait(tasks)  <span style="color:#998;font-style:italic"># 子生成器</span>
+    <span style="color:#000;font-weight:bold">for</span> r <span style="color:#000;font-weight:bold">in</span> done:  <span style="color:#998;font-style:italic"># done和pending都是一个任务，所以返回结果需要逐个调用result()</span>
+        <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;协程无序返回值：&#39;</span> <span style="color:#000;font-weight:bold">+</span> r<span style="color:#000;font-weight:bold">.</span>result())
 
-async def main():  # 调用方
-    tasks = [taskIO_1(), taskIO_2()]  # 把所有任务添加到task中
-    done, pending = await asyncio.wait(tasks)  # 子生成器
-    for r in done:  # done和pending都是一个任务，所以返回结果需要逐个调用result()
-        print('协程无序返回值：' + r.result())
+<span style="color:#000;font-weight:bold">if</span> __name__ <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;__main__&#39;</span>:
+    start <span style="color:#000;font-weight:bold">=</span> time<span style="color:#000;font-weight:bold">.</span>time()
+    loop <span style="color:#000;font-weight:bold">=</span> asyncio<span style="color:#000;font-weight:bold">.</span>get_event_loop()  <span style="color:#998;font-style:italic"># 创建一个事件循环对象loop</span>
+    <span style="color:#000;font-weight:bold">try</span>:
+        loop<span style="color:#000;font-weight:bold">.</span>run_until_complete(main())  <span style="color:#998;font-style:italic"># 完成事件循环，直到最后一个任务结束</span>
+    <span style="color:#000;font-weight:bold">finally</span>:
+        loop<span style="color:#000;font-weight:bold">.</span>close()  <span style="color:#998;font-style:italic"># 结束事件循环</span>
+    <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;所有IO任务总耗时</span><span style="color:#d14">%.2f</span><span style="color:#d14">秒&#39;</span> <span style="color:#000;font-weight:bold">%</span> <span style="color:#0086b3">float</span>(time<span style="color:#000;font-weight:bold">.</span>time()<span style="color:#000;font-weight:bold">-</span>start))
+</code></pre></td></tr></table>
+</div>
+</div>
+        </div>
 
-if __name__ == '__main__':
-    start = time.time()
-    loop = asyncio.get_event_loop()  # 创建一个事件循环对象loop
-    try:
-        loop.run_until_complete(main())  # 完成事件循环，直到最后一个任务结束
-    finally:
-        loop.close()  # 结束事件循环
-    print('所有IO任务总耗时%.2f秒' % float(time.time()-start))
-</code></pre>
-
-                        </div>
-
-                        
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://qoanty.github.io/">百年孤独</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://qoanty.github.io/2019/04/python3-asyncio/">https://qoanty.github.io/2019/04/python3-asyncio/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
 
 
-                        
+
+        
 
 <div class="post-archive">
     <h2>See Also</h2>
@@ -261,38 +364,30 @@ if __name__ == '__main__':
 </div>
 
 
-                        <div class="post-meta meta-tags">
-                            
-                            <ul class="clearfix">
-                                
-                                <li><a href="https://qoanty.github.io/tags/python">python</a></li>
-                                
-                                <li><a href="https://qoanty.github.io/tags/asyncio">asyncio</a></li>
-                                
-                            </ul>
-                            
-                        </div>
-                    </article>
-                    
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='https://qoanty.github.io/tags/python'>python</a></li>
+                
+                <li><a href='https://qoanty.github.io/tags/asyncio'>asyncio</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
     
 
     
     
-    <div class="post bg-white">
-      <script src="https://utteranc.es/client.js"
-            repo= "qoanty/qoanty.github.io"
-            issue-term="pathname"
-            theme="github-light"
-            crossorigin="anonymous"
-            async>
-      </script>
-    </div>
-    
+</div>
+
                 </div>
-            </div>
-            <div id="secondary">
+
+                <div id="secondary">
     <section class="widget">
-        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+        <form id="search" action='https://qoanty.github.io/search/' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
       
       <input type="text" name="q" maxlength="20" placeholder="Search">
       <input type="hidden" name="sitesearch" value="https://qoanty.github.io/">
@@ -305,43 +400,43 @@ if __name__ == '__main__':
 <ul class="widget-list">
     
     <li>
-        <a href="https://qoanty.github.io/2019/05/sliding-captcha/" title="极验滑动验证码识别">极验滑动验证码识别</a>
+        <a href="https://qoanty.github.io/2020/07/install-manjaro-kde/" title="Manjaro-KDE 安装与设置">Manjaro-KDE 安装与设置</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-web-scraping/" title="Python3 学习笔记（异步爬虫）">Python3 学习笔记（异步爬虫）</a>
+        <a href="https://qoanty.github.io/2020/06/vps-with-trojan-go/" title="Trojan-Go 安装配置教程">Trojan-Go 安装配置教程</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-asyncio/" title="Python3 学习笔记（异步IO）">Python3 学习笔记（异步IO）</a>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-without-phd/" title="Tensorflow, Keras and deep learning, without a Phd">Tensorflow, Keras and deep learning, without a Phd</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-built-in-functions-modules/" title="Python3 学习笔记（内建模块）">Python3 学习笔记（内建模块）</a>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-load-csv-data/" title="TensorFlow加载CSV数据">TensorFlow加载CSV数据</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-distributed-processes/" title="Python3 学习笔记（分布式进程）">Python3 学习笔记（分布式进程）</a>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-text-classification/" title="具有预处理文本的文本分类：电影评论">具有预处理文本的文本分类：电影评论</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-object-oriented-programming/" title="Python3 学习笔记（面向对象编程）">Python3 学习笔记（面向对象编程）</a>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-text-classification-with-hub/" title="使用TensorFlow Hub进行文本分类：电影评论">使用TensorFlow Hub进行文本分类：电影评论</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-functional-programming/" title="Python3 学习笔记（函数式编程）">Python3 学习笔记（函数式编程）</a>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-image-classification/" title="TensorFlow基本分类：对服装图像进行分类">TensorFlow基本分类：对服装图像进行分类</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-advanced-features/" title="Python3 学习笔记（高级特性）">Python3 学习笔记（高级特性）</a>
+        <a href="https://qoanty.github.io/2019/07/install-lemp-on-debian/" title="在Debian 10上安装Linux，Nginx，MariaDB，PHP">在Debian 10上安装Linux，Nginx，MariaDB，PHP</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-functions/" title="Python3 学习笔记（函数）">Python3 学习笔记（函数）</a>
+        <a href="https://qoanty.github.io/2019/07/install-nginx-on-debian/" title="在Debian 10上安装Nginx">在Debian 10上安装Nginx</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/wss-and-web/" title="基于V2Ray的WebSocket&#43;TLS&#43;Web&#43;CDN安全网络代理">基于V2Ray的WebSocket&#43;TLS&#43;Web&#43;CDN安全网络代理</a>
+        <a href="https://qoanty.github.io/2019/07/set-up-debian-server/" title="在VPS上设置Debian 10服务器">在VPS上设置Debian 10服务器</a>
     </li>
     
 </ul>
@@ -353,37 +448,45 @@ if __name__ == '__main__':
         <h3 class="widget-title">分类</h3>
 <ul class="widget-list">
     
-    <li>
-        <a href="https://qoanty.github.io/categories/blog/">Blog(1)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/blog/">Blog (1)</a></li>
     
-    <li>
-        <a href="https://qoanty.github.io/categories/captcha/">Captcha(1)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/caddy/">Caddy (1)</a></li>
     
-    <li>
-        <a href="https://qoanty.github.io/categories/hugo/">Hugo(1)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/captcha/">Captcha (1)</a></li>
     
-    <li>
-        <a href="https://qoanty.github.io/categories/learn/">Learn(8)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/debian/">Debian (5)</a></li>
     
-    <li>
-        <a href="https://qoanty.github.io/categories/python/">Python(10)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/docker/">Docker (1)</a></li>
     
-    <li>
-        <a href="https://qoanty.github.io/categories/v2ray/">V2Ray(2)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/hugo/">Hugo (1)</a></li>
     
-    <li>
-        <a href="https://qoanty.github.io/categories/vps/">VPS(2)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/kde/">KDE (1)</a></li>
     
-    <li>
-        <a href="https://qoanty.github.io/categories/vim/">Vim(1)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/kms/">KMS (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/learn/">Learn (14)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/manjaro/">Manjaro (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/nginx/">Nginx (2)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/pipenv/">Pipenv (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/python/">Python (12)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/ssh/">SSH (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/tensorflow/">TensorFlow (5)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/trojan/">Trojan (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/trojan-go/">Trojan-Go (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/v2ray/">V2Ray (2)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/vim/">Vim (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/vps/">VPS (7)</a></li>
     
 </ul>
     </section>
@@ -392,21 +495,19 @@ if __name__ == '__main__':
         <h3 class="widget-title">标签</h3>
 <div class="tagcloud">
     
+    <a href="https://qoanty.github.io/tags/asyncio/">asyncio</a>
+    
+    <a href="https://qoanty.github.io/tags/caddy/">Caddy</a>
+    
     <a href="https://qoanty.github.io/tags/cdn/">CDN</a>
     
-    <a href="https://qoanty.github.io/tags/github/">Github</a>
+    <a href="https://qoanty.github.io/tags/data/">data</a>
     
-    <a href="https://qoanty.github.io/tags/hugo/">Hugo</a>
+    <a href="https://qoanty.github.io/tags/debian/">Debian</a>
     
-    <a href="https://qoanty.github.io/tags/ide/">IDE</a>
+    <a href="https://qoanty.github.io/tags/deep-learning/">deep learning</a>
     
-    <a href="https://qoanty.github.io/tags/oop/">OOP</a>
-    
-    <a href="https://qoanty.github.io/tags/v2ray/">V2Ray</a>
-    
-    <a href="https://qoanty.github.io/tags/vps/">VPS</a>
-    
-    <a href="https://qoanty.github.io/tags/asyncio/">asyncio</a>
+    <a href="https://qoanty.github.io/tags/docker/">Docker</a>
     
     <a href="https://qoanty.github.io/tags/features/">features</a>
     
@@ -414,13 +515,45 @@ if __name__ == '__main__':
     
     <a href="https://qoanty.github.io/tags/geetest/">geetest</a>
     
+    <a href="https://qoanty.github.io/tags/github/">Github</a>
+    
+    <a href="https://qoanty.github.io/tags/hugo/">Hugo</a>
+    
+    <a href="https://qoanty.github.io/tags/ide/">IDE</a>
+    
+    <a href="https://qoanty.github.io/tags/kde/">KDE</a>
+    
+    <a href="https://qoanty.github.io/tags/keras/">keras</a>
+    
+    <a href="https://qoanty.github.io/tags/kms/">KMS</a>
+    
+    <a href="https://qoanty.github.io/tags/manjaro/">Manjaro</a>
+    
+    <a href="https://qoanty.github.io/tags/nginx/">Nginx</a>
+    
+    <a href="https://qoanty.github.io/tags/oop/">OOP</a>
+    
+    <a href="https://qoanty.github.io/tags/pipenv/">Pipenv</a>
+    
     <a href="https://qoanty.github.io/tags/processes/">processes</a>
     
-    <a href="https://qoanty.github.io/tags/python/">python</a>
+    <a href="https://qoanty.github.io/tags/python/">Python</a>
     
     <a href="https://qoanty.github.io/tags/scraping/">scraping</a>
     
-    <a href="https://qoanty.github.io/tags/vim/">vim</a>
+    <a href="https://qoanty.github.io/tags/ssh/">SSH</a>
+    
+    <a href="https://qoanty.github.io/tags/tensorflow/">tensorflow</a>
+    
+    <a href="https://qoanty.github.io/tags/trojan/">Trojan</a>
+    
+    <a href="https://qoanty.github.io/tags/trojan-go/">Trojan-Go</a>
+    
+    <a href="https://qoanty.github.io/tags/v2ray/">V2Ray</a>
+    
+    <a href="https://qoanty.github.io/tags/vim/">Vim</a>
+    
+    <a href="https://qoanty.github.io/tags/vps/">VPS</a>
     
 </div>
     </section>
@@ -453,37 +586,33 @@ if __name__ == '__main__':
         </ul>
     </section>
 </div>
+            </div>
         </div>
     </div>
-</div>
-<footer id="footer">
+    <footer id="footer">
     <div class="container">
-        &copy; 2019 <a href="https://qoanty.github.io/">百年孤独的博客 By 百年孤独</a>.
-        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a> & <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
+        &copy; 2020 <a href="https://qoanty.github.io/">百年孤独的博客 By 百年孤独</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/flysnow-org/maupassant-hugo" target="_blank">maupassant</a>.
         
     </div>
 </footer>
 
 
-    <script type="text/javascript">
     
-    (function(){
-        $("pre code").parent().addClass("line-numbers")
-    }())
-
-    window.MathJax = {
-        tex2jax: {
-            inlineMath: [ ['$','$'] ],
-            processEscapes: true
-        }
-    };
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
     </script>
-    <script type="text/javascript" src="/js/prism.js" async="true"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
 
-<a id="rocket" href="#top"></a>
-<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
 
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
 
 
 
@@ -491,4 +620,5 @@ if __name__ == '__main__':
 
 
 </body>
+
 </html>

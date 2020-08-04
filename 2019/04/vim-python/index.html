@@ -3,7 +3,6 @@
 <head>
 
     <meta charset="utf-8">
-    <meta name="generator" content="Hugo 0.54.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -11,10 +10,10 @@
     <meta property="og:title" content="windows 10下使用vim8配置python3开发环境 - 百年孤独的博客">
     <meta property="og:type" content="article">
         
-    <meta property="article:published_time" content="2019-04-05T16:57:01&#43;08:00">
+    <meta property="article:published_time" content='2019-04-05T16:57:01&#43;08:00'>
         
         
-    <meta property="article:modified_time" content="2019-04-05T16:57:01&#43;08:00">
+    <meta property="article:modified_time" content='2019-04-05T16:57:01&#43;08:00'>
         
     <meta name="Keywords" content="VPS, python, android, 博客, 小程序">
     <meta name="description" content="windows 10下使用vim8配置python3开发环境">
@@ -23,12 +22,9 @@
     <meta property="og:url" content="https://qoanty.github.io/2019/04/vim-python/">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
-    <link rel="stylesheet" href="/css/normalize.css">
-    
-        <link rel="stylesheet" href="/css/prism.css">
-    
-    <link rel="stylesheet" href="/css/style.css">
-    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
 
@@ -37,8 +33,9 @@
     
 </head>
 
+
 <body>
-<header id="header" class="clearfix">
+    <header id="header" class="clearfix">
     <div class="container">
         <div class="col-group">
             <div class="site-name ">
@@ -51,7 +48,7 @@
             </div>
             <div>
                 <nav id="nav-menu" class="clearfix">
-                    <a class="" href="https://qoanty.github.io/">首页</a>
+                    <a class="current" href="https://qoanty.github.io/">首页</a>
                     
                     <a  href="https://qoanty.github.io/tools/" title="工具">工具</a>
                     
@@ -65,306 +62,461 @@
     </div>
 </header>
 
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
 
-<div id="body">
-    <div class="container">
-        <div class="col-group">
-
-            <div class="col-8" id="main">
-                <div class="res-cons">
-                    <article class="post">
-                        <header>
-                            <h1 class="post-title">windows 10下使用vim8配置python3开发环境</h1>
-                        </header>
-                        <date class="post-meta meta-date">
-                            2019年4月5日
-                        </date>
-                        
-                        <div class="post-meta">
-                            <span>|</span>
-                            
-                                <span class="meta-category"><a href="https://qoanty.github.io/categories/vim">Vim</a></span>
-                            
-                                <span class="meta-category"><a href="https://qoanty.github.io/categories/python">Python</a></span>
-                            
-                        </div>
-                        
-                        
-                        
-                        <div class="post-content">
-                            
-
-<h2 id="安装python与vim">安装Python与Vim</h2>
-
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">windows 10下使用vim8配置python3开发环境</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2019年4月5日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='https://qoanty.github.io/categories/vim'>Vim</a></span>
+            
+            <span class="meta-category"><a href='https://qoanty.github.io/categories/python'>Python</a></span>
+            
+        </div>
+        
+        
+        
+        <div class="post-content">
+            <h2 id="安装python与vim">安装Python与Vim</h2>
 <p>从<a href="https://www.python.org">Python官网</a>下载<a href="https://www.python.org/downloads">64位Python</a>并安装，从<a href="https://www.vim.org">Vim网站</a>下载<a href="https://github.com/vim/vim-win32-installer/releases">64位Vim</a>并安装。</p>
-
 <p>运行<code>vim --version</code>，如果列表中有+python/dyn和+python3/dyn，
 则Vim编辑器支持Python。在Vim编辑器中运行<code>:python3 import sys; print(sys.version)</code>，会输出编辑器当前的Python版本，如果报错，则编辑器不支持Python语言，需要重装或重新编译。</p>
-
 <h2 id="安装chocolatey">安装Chocolatey</h2>
-
 <p>Windows的包管理器<a href="https://chocolatey.org">Chocolatey</a>，以管理员权限打开命令提示符窗口，运行以下命令。</p>
-
-<pre><code class="language-cmd">@&quot;%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe&quot; -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command &quot;iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))&quot; &amp;&amp; SET &quot;PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin&quot;
-</code></pre>
-
-<p>查看版本信息<code>choco -v</code>，升级<code>choco upgrade chocolatey</code>，搜索软件包<code>choco search package</code>，除了在命令行中搜索软件包，还可以直接在网站上搜索<a href="https://chocolatey.org/packages">软件包</a>。</p>
-
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cmd" data-lang="cmd">@<span style="color:#d14">&#34;</span><span style="color:#008080">%SystemRoot%</span><span style="color:#d14">\System32\WindowsPowerShell\v1.0\powershell.exe&#34;</span> -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command <span style="color:#d14">&#34;iex ((New-Object System.Net.WebClient).DownloadString(&#39;https://chocolatey.org/install.ps1&#39;))&#34;</span> &amp;&amp; <span style="color:#000;font-weight:bold">SET</span> <span style="color:#d14">&#34;PATH=</span><span style="color:#008080">%PATH%</span><span style="color:#d14">;</span><span style="color:#008080">%ALLUSERSPROFILE%</span><span style="color:#d14">\chocolatey\bin&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>查看版本信息<code>choco -v</code>，升级<code>choco upgrade chocolatey</code>，搜索软件包<code>choco search package</code>，除了在命令行中搜索软件包，还可以直接在网站上搜索<a href="https://chocolatey.org/packages">软件包</a>。</p>
 <h2 id="安装vundle">安装Vundle</h2>
-
 <p><a href="https://github.com/VundleVim/Vundle.vim">Vundle</a>是一个Vim的插件管理器，使用它可以方便的安装其它插件，Windows下需要依赖<a href="https://git-scm.com">Git</a>和<a href="https://curl.haxx.se">Curl</a>软件。</p>
-
 <h3 id="安装git和curl">安装Git和Curl</h3>
-
-<pre><code class="language-cmd">C:\&gt; choco install -y git
-C:\&gt; choco install -y curl
-</code></pre>
-
-<p>查看版本信息确认正确安装。</p>
-
-<pre><code class="language-cmd">C:\&gt; git --version
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cmd" data-lang="cmd">C:<span style="color:#900;font-weight:bold">\</span><span style="color:#998;font-style:italic">&gt; choco install -y git</span>
+C:<span style="color:#900;font-weight:bold">\</span><span style="color:#998;font-style:italic">&gt; choco install -y curl</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>查看版本信息确认正确安装。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cmd" data-lang="cmd">C:<span style="color:#900;font-weight:bold">\</span><span style="color:#998;font-style:italic">&gt; git --version</span>
 git version 2.21.0.windows.1
-C:\&gt; curl --version
+C:<span style="color:#900;font-weight:bold">\</span><span style="color:#998;font-style:italic">&gt; curl --version</span>
 curl 7.64.0 (x86_64-pc-win32) libcurl/7.64.0 OpenSSL/1.1.1a (Schannel) zlib/1.2.11 brotli/1.0.7 WinIDN libssh2/1.8.0 nghttp2/1.36.0
 Release-Date: 2019-02-06
 Protocols: dict file ftp ftps gopher http https imap imaps ldap ldaps pop3 pop3s rtsp scp sftp smb smbs smtp smtps telnet tftp
 Features: AsynchDNS IDN IPv6 Largefile SSPI Kerberos SPNEGO NTLM SSL libz brotli TLS-SRP HTTP2 HTTPS-proxy MultiSSL
-</code></pre>
-
-<h3 id="windows下安装及配置vundle">Windows下安装及配置Vundle</h3>
-
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="windows下安装及配置vundle">Windows下安装及配置Vundle</h3>
 <p>打开命令提示符窗口，运行以下命令。</p>
-
-<pre><code class="language-cmd">cd %USERPROFILE%
-md .vim\bundle
-git clone https://github.com/VundleVim/Vundle.vim.git %USERPROFILE%/.vim/bundle/Vundle.vim
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cmd" data-lang="cmd"><span style="color:#000;font-weight:bold">cd</span> <span style="color:#008080">%USERPROFILE%</span>
+<span style="color:#000;font-weight:bold">md</span> .vim\bundle
+git clone https://github.com/VundleVim/Vundle.vim.git <span style="color:#008080">%USERPROFILE%</span>/.vim/bundle/Vundle.vim
 gvim .vimrc
-</code></pre>
-
-<p>将以下内容添加在<code>.vimrc</code>文件中。</p>
-
-<pre><code class="language-vim">set nocompatible              &quot; 去除VI一致性,必须
-filetype off                  &quot; 必须
-
-&quot; 设置包括vundle和初始化相关的runtime path
-set rtp+=$HOME/.vim/bundle/Vundle.vim
-call vundle#begin('$HOME/.vim/bundle/')
-
-&quot; 让vundle管理插件版本,必须
-Plugin 'VundleVim/Vundle.vim'
-
-&quot; 以下范例用来支持不同格式的插件安装
-&quot; 请将安装插件的命令放在vundle#begin和vundle#end之间
-&quot; Github上的插件
-Plugin 'tpope/vim-fugitive'
-&quot; 来自 http://vim-scripts.org/vim/scripts.html 的插件
-&quot; Plugin 'L9'
-&quot; 不在Github上的插件
-Plugin 'git://git.wincent.com/command-t.git'
-&quot; 本地的插件(例如自己的插件)
-&quot; Plugin 'file:///home/gmarik/path/to/plugin'
-&quot; 插件sparkup在仓库的子目录中
-&quot; 正确指定路径用以设置runtimepath
-Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-&quot; 如果已经安装了L9这个插件，可利用以下格式避免命名冲突
-&quot; Plugin 'ascenator/L9', {'name': 'newL9'}
-
-&quot; 你的所有插件需要在下面这行之前
-call vundle#end()            &quot; 必须
-filetype plugin indent on    &quot; 必须 加载vim自带和插件相应的语法和文件类型相关脚本
-&quot; 忽视插件改变缩进,可以使用以下替代:
-&quot;filetype plugin on
-&quot;
-&quot; 简要帮助文档
-&quot; :PluginList       - 列出所有已配置的插件
-&quot; :PluginInstall    - 安装插件,追加 `!` 用以更新或使用 :PluginUpdate
-&quot; :PluginSearch foo - 搜索 foo ; 追加 `!` 清除本地缓存
-&quot; :PluginClean      - 清除未使用插件,需要确认; 追加 `!` 自动批准移除未使用插件
-&quot;
-&quot; 查阅 :h vundle 获取更多细节和wiki以及FAQ
-&quot; 将你自己对非插件内容放在这行之后
-</code></pre>
-
-<p>设置完后可以在配置文件中添加要安装的插件，然后打开<code>vim</code>运行<code>:PluginInstall</code>或通过命令行直接运行<code>vim +PluginInstall +qall</code>进行安装。</p>
-
+</code></pre></td></tr></table>
+</div>
+</div><p>将以下内容添加在<code>.vimrc</code>文件中。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim">set nocompatible              <span style="color:#998;font-style:italic">&#34; 去除VI一致性,必须</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>filetype off                  <span style="color:#998;font-style:italic">&#34; 必须</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic">
+</span><span style="color:#998;font-style:italic">&#34; 设置包括vundle和初始化相关的runtime path</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>set rtp+=$HOME<span style="color:#009926">/.vim/</span>bundle/Vundle.vim<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>call vundle#begin(<span style="color:#d14">&#39;$HOME/.vim/bundle/&#39;</span>)<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic">
+</span><span style="color:#998;font-style:italic">&#34; 让vundle管理插件版本,必须</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>Plugin <span style="color:#d14">&#39;VundleVim/Vundle.vim&#39;</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic">
+</span><span style="color:#998;font-style:italic">&#34; 以下范例用来支持不同格式的插件安装</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic">&#34; 请将安装插件的命令放在vundle#begin和vundle#end之间</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic">&#34; Github上的插件</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>Plugin <span style="color:#d14">&#39;tpope/vim-fugitive&#39;</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic">&#34; 来自 http://vim-scripts.org/vim/scripts.html 的插件</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic">&#34; Plugin &#39;L9&#39;</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic">&#34; 不在Github上的插件</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>Plugin <span style="color:#d14">&#39;git://git.wincent.com/command-t.git&#39;</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic">&#34; 本地的插件(例如自己的插件)</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic">&#34; Plugin &#39;file:///home/gmarik/path/to/plugin&#39;</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic">&#34; 插件sparkup在仓库的子目录中</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic">&#34; 正确指定路径用以设置runtimepath</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>Plugin <span style="color:#d14">&#39;rstacruz/sparkup&#39;</span>, {<span style="color:#d14">&#39;rtp&#39;</span>: <span style="color:#d14">&#39;vim/&#39;</span>}<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic">&#34; 如果已经安装了L9这个插件，可利用以下格式避免命名冲突</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic">&#34; Plugin &#39;ascenator/L9&#39;, {&#39;name&#39;: &#39;newL9&#39;}</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic">
+</span><span style="color:#998;font-style:italic">&#34; 你的所有插件需要在下面这行之前</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>call vundle#end()            <span style="color:#998;font-style:italic">&#34; 必须</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>filetype plugin indent on    <span style="color:#998;font-style:italic">&#34; 必须 加载vim自带和插件相应的语法和文件类型相关脚本</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic">&#34; 忽视插件改变缩进,可以使用以下替代:</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic">&#34;filetype plugin on</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic">&#34;</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic">&#34; 简要帮助文档</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic">&#34; :PluginList       - 列出所有已配置的插件</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic">&#34; :PluginInstall    - 安装插件,追加 `!` 用以更新或使用 :PluginUpdate</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic">&#34; :PluginSearch foo - 搜索 foo ; 追加 `!` 清除本地缓存</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic">&#34; :PluginClean      - 清除未使用插件,需要确认; 追加 `!` 自动批准移除未使用插件</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic">&#34;</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic">&#34; 查阅 :h vundle 获取更多细节和wiki以及FAQ</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic">&#34; 将你自己对非插件内容放在这行之后</span><span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>设置完后可以在配置文件中添加要安装的插件，然后打开<code>vim</code>运行<code>:PluginInstall</code>或通过命令行直接运行<code>vim +PluginInstall +qall</code>进行安装。</p>
 <h2 id="开始打造ide">开始打造IDE</h2>
-
-<h3 id="分割窗口-split-layouts">分割窗口(Split Layouts)</h3>
-
+<h3 id="分割窗口split-layouts">分割窗口(Split Layouts)</h3>
 <p>使用<code>:sv &lt;filename&gt;</code>命令打开一个文件，可以横向分割布局（新文件会在当前文件下方界面打开），使用相反的命令<code>:vs &lt;filename&gt;</code>，可以得到纵向分割布局（新文件会在当前文件右侧界面打开），若要在指定屏幕上进行分割布局的区域，在<code>.vimrc</code>文件中添加下面代码。</p>
-
-<pre><code class="language-vim">set splitbelow
-set splitright
-</code></pre>
-
-<p>不使用鼠标而通过快捷键切换分割布局，在<code>.vimrc</code>文件中添加下面代码。</p>
-
-<pre><code class="language-vim">&quot;split navigations
-nnoremap &lt;C-J&gt; &lt;C-W&gt;&lt;C-J&gt;
-nnoremap &lt;C-K&gt; &lt;C-W&gt;&lt;C-K&gt;
-nnoremap &lt;C-L&gt; &lt;C-W&gt;&lt;C-L&gt;
-nnoremap &lt;C-H&gt; &lt;C-W&gt;&lt;C-H&gt;
-</code></pre>
-
-<p>快捷键</p>
-
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim">set splitbelow<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>set splitright<span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>不使用鼠标而通过快捷键切换分割布局，在<code>.vimrc</code>文件中添加下面代码。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim"><span style="color:#998;font-style:italic">&#34;split navigations</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>nnoremap &lt;C-J&gt; &lt;C-W&gt;&lt;C-J&gt;<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>nnoremap &lt;C-K&gt; &lt;C-W&gt;&lt;C-K&gt;<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>nnoremap &lt;C-L&gt; &lt;C-W&gt;&lt;C-L&gt;<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>nnoremap &lt;C-H&gt; &lt;C-W&gt;&lt;C-H&gt;<span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>快捷键</p>
 <ul>
-<li><kbd>Ctrl</kbd> <kbd>J</kbd> 切换到下方的分割窗口</li>
-<li><kbd>Ctrl</kbd> <kbd>K</kbd> 切换到上方的分割窗口</li>
-<li><kbd>Ctrl</kbd> <kbd>L</kbd> 切换到右侧的分割窗口</li>
-<li><kbd>Ctrl</kbd> <kbd>H</kbd> 切换到左侧的分割窗口</li>
+<li><!-- raw HTML omitted -->Ctrl<!-- raw HTML omitted --> <!-- raw HTML omitted -->J<!-- raw HTML omitted --> 切换到下方的分割窗口</li>
+<li><!-- raw HTML omitted -->Ctrl<!-- raw HTML omitted --> <!-- raw HTML omitted -->K<!-- raw HTML omitted --> 切换到上方的分割窗口</li>
+<li><!-- raw HTML omitted -->Ctrl<!-- raw HTML omitted --> <!-- raw HTML omitted -->L<!-- raw HTML omitted --> 切换到右侧的分割窗口</li>
+<li><!-- raw HTML omitted -->Ctrl<!-- raw HTML omitted --> <!-- raw HTML omitted -->H<!-- raw HTML omitted --> 切换到左侧的分割窗口</li>
 </ul>
-
-<h3 id="缓冲区-buffers">缓冲区(Buffers)</h3>
-
+<h3 id="缓冲区buffers">缓冲区(Buffers)</h3>
 <p>Vim提供了方便访问缓冲区的方式，只需要输入<code>:b &lt;buffer name or number&gt;</code>，就可以切换到一个已经开启的缓冲区（此处也可使用自动补全功能），还可以通过<code>:ls</code>命令查看所有的缓冲区。</p>
-
-<h3 id="代码折叠-code-folding">代码折叠(Code Folding)</h3>
-
+<h3 id="代码折叠code-folding">代码折叠(Code Folding)</h3>
 <p>开启代码折叠并使用空格键控制，在<code>.vimrc</code>文件中添加下面代码。</p>
-
-<pre><code class="language-vim">&quot; Enable folding
-set foldmethod=indent
-set foldlevel=99
-&quot; Enable folding with the spacebar
-nnoremap &lt;space&gt; za
-</code></pre>
-
-<p>隐藏当前不需要关注的代码，<code>set foldmethod=ident</code>会根据每行的缩进开启折叠。但是这样做会出现超过所希望的折叠数目，可以通过<a href="https://github.com/tmhedberg/SimpylFold">SimplyFold</a>插件解决这个问题，在<code>.vimrc</code>文件中加入下面代码。</p>
-
-<pre><code class="language-vim">Plugin 'tmhedberg/SimpylFold'
-</code></pre>
-
-<p>希望看到折叠代码的文档字符串。</p>
-
-<pre><code class="language-vim">let g:SimpylFold_docstring_preview=1
-</code></pre>
-
-<h3 id="代码缩进-python-indentation">代码缩进(Python Indentation)</h3>
-
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim"><span style="color:#998;font-style:italic">&#34; Enable folding</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>set foldmethod=indent<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>set foldlevel=<span style="color:#099">99</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#998;font-style:italic">&#34; Enable folding with the spacebar</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>nnoremap &lt;space&gt; za<span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>隐藏当前不需要关注的代码，<code>set foldmethod=ident</code>会根据每行的缩进开启折叠。但是这样做会出现超过所希望的折叠数目，可以通过<a href="https://github.com/tmhedberg/SimpylFold">SimplyFold</a>插件解决这个问题，在<code>.vimrc</code>文件中加入下面代码。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim">Plugin <span style="color:#d14">&#39;tmhedberg/SimpylFold&#39;</span><span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>希望看到折叠代码的文档字符串。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim"><span style="color:#000;font-weight:bold">let</span> g:SimpylFold_docstring_preview=<span style="color:#099">1</span><span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></td></tr></table>
+</div>
+</div><h3 id="代码缩进python-indentation">代码缩进(Python Indentation)</h3>
 <p>Vim中的缩进要能做到以下两点：</p>
-
 <ul>
 <li>首先，缩进要符合PEP8标准。</li>
 <li>其次，更好地处理自动缩进。</li>
 </ul>
-
 <h4 id="pep8">PEP8</h4>
-
 <p>要支持PEP8风格的缩进，在<code>.vimrc</code>文件中加入下面代码。</p>
-
-<pre><code class="language-vim">au BufNewFile,BufRead *.py,*.sh
-    \ set tabstop=4     |
-    \ set softtabstop=4 |
-    \ set shiftwidth=4  |
-    \ set textwidth=79  |
-    \ set expandtab     |
-    \ set autoindent    |
-    \ set fileformat=unix
-</code></pre>
-
-<p>还可以针对每种文件类型进行设置。</p>
-
-<pre><code class="language-vim">au BufNewFile,BufRead *.js,*.html,*.css
-    \ set tabstop=2     |
-    \ set softtabstop=2 |
-    \ set shiftwidth=2
-</code></pre>
-
-<h4 id="自动缩进">自动缩进</h4>
-
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim">au BufNewFile,BufRead *.py,*.sh<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ set tabstop=<span style="color:#099">4</span>     |<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ set softtabstop=<span style="color:#099">4</span> |<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ set shiftwidth=<span style="color:#099">4</span>  |<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ set textwidth=<span style="color:#099">79</span>  |<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ set expandtab     |<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ set autoindent    |<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ set fileformat=unix<span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>还可以针对每种文件类型进行设置。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim">au BufNewFile,BufRead *.js,*.html,*.css<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ set tabstop=<span style="color:#099">2</span>     |<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ set softtabstop=<span style="color:#099">2</span> |<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>    \ set shiftwidth=<span style="color:#099">2</span><span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></td></tr></table>
+</div>
+</div><h4 id="自动缩进">自动缩进</h4>
 <p>自动缩进在某些情况下（比如函数定义有多行的时候），并不总是会达到预想的效果，尤其是在符合PEP8标准方面，可以用<a href="https://github.com/vim-scripts/indentpython.vim">indentpython.vim</a>插件来解决。</p>
-
-<pre><code class="language-vim">Plugin 'vim-scripts/indentpython.vim'
-</code></pre>
-
-<h3 id="标示不必要的空白字符">标示不必要的空白字符</h3>
-
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim">Plugin <span style="color:#d14">&#39;vim-scripts/indentpython.vim&#39;</span><span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></td></tr></table>
+</div>
+</div><h3 id="标示不必要的空白字符">标示不必要的空白字符</h3>
 <p>让Vim标示出来多余的空白字符并删除。</p>
-
-<pre><code class="language-vim">highlight BadWhitespace ctermbg=red guibg=darkred
-au BufRead,BufNewFile *.py,*.pyw,*.c,*.h,*.sh match BadWhitespace /\s\+$/
-</code></pre>
-
-<h3 id="自动补全">自动补全</h3>
-
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim">highlight BadWhitespace ctermbg=red guibg=darkred<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>au BufRead,BufNewFile *.py,*.pyw,*.c,*.h,*.sh match BadWhitespace <span style="color:#009926">/\s\+$/</span><span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></td></tr></table>
+</div>
+</div><h3 id="自动补全">自动补全</h3>
 <p>使用支持vim8的<a href="https://github.com/maralla/completor.vim">completor.vim</a>插件来补全代码。</p>
-
 <p>安装<a href="https://github.com/davidhalter/jedi">jedi</a>实现Python补全。</p>
-
-<pre><code class="language-cmd">pip install jedi
-</code></pre>
-
-<p>安装并配置插件。</p>
-
-<pre><code class="language-vim">Plugin 'maralla/completor.vim'
-let g:completor_python_binary = '/path/to/python/with/jedi/installed'
-</code></pre>
-
-<h3 id="语法检查">语法检查</h3>
-
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cmd" data-lang="cmd">pip install jedi
+</code></pre></td></tr></table>
+</div>
+</div><p>安装并配置插件。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim">Plugin <span style="color:#d14">&#39;maralla/completor.vim&#39;</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#000;font-weight:bold">let</span> g:completor_python_binary = <span style="color:#d14">&#39;/path/to/python/with/jedi/installed&#39;</span><span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></td></tr></table>
+</div>
+</div><h3 id="语法检查">语法检查</h3>
 <p>安装<a href="https://github.com/vim-syntastic/syntastic">syntastic</a>插件，每次保存文件时Vim都会检查代码的语法。</p>
-
-<pre><code class="language-vim">Plugin 'vim-syntastic/syntastic'
-</code></pre>
-
-<p>添加<a href="https://github.com/nvie/vim-flake8">flake8</a>代码风格检查。</p>
-
-<pre><code class="language-cmd">pip install flake8
-</code></pre>
-
-<p>安装并配置插件，保存文件时自动检查或按F7键进行检查。</p>
-
-<pre><code class="language-vim">Plugin 'nvie/vim-flake8'
-autocmd BufWritePost *.py call Flake8()
-</code></pre>
-
-<h3 id="配色方案">配色方案</h3>
-
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim">Plugin <span style="color:#d14">&#39;vim-syntastic/syntastic&#39;</span><span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>添加<a href="https://github.com/nvie/vim-flake8">flake8</a>代码风格检查。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cmd" data-lang="cmd">pip install flake8
+</code></pre></td></tr></table>
+</div>
+</div><p>安装并配置插件，保存文件时自动检查或按F7键进行检查。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim">Plugin <span style="color:#d14">&#39;nvie/vim-flake8&#39;</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>autocmd BufWritePost *.py call Flake8()<span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></td></tr></table>
+</div>
+</div><h3 id="配色方案">配色方案</h3>
 <p>GUI模式可以用<a href="https://github.com/altercation/vim-colors-solarized">solarized</a>方案，终端模式可以用<a href="https://github.com/jnurmine/Zenburn">Zenburn</a>方案。</p>
-
-<pre><code class="language-vim">Plugin 'altercation/vim-colors-solarized'
-Plugin 'jnurmine/Zenburn'
-
-if has('gui_running')
-  set background=dark
-  colorscheme solarized
-else
-  colorscheme zenburn
-endif
-</code></pre>
-
-<h3 id="文件浏览">文件浏览</h3>
-
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim">Plugin <span style="color:#d14">&#39;altercation/vim-colors-solarized&#39;</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>Plugin <span style="color:#d14">&#39;jnurmine/Zenburn&#39;</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#000;font-weight:bold">if</span> has(<span style="color:#d14">&#39;gui_running&#39;</span>)<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>  set background=<span style="color:#0086b3">dark</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>  colorscheme solarized<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#000;font-weight:bold">else</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>  colorscheme zenburn<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#000;font-weight:bold">endif</span><span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></td></tr></table>
+</div>
+</div><h3 id="文件浏览">文件浏览</h3>
 <p>给vim添加一个树形目录，安装<a href="https://github.com/scrooloose/nerdtree">NERDTree</a>插件，设置开关树形目录的快捷键并忽略.pyc文件。</p>
-
-<pre><code class="language-vim">Plugin 'scrooloose/nerdtree'
-map &lt;C-n&gt; :NERDTreeToggle&lt;CR&gt;
-let NERDTreeIgnore=['\~$', '\.pyc$', '\.swp$']
-</code></pre>
-
-<h3 id="超级搜索-自动配对">超级搜索/自动配对</h3>
-
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim">Plugin <span style="color:#d14">&#39;scrooloose/nerdtree&#39;</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>map &lt;C-n&gt; :NERDTreeToggle&lt;CR&gt;<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span><span style="color:#000;font-weight:bold">let</span> NERDTreeIgnore=[<span style="color:#d14">&#39;\~$&#39;</span>, <span style="color:#d14">&#39;\.pyc$&#39;</span>, <span style="color:#d14">&#39;\.swp$&#39;</span>]<span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></td></tr></table>
+</div>
+</div><h3 id="超级搜索自动配对">超级搜索/自动配对</h3>
 <p>搜索插件<a href="https://github.com/kien/ctrlp.vim">ctrlp.vim</a>，自动配对符号插件<a href="https://github.com/jiangmiao/auto-pairs">auto-pairs</a>。</p>
-
-<pre><code class="language-vim">Plugin 'kien/ctrlp.vim'
-Plugin 'jiangmiao/auto-pairs'
-</code></pre>
-
-<h3 id="其它">其它</h3>
-
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim">Plugin <span style="color:#d14">&#39;kien/ctrlp.vim&#39;</span><span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>Plugin <span style="color:#d14">&#39;jiangmiao/auto-pairs&#39;</span><span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></td></tr></table>
+</div>
+</div><h3 id="其它">其它</h3>
 <p>windows 10下vim8支持python3.6，按F5键保存运行python程序，在<code>.vimrc</code>文件中添加下面代码。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-vim" data-lang="vim">set pythonthreedll=python36.dll<span style="color:#a61717;background-color:#e3d2d2">
+</span><span style="color:#a61717;background-color:#e3d2d2"></span>au BufRead *.py map &lt;buffer&gt; &lt;F5&gt; :w&lt;CR&gt;:!python % &lt;CR&gt;<span style="color:#a61717;background-color:#e3d2d2">
+</span></code></pre></td></tr></table>
+</div>
+</div>
+        </div>
 
-<pre><code class="language-vim">set pythonthreedll=python36.dll
-au BufRead *.py map &lt;buffer&gt; &lt;F5&gt; :w&lt;CR&gt;:!python % &lt;CR&gt;
-</code></pre>
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://qoanty.github.io/">百年孤独</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://qoanty.github.io/2019/04/vim-python/">https://qoanty.github.io/2019/04/vim-python/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
 
-                        </div>
-
-                        
 
 
-                        
+        
 
 <div class="post-archive">
     <h2>See Also</h2>
@@ -372,44 +524,38 @@ au BufRead *.py map &lt;buffer&gt; &lt;F5&gt; :w&lt;CR&gt;:!python % &lt;CR&gt;
         
         <li><a href="/about/">About</a></li>
         
+        <li><a href="/tools/">工具</a></li>
+        
         <li><a href="/archives/">归档</a></li>
         
     </ul>
 </div>
 
 
-                        <div class="post-meta meta-tags">
-                            
-                            <ul class="clearfix">
-                                
-                                <li><a href="https://qoanty.github.io/tags/vim">vim</a></li>
-                                
-                                <li><a href="https://qoanty.github.io/tags/ide">IDE</a></li>
-                                
-                            </ul>
-                            
-                        </div>
-                    </article>
-                    
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='https://qoanty.github.io/tags/vim'>Vim</a></li>
+                
+                <li><a href='https://qoanty.github.io/tags/ide'>IDE</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
     
 
     
     
-    <div class="post bg-white">
-      <script src="https://utteranc.es/client.js"
-            repo= "qoanty/qoanty.github.io"
-            issue-term="pathname"
-            theme="github-light"
-            crossorigin="anonymous"
-            async>
-      </script>
-    </div>
-    
+</div>
+
                 </div>
-            </div>
-            <div id="secondary">
+
+                <div id="secondary">
     <section class="widget">
-        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+        <form id="search" action='https://qoanty.github.io/search/' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
       
       <input type="text" name="q" maxlength="20" placeholder="Search">
       <input type="hidden" name="sitesearch" value="https://qoanty.github.io/">
@@ -422,43 +568,43 @@ au BufRead *.py map &lt;buffer&gt; &lt;F5&gt; :w&lt;CR&gt;:!python % &lt;CR&gt;
 <ul class="widget-list">
     
     <li>
-        <a href="https://qoanty.github.io/2019/05/sliding-captcha/" title="极验滑动验证码识别">极验滑动验证码识别</a>
+        <a href="https://qoanty.github.io/2020/07/install-manjaro-kde/" title="Manjaro-KDE 安装与设置">Manjaro-KDE 安装与设置</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-web-scraping/" title="Python3 学习笔记（异步爬虫）">Python3 学习笔记（异步爬虫）</a>
+        <a href="https://qoanty.github.io/2020/06/vps-with-trojan-go/" title="Trojan-Go 安装配置教程">Trojan-Go 安装配置教程</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-asyncio/" title="Python3 学习笔记（异步IO）">Python3 学习笔记（异步IO）</a>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-without-phd/" title="Tensorflow, Keras and deep learning, without a Phd">Tensorflow, Keras and deep learning, without a Phd</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-built-in-functions-modules/" title="Python3 学习笔记（内建模块）">Python3 学习笔记（内建模块）</a>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-load-csv-data/" title="TensorFlow加载CSV数据">TensorFlow加载CSV数据</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-distributed-processes/" title="Python3 学习笔记（分布式进程）">Python3 学习笔记（分布式进程）</a>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-text-classification/" title="具有预处理文本的文本分类：电影评论">具有预处理文本的文本分类：电影评论</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-object-oriented-programming/" title="Python3 学习笔记（面向对象编程）">Python3 学习笔记（面向对象编程）</a>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-text-classification-with-hub/" title="使用TensorFlow Hub进行文本分类：电影评论">使用TensorFlow Hub进行文本分类：电影评论</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-functional-programming/" title="Python3 学习笔记（函数式编程）">Python3 学习笔记（函数式编程）</a>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-image-classification/" title="TensorFlow基本分类：对服装图像进行分类">TensorFlow基本分类：对服装图像进行分类</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-advanced-features/" title="Python3 学习笔记（高级特性）">Python3 学习笔记（高级特性）</a>
+        <a href="https://qoanty.github.io/2019/07/install-lemp-on-debian/" title="在Debian 10上安装Linux，Nginx，MariaDB，PHP">在Debian 10上安装Linux，Nginx，MariaDB，PHP</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-functions/" title="Python3 学习笔记（函数）">Python3 学习笔记（函数）</a>
+        <a href="https://qoanty.github.io/2019/07/install-nginx-on-debian/" title="在Debian 10上安装Nginx">在Debian 10上安装Nginx</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/wss-and-web/" title="基于V2Ray的WebSocket&#43;TLS&#43;Web&#43;CDN安全网络代理">基于V2Ray的WebSocket&#43;TLS&#43;Web&#43;CDN安全网络代理</a>
+        <a href="https://qoanty.github.io/2019/07/set-up-debian-server/" title="在VPS上设置Debian 10服务器">在VPS上设置Debian 10服务器</a>
     </li>
     
 </ul>
@@ -470,37 +616,45 @@ au BufRead *.py map &lt;buffer&gt; &lt;F5&gt; :w&lt;CR&gt;:!python % &lt;CR&gt;
         <h3 class="widget-title">分类</h3>
 <ul class="widget-list">
     
-    <li>
-        <a href="https://qoanty.github.io/categories/blog/">Blog(1)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/blog/">Blog (1)</a></li>
     
-    <li>
-        <a href="https://qoanty.github.io/categories/captcha/">Captcha(1)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/caddy/">Caddy (1)</a></li>
     
-    <li>
-        <a href="https://qoanty.github.io/categories/hugo/">Hugo(1)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/captcha/">Captcha (1)</a></li>
     
-    <li>
-        <a href="https://qoanty.github.io/categories/learn/">Learn(8)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/debian/">Debian (5)</a></li>
     
-    <li>
-        <a href="https://qoanty.github.io/categories/python/">Python(10)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/docker/">Docker (1)</a></li>
     
-    <li>
-        <a href="https://qoanty.github.io/categories/v2ray/">V2Ray(2)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/hugo/">Hugo (1)</a></li>
     
-    <li>
-        <a href="https://qoanty.github.io/categories/vps/">VPS(2)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/kde/">KDE (1)</a></li>
     
-    <li>
-        <a href="https://qoanty.github.io/categories/vim/">Vim(1)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/kms/">KMS (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/learn/">Learn (14)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/manjaro/">Manjaro (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/nginx/">Nginx (2)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/pipenv/">Pipenv (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/python/">Python (12)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/ssh/">SSH (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/tensorflow/">TensorFlow (5)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/trojan/">Trojan (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/trojan-go/">Trojan-Go (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/v2ray/">V2Ray (2)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/vim/">Vim (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/vps/">VPS (7)</a></li>
     
 </ul>
     </section>
@@ -509,21 +663,19 @@ au BufRead *.py map &lt;buffer&gt; &lt;F5&gt; :w&lt;CR&gt;:!python % &lt;CR&gt;
         <h3 class="widget-title">标签</h3>
 <div class="tagcloud">
     
+    <a href="https://qoanty.github.io/tags/asyncio/">asyncio</a>
+    
+    <a href="https://qoanty.github.io/tags/caddy/">Caddy</a>
+    
     <a href="https://qoanty.github.io/tags/cdn/">CDN</a>
     
-    <a href="https://qoanty.github.io/tags/github/">Github</a>
+    <a href="https://qoanty.github.io/tags/data/">data</a>
     
-    <a href="https://qoanty.github.io/tags/hugo/">Hugo</a>
+    <a href="https://qoanty.github.io/tags/debian/">Debian</a>
     
-    <a href="https://qoanty.github.io/tags/ide/">IDE</a>
+    <a href="https://qoanty.github.io/tags/deep-learning/">deep learning</a>
     
-    <a href="https://qoanty.github.io/tags/oop/">OOP</a>
-    
-    <a href="https://qoanty.github.io/tags/v2ray/">V2Ray</a>
-    
-    <a href="https://qoanty.github.io/tags/vps/">VPS</a>
-    
-    <a href="https://qoanty.github.io/tags/asyncio/">asyncio</a>
+    <a href="https://qoanty.github.io/tags/docker/">Docker</a>
     
     <a href="https://qoanty.github.io/tags/features/">features</a>
     
@@ -531,13 +683,45 @@ au BufRead *.py map &lt;buffer&gt; &lt;F5&gt; :w&lt;CR&gt;:!python % &lt;CR&gt;
     
     <a href="https://qoanty.github.io/tags/geetest/">geetest</a>
     
+    <a href="https://qoanty.github.io/tags/github/">Github</a>
+    
+    <a href="https://qoanty.github.io/tags/hugo/">Hugo</a>
+    
+    <a href="https://qoanty.github.io/tags/ide/">IDE</a>
+    
+    <a href="https://qoanty.github.io/tags/kde/">KDE</a>
+    
+    <a href="https://qoanty.github.io/tags/keras/">keras</a>
+    
+    <a href="https://qoanty.github.io/tags/kms/">KMS</a>
+    
+    <a href="https://qoanty.github.io/tags/manjaro/">Manjaro</a>
+    
+    <a href="https://qoanty.github.io/tags/nginx/">Nginx</a>
+    
+    <a href="https://qoanty.github.io/tags/oop/">OOP</a>
+    
+    <a href="https://qoanty.github.io/tags/pipenv/">Pipenv</a>
+    
     <a href="https://qoanty.github.io/tags/processes/">processes</a>
     
-    <a href="https://qoanty.github.io/tags/python/">python</a>
+    <a href="https://qoanty.github.io/tags/python/">Python</a>
     
     <a href="https://qoanty.github.io/tags/scraping/">scraping</a>
     
-    <a href="https://qoanty.github.io/tags/vim/">vim</a>
+    <a href="https://qoanty.github.io/tags/ssh/">SSH</a>
+    
+    <a href="https://qoanty.github.io/tags/tensorflow/">tensorflow</a>
+    
+    <a href="https://qoanty.github.io/tags/trojan/">Trojan</a>
+    
+    <a href="https://qoanty.github.io/tags/trojan-go/">Trojan-Go</a>
+    
+    <a href="https://qoanty.github.io/tags/v2ray/">V2Ray</a>
+    
+    <a href="https://qoanty.github.io/tags/vim/">Vim</a>
+    
+    <a href="https://qoanty.github.io/tags/vps/">VPS</a>
     
 </div>
     </section>
@@ -570,37 +754,33 @@ au BufRead *.py map &lt;buffer&gt; &lt;F5&gt; :w&lt;CR&gt;:!python % &lt;CR&gt;
         </ul>
     </section>
 </div>
+            </div>
         </div>
     </div>
-</div>
-<footer id="footer">
+    <footer id="footer">
     <div class="container">
-        &copy; 2019 <a href="https://qoanty.github.io/">百年孤独的博客 By 百年孤独</a>.
-        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a> & <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
+        &copy; 2020 <a href="https://qoanty.github.io/">百年孤独的博客 By 百年孤独</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/flysnow-org/maupassant-hugo" target="_blank">maupassant</a>.
         
     </div>
 </footer>
 
 
-    <script type="text/javascript">
     
-    (function(){
-        $("pre code").parent().addClass("line-numbers")
-    }())
-
-    window.MathJax = {
-        tex2jax: {
-            inlineMath: [ ['$','$'] ],
-            processEscapes: true
-        }
-    };
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
     </script>
-    <script type="text/javascript" src="/js/prism.js" async="true"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
 
-<a id="rocket" href="#top"></a>
-<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
 
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
 
 
 
@@ -608,4 +788,5 @@ au BufRead *.py map &lt;buffer&gt; &lt;F5&gt; :w&lt;CR&gt;:!python % &lt;CR&gt;
 
 
 </body>
+
 </html>

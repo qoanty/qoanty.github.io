@@ -1,0 +1,899 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>在Debian 10上安装Linux，Nginx，MariaDB，PHP | 百年孤独的博客</title>
+    <meta property="og:title" content="在Debian 10上安装Linux，Nginx，MariaDB，PHP - 百年孤独的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2019-07-28T18:22:37&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2019-07-28T18:22:37&#43;08:00'>
+        
+    <meta name="Keywords" content="VPS, python, android, 博客, 小程序">
+    <meta name="description" content="在Debian 10上安装Linux，Nginx，MariaDB，PHP">
+        
+    <meta name="author" content="百年孤独">
+    <meta property="og:url" content="https://qoanty.github.io/2019/07/install-lemp-on-debian/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+
+
+    
+    
+</head>
+
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://qoanty.github.io/">
+                        百年孤独的博客
+                    </a>
+                
+                <p class="description">艺术家用谎言揭露真相，政治家用谎言隐瞒真相</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://qoanty.github.io/">首页</a>
+                    
+                    <a  href="https://qoanty.github.io/tools/" title="工具">工具</a>
+                    
+                    <a  href="https://qoanty.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://qoanty.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">在Debian 10上安装Linux，Nginx，MariaDB，PHP</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2019年7月28日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='https://qoanty.github.io/categories/debian'>Debian</a></span>
+            
+            <span class="meta-category"><a href='https://qoanty.github.io/categories/nginx'>Nginx</a></span>
+            
+        </div>
+        
+        
+        
+        <div class="post-content">
+            <h2 id="介绍">介绍</h2>
+<p><code>LEMP</code>软件包是一组可用于提供动态网页和Web应用程序的软件。“LEMP”是一个首字母缩略词，用于描述<code>Linux</code>操作系统和<code>(E)Nginx</code>网络服务，后端数据存储在<code>MariaDB</code>数据库中，动态处理由<code>PHP</code>处理。</p>
+<p>尽管此软件包通常包括<code>MySQL</code>作为数据库管理系统，但某些<code>Linux</code>发行版（包括Debian）使用<code>MariaDB</code>替代<code>MySQL</code>。</p>
+<p>在本教程中，您将使用<code>MariaDB</code>作为数据库管理系统，在Debian 10服务器上安装<code>LEMP</code>软件包。</p>
+<h2 id="先决条件">先决条件</h2>
+<p>要完成本教程，您将需要访问Debian 10服务器，该服务器应配置了具有<code>sudo</code>权限的普通用户和启用了<code>ufw</code>防火墙，可以参考<a href="https://qoant.com/2019/07/initial-server-with-debian/">《Debian 10进行初始服务器设置》</a>教程。</p>
+<h2 id="第1步--安装nginx-web服务">第1步 – 安装Nginx Web服务</h2>
+<p>为了向您的网站访问者提供网页服务，我们将使用<code>Nginx</code>，这是一款流行的Web服务，以其整体性能和稳定性而闻名。</p>
+<p>您将使用的所有软件都直接来自Debian的默认软件包存储库。这意味着您可以使用<code>apt</code>软件包管理套件来完成安装。</p>
+<p>由于这是您第一次使用<code>apt</code>，因此应首先更新本地软件包索引，然后再安装服务：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo apt update
+sudo apt install nginx
+</code></pre></td></tr></table>
+</div>
+</div><p>在Debian 10上，<code>Nginx</code>配置为在安装后开始运行。</p>
+<p>如果您正在运行<code>ufw</code>防火墙，则需要允许连接到<code>Nginx</code>。您应该启用限制最严格的配置文件，该配置文件仍将允许您所需的流量。由于您还没有为服务器配置<code>SSL</code>，因此现在您只需要允许<code>80</code>端口上的<code>HTTP</code>通信。</p>
+<p>您可以通过输入以下命令启用此功能：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo ufw allow <span style="color:#d14">&#39;Nginx HTTP&#39;</span>
+sudo ufw status
+
+Output
+Status: active
+
+To                         Action      From
+--                         ------      ----
+OpenSSH                    ALLOW       Anywhere
+Nginx HTTP                 ALLOW       Anywhere
+OpenSSH <span style="color:#000;font-weight:bold">(</span>v6<span style="color:#000;font-weight:bold">)</span>               ALLOW       Anywhere <span style="color:#000;font-weight:bold">(</span>v6<span style="color:#000;font-weight:bold">)</span>
+Nginx HTTP <span style="color:#000;font-weight:bold">(</span>v6<span style="color:#000;font-weight:bold">)</span>            ALLOW       Anywhere <span style="color:#000;font-weight:bold">(</span>v6<span style="color:#000;font-weight:bold">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>现在，通过在Web浏览器中访问服务器的域名或公共IP地址来测试服务是否已启动并正在运行。如果您没有指向服务器的域名，并且您不知道服务器的公共IP地址，则可以通过在终端中输入以下命令来找到它：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ip addr show eth0 | grep inet | awk <span style="color:#d14">&#39;{ print $2; }&#39;</span> | sed <span style="color:#d14">&#39;s/\/.*$//&#39;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这将输出一些IP地址，您可以依次在Web浏览器中尝试输入它们。</p>
+<p>在Web浏览器中输入IP地址，您将看到<code>Nginx</code>的默认页面：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">http://your_domain_or_IP
+</code></pre></td></tr></table>
+</div>
+</div><p>如果能看到<code>Nginx</code>默认页面，则说明您已经成功安装了<code>Nginx</code>。</p>
+<h2 id="第2步--安装mariadb">第2步 – 安装MariaDB</h2>
+<p>现在，您已经启动并运行了Web服务，您需要安装数据库系统，以便能够存储和管理站点数据。</p>
+<p>在Debian 10中，传统上用于安装<code>MySQL</code>服务的<code>mysql-server</code>包替换为<code>default-mysql-server</code>包，这个包引用了<code>MariaDB</code>，它是<code>Oracle</code>原始<code>MySQL</code>服务的一个社区分支，目前是基于debian的软件包管理器存储库中提供的默认<code>MySQL</code>兼容数据库服务。</p>
+<p>但是，为了获得长期兼容性，建议您不要使用该软件包，而应使用程序的实际<code>mariadb-server</code>包来安装<code>MariaDB</code>。</p>
+<p>输入以下命令进行安装：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo apt install mariadb-server
+</code></pre></td></tr></table>
+</div>
+</div><p>安装完成后，建议您运行与<code>MariaDB</code>一起预装的安全脚本。该脚本将删除一些不安全的默认设置，并锁定对数据库系统的访问。输入以下命令启动交互式脚本：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo mysql_secure_installation
+</code></pre></td></tr></table>
+</div>
+</div><p>该脚本将引导您完成一系列提示，您可以在其中对<code>MariaDB</code>设置进行一些更改。第一个提示将要求您输入当前数据库的<code>root</code>密码，请不要与系统<code>root</code>目录混淆。该数据库<code>root</code>用户是对数据库系统具有完全权限的管理用户。因为您刚刚安装了<code>MariaDB</code>且还没有进行任何配置更改，所以该密码为空，因此只需在提示下按<code>ENTER</code>键即可。</p>
+<p>下一个提示将询问您是否要设置数据库<code>root</code>密码。由于<code>MariaDB</code>对<code>root</code>用户使用了一种特殊的身份验证方法，该方法通常比使用密码更安全，所以现在不需要设置它，键入<code>N</code>，然后按<code>ENTER</code>键。</p>
+<p>然后，您可以按<code>Y</code>，然后按<code>ENTER</code>键接受所有后续问题的默认设置。这将删除匿名用户和测试数据库，禁用远程<code>root</code>登录，并加载这些新规则，以便<code>MariaDB</code>立即执行您所做的更改。</p>
+<p>完成后，输入以下命令登录到<code>MariaDB</code>控制台：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo mariadb
+</code></pre></td></tr></table>
+</div>
+</div><p>这将以管理数据库的<code>root</code>用户连接到<code>MariaDB</code>服务，这是在运行此命令时使用<code>sudo</code>命令实现的。您应该看到如下输出：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Output
+
+Welcome to the MariaDB monitor.  Commands end with ; or <span style="color:#d14">\g</span>.
+Your MariaDB connection id is <span style="color:#099">74</span>
+Server version: 10.3.15-MariaDB-1 Debian <span style="color:#099">10</span>
+
+Copyright <span style="color:#000;font-weight:bold">(</span>c<span style="color:#000;font-weight:bold">)</span> 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type <span style="color:#d14">&#39;help;&#39;</span> or <span style="color:#d14">&#39;\h&#39;</span> <span style="color:#000;font-weight:bold">for</span> help. Type <span style="color:#d14">&#39;\c&#39;</span> to clear the current input statement.
+
+MariaDB <span style="color:#000;font-weight:bold">[(</span>none<span style="color:#000;font-weight:bold">)]</span>&gt; 
+</code></pre></td></tr></table>
+</div>
+</div><p>请注意，您无需提供密码即可以<code>root</code>用户进行连接，这是因为管理<code>MariaDB</code>用户的默认身份验证方法是<code>unix_socket</code>而不是密码。尽管这看起来像是一个安全问题，但它使数据库服务更加安全，因为只允许以<code>root</code>用户登录<code>MariaDB</code>的用户是具有<code>sudo</code>权限的系统用户，这些用户通过控制台或运行具有相同权限的应用程序进行连接。实际上，这意味着您将无法使用管理数据库的<code>root</code>用户从<code>PHP</code>应用程序进行连接。</p>
+<p>为了提高安全性，最好为每个数据库设置专用的用户，并为其设置较少的扩展权限，尤其是当您计划在服务器上托管多个数据库时。为了演示这种设置，我们将创建一个名为<code>example_database</code>的数据库和一个名为<code>example_user</code>的用户，但是您可以用不同的名称来进行替换。</p>
+<p>要创建新数据库，请从您的<code>MariaDB</code>控制台输入以下命令：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">MariaDB <span style="color:#000;font-weight:bold">[(</span>none<span style="color:#000;font-weight:bold">)]</span>&gt; CREATE DATABASE example_database;
+</code></pre></td></tr></table>
+</div>
+</div><p>现在，您可以创建一个新用户，并授予他对刚创建的自定义数据库的全部权限。以下命令将该用户的密码定义为<code>password</code>，但是您应该使用自己选择的安全密码替换该值。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">MariaDB <span style="color:#000;font-weight:bold">[(</span>none<span style="color:#000;font-weight:bold">)]</span>&gt; GRANT ALL ON example_database.* TO <span style="color:#d14">&#39;example_user&#39;</span>@<span style="color:#d14">&#39;localhost&#39;</span> IDENTIFIED BY <span style="color:#d14">&#39;password&#39;</span> WITH GRANT OPTION;
+</code></pre></td></tr></table>
+</div>
+</div><p>这将为<code>example_user</code>用户提供对<code>example_database</code>数据库的全部权限，同时阻止该用户在服务器上创建或修改其他数据库。</p>
+<p>更新权限以确保在当前会话中保存并可用，然后退出：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">MariaDB <span style="color:#000;font-weight:bold">[(</span>none<span style="color:#000;font-weight:bold">)]</span>&gt; FLUSH PRIVILEGES;
+MariaDB <span style="color:#000;font-weight:bold">[(</span>none<span style="color:#000;font-weight:bold">)]</span>&gt; <span style="color:#0086b3">exit</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>您可以使用自定义用户再次登录到<code>MariaDB</code>控制台，以测试新用户是否具有适当的权限：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mariadb -u example_user -p
+</code></pre></td></tr></table>
+</div>
+</div><p>注意此命令中的<code>-p</code>选项，它将提示您输入创建<code>example_user</code>用户时使用的密码。登录到<code>MariaDB</code>控制台后，请确认您有权访问<code>example_database</code>数据库：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">MariaDB <span style="color:#000;font-weight:bold">[(</span>none<span style="color:#000;font-weight:bold">)]</span>&gt; SHOW DATABASES;
+
+Output
++--------------------+
+| Database           |
++--------------------+
+| example_database   |
+| information_schema |
++--------------------+
+<span style="color:#099">2</span> rows in <span style="color:#0086b3">set</span> <span style="color:#000;font-weight:bold">(</span>0.000 sec<span style="color:#000;font-weight:bold">)</span>
+
+<span style="color:#0086b3">exit</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>至此，您的数据库系统已经建立，您可以继续安装<code>PHP</code>，它是<code>LEMP</code>包的最后组件。</p>
+<h2 id="第3步--安装php进行处理">第3步 – 安装PHP进行处理</h2>
+<p>您已经安装了<code>Nginx</code>来提供内容，并安装了<code>MySQL</code>来存储和管理数据。现在，您可以安装<code>PHP</code>来处理代码并为Web服务生成动态内容。</p>
+<p>虽然<code>Apache</code>在每个请求中都嵌入了<code>PHP</code>解释器，但<code>Nginx</code>需要一个外部程序来处理<code>PHP</code>并充当<code>PHP</code>解释器本身和Web服务之间的桥梁。这可以在大多数基于<code>PHP</code>的网站中提供更好的整体性能，但是需要其他配置。您需要安装<code>php-fpm</code>，它代表“PHP fastCGI进程管理器”，并告诉<code>Nginx</code>将<code>PHP</code>请求传递给该软件进行处理。此外，还需要<code>php-mysql</code>模块，该模块允许<code>PHP</code>与基于<code>MySQL</code>的数据库进行通信。核心<code>PHP</code>软件包将自动作为依赖项安装。</p>
+<p>要安装<code>php-fpm</code>和<code>php-mysql</code>软件包，请运行：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo apt install php-fpm php-mysql
+</code></pre></td></tr></table>
+</div>
+</div><p>现在，您已经安装了<code>PHP</code>组件。接下来，您将配置<code>Nginx</code>以使用它们。</p>
+<h2 id="第4步--配置nginx使用php处理器">第4步 – 配置Nginx使用PHP处理器</h2>
+<p>使用<code>Nginx</code>服务时，可以使用用于封装配置详细信息的服务块（类似于<code>Apache</code>中的虚拟主机），并在一台服务器上托管多个域。在本教程中，我们将使用<code>your_domain</code>作为示例域名。</p>
+<p>在Debian 10上，<code>Nginx</code>默认情况下启用了一个服务块，并配置为在<code>/var/www/html</code>目录中提供文档。尽管这对于单个站点来说效果很好，但是如果您托管多个站点，则可能变得难以管理。我们不必修改<code>/var/www/html</code>，而是在<code>/var/www</code>中为<code>your_domain</code>网站创建一个目录结构，如果客户端请求与任何其他站点都不匹配，则保留<code>/var/www/html</code>作为默认目录。</p>
+<p>为<code>your_domain</code>创建Web目录，如下所示：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo mkdir /var/www/your_domain
+</code></pre></td></tr></table>
+</div>
+</div><p>接下来，使用<code>$USER</code>环境变量分配目录的所有权，该环境变量引用当前的系统用户：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo chown -R <span style="color:#008080">$USER</span>:<span style="color:#008080">$USER</span> /var/www/your_domain
+</code></pre></td></tr></table>
+</div>
+</div><p>然后，使用编辑器在<code>Nginx</code>的<code>sites-available</code>目录中新建一个配置文件：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo vim /etc/nginx/sites-available/your_domain
+</code></pre></td></tr></table>
+</div>
+</div><p>这将创建一个新的空白文件，粘贴以下基本配置：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">server {
+    listen 80;
+    listen [::]:80;
+
+    root /var/www/your_domain;
+    index index.php index.html index.htm;
+
+    server_name your_domain;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
+    }
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>这是一个基本配置，它监听80端口并为刚创建的Web目录中的文件提供服务。它只会响应<code>server_name</code>提供的域名或IP地址的请求，并且所有以<code>.php</code>结尾的文件将由<code>php-fpm</code>在<code>Nginx</code>将结果发送给用户之前进行处理。</p>
+<p>完成编辑后，保存并关闭文件。通过链接到<code>Nginx</code>的<code>sites-enabled</code>目录中的配置文件来激活您的配置：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo ln -s /etc/nginx/sites-available/your_domain/etc/nginx/sites-enabled/
+</code></pre></td></tr></table>
+</div>
+</div><p>这将告诉<code>Nginx</code>在下一次重新加载时使用配置。您可以通过输入以下命令来测试配置是否存在语法错误：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo nginx -t
+</code></pre></td></tr></table>
+</div>
+</div><p>如果报告了任何错误，请返回配置文件以查看其内容，然后再继续。</p>
+<p>准备好后，重新加载<code>Nginx</code>以使更改生效：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo systemctl reload nginx
+</code></pre></td></tr></table>
+</div>
+</div><p>接下来，您将在新的Web目录中创建一个文件以测试<code>PHP</code>处理。</p>
+<h2 id="第5步--创建一个php文件以测试配置">第5步 – 创建一个PHP文件以测试配置</h2>
+<p>您的<code>LEMP</code>包现在应该已全部设置好了。您可以对其进行测试，以验证<code>Nginx</code>是否可以将<code>.php</code>文件正确地传递给<code>PHP</code>处理器。</p>
+<p>您可以通过在文档目录中创建一个测试<code>PHP</code>文件来实现。在文档目录中用文本编辑器新建一个<code>info.php</code>文件：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /var/www/your_domain/info.php
+</code></pre></td></tr></table>
+</div>
+</div><p>将以下内容输入或粘贴到新文件中。这是有效的<code>PHP</code>代码，它将返回有关您的服务器的信息：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#999;font-weight:bold;font-style:italic">&lt;?php</span>
+phpinfo();
+<span style="color:#999;font-weight:bold;font-style:italic">?&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>完成后，保存并关闭文件。现在，您可以在Web浏览器中访问此页面，方法是访问您在<code>Nginx</code>配置文件中设置的域名或公共IP地址，然后输入<code>/info.php</code>：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">http://your_domain/info.php
+</code></pre></td></tr></table>
+</div>
+</div><p>您将看到一个包含有关服务器的详细信息的网页。在通过该页面检查有关<code>PHP</code>服务器的相关信息之后，最好删除您创建的文件，因为该文件包含有关<code>PHP</code>环境和Debian服务器的敏感信息。您可以使用<code>rm</code>命令来删除该文件：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">rm /var/www/your_domain/info.php
+</code></pre></td></tr></table>
+</div>
+</div><p>如果以后需要，可以随时重新生成该文件。接下来，我们将从<code>PHP</code>端测试数据库连接。</p>
+<h2 id="第6步--从php测试数据库连接可选">第6步 – 从PHP测试数据库连接（可选）</h2>
+<p>如果要测试<code>PHP</code>是否能够连接到<code>MariaDB</code>并执行数据库查询，那么可以创建一个包含虚拟数据的测试表，并从<code>PHP</code>脚本中查询其内容。</p>
+<p>首先，使用您在本教程第2步中创建的数据库用户连接到<code>MariaDB</code>控制台：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mariadb -u example_user -p
+</code></pre></td></tr></table>
+</div>
+</div><p>创建一个名为<code>todo_list</code>的表，在<code>MariaDB</code>控制台中，输入以下命令：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">CREATE TABLE example_database.todo_list <span style="color:#000;font-weight:bold">(</span>
+    item_id INT AUTO_INCREMENT,
+    content VARCHAR<span style="color:#000;font-weight:bold">(</span>255<span style="color:#000;font-weight:bold">)</span>,
+    PRIMARY KEY<span style="color:#000;font-weight:bold">(</span>item_id<span style="color:#000;font-weight:bold">)</span>
+<span style="color:#000;font-weight:bold">)</span>;
+</code></pre></td></tr></table>
+</div>
+</div><p>现在，在测试表中插入几行内容。您可能需要使用不同的值重复执行这个命令几次：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">MariaDB <span style="color:#000;font-weight:bold">[(</span>none<span style="color:#000;font-weight:bold">)]</span>&gt; INSERT INTO example_database.todo_list <span style="color:#000;font-weight:bold">(</span>content<span style="color:#000;font-weight:bold">)</span> VALUES <span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;My first important item&#34;</span><span style="color:#000;font-weight:bold">)</span>;
+</code></pre></td></tr></table>
+</div>
+</div><p>要确认数据已成功保存到表中，请运行：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">MariaDB <span style="color:#000;font-weight:bold">[(</span>none<span style="color:#000;font-weight:bold">)]</span>&gt; SELECT * FROM example_database.todo_list;
+</code></pre></td></tr></table>
+</div>
+</div><p>您将看到如下输出：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">Output
++---------+--------------------------+
+| item_id | content                  |
++---------+--------------------------+
+|       <span style="color:#099">1</span> | My first important item  |
+|       <span style="color:#099">2</span> | My second important item |
+|       <span style="color:#099">3</span> | My third important item  |
+|       <span style="color:#099">4</span> | and this one more thing  |
++---------+--------------------------+
+<span style="color:#099">4</span> rows in <span style="color:#0086b3">set</span> <span style="color:#000;font-weight:bold">(</span>0.000 sec<span style="color:#000;font-weight:bold">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>确认测试表中的有效数据后，可以退出<code>MariaDB</code>控制台：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">MariaDB <span style="color:#000;font-weight:bold">[(</span>none<span style="color:#000;font-weight:bold">)]</span>&gt; <span style="color:#0086b3">exit</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>现在您可以创建<code>PHP</code>脚本，该脚本将连接到<code>MariaDB</code>并查询您的内容。使用文本编辑器在自定义Web目录中创建一个新的<code>PHP</code>文件：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim /var/www/your_domain/todo_list.php
+</code></pre></td></tr></table>
+</div>
+</div><p>将以下内容添加到您的<code>PHP</code>脚本中：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#999;font-weight:bold;font-style:italic">&lt;?php</span>
+<span style="color:#008080">$user</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;example_user&#34;</span>;
+<span style="color:#008080">$password</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;password&#34;</span>;
+<span style="color:#008080">$database</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;example_database&#34;</span>;
+<span style="color:#008080">$table</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;todo_list&#34;</span>;
+
+<span style="color:#000;font-weight:bold">try</span> {
+  <span style="color:#008080">$db</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">new</span> PDO(<span style="color:#d14">&#34;mysql:host=localhost;dbname=</span><span style="color:#d14">$database</span><span style="color:#d14">&#34;</span>, <span style="color:#008080">$user</span>, <span style="color:#008080">$password</span>);
+  <span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#34;&lt;h2&gt;TODO&lt;/h2&gt;&lt;ol&gt;&#34;</span>;
+  <span style="color:#000;font-weight:bold">foreach</span>(<span style="color:#008080">$db</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">query</span>(<span style="color:#d14">&#34;SELECT content FROM </span><span style="color:#d14">$table</span><span style="color:#d14">&#34;</span>) <span style="color:#000;font-weight:bold">as</span> <span style="color:#008080">$row</span>) {
+    <span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#34;&lt;li&gt;&#34;</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#008080">$row</span>[<span style="color:#d14">&#39;content&#39;</span>] <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#34;&lt;/li&gt;&#34;</span>;
+  }
+  <span style="color:#000;font-weight:bold">echo</span> <span style="color:#d14">&#34;&lt;/ol&gt;&#34;</span>;
+} <span style="color:#000;font-weight:bold">catch</span> (PDOException <span style="color:#008080">$e</span>) {
+    <span style="color:#000;font-weight:bold">print</span> <span style="color:#d14">&#34;Error!: &#34;</span> <span style="color:#000;font-weight:bold">.</span> <span style="color:#008080">$e</span><span style="color:#000;font-weight:bold">-&gt;</span><span style="color:#008080">getMessage</span>() <span style="color:#000;font-weight:bold">.</span> <span style="color:#d14">&#34;&lt;br/&gt;&#34;</span>;
+    <span style="color:#000;font-weight:bold">die</span>();
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>完成编辑后，保存并关闭文件。</p>
+<p>现在，您可以在Web浏览器中访问此页面，方法是访问您在<code>Nginx</code>配置文件中设置的域名或公共IP地址，然后输入<code>/todo_list.php</code>：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">http://your_domain/todo_list.php
+</code></pre></td></tr></table>
+</div>
+</div><p>您应该看到显示您已插入测试表中的内容的页面，这意味着您的<code>PHP</code>环境已准备就绪，可以连接<code>MariaDB</code>服务并与之交互。</p>
+<h2 id="结论">结论</h2>
+<p>在本教程中，您使用<code>Nginx</code>作为Web服务，为访问者提供<code>PHP</code>网站和应用程序建立了灵活的基础。您已经将<code>Nginx</code>设置为通过<code>php-fpm</code>处理<code>PHP</code>请求，还设置了<code>MariaDB</code>数据库来存储您的网站数据。</p>
+<p>为了进一步改进当前的设置，您可以在<code>PHP</code>中安装<code>Composer</code>进行依赖关系和程序包管理，还可以使用<code>Let's Encrypt</code>为您的网站安装<code>OpenSSL</code>证书。</p>
+
+        </div>
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://qoanty.github.io/">百年孤独</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://qoanty.github.io/2019/07/install-lemp-on-debian/">https://qoanty.github.io/2019/07/install-lemp-on-debian/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/2019/07/install-nginx-on-debian/">在Debian 10上安装Nginx</a></li>
+        
+        <li><a href="/2019/07/set-up-debian-server/">在VPS上设置Debian 10服务器</a></li>
+        
+        <li><a href="/2019/07/initial-server-with-debian/">Debian 10进行初始服务器设置</a></li>
+        
+        <li><a href="/2019/05/debian-docker/">Debian 10使用Docker方式安装Weixin和QQ</a></li>
+        
+        <li><a href="/2019/05/python-pipenv/">Python虚拟环境和包管理工具Pipenv</a></li>
+        
+    </ul>
+</div>
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='https://qoanty.github.io/tags/nginx'>Nginx</a></li>
+                
+                <li><a href='https://qoanty.github.io/tags/debian'>Debian</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+</div>
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='https://qoanty.github.io/search/' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://qoanty.github.io/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://qoanty.github.io/2020/07/install-manjaro-kde/" title="Manjaro-KDE 安装与设置">Manjaro-KDE 安装与设置</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2020/06/vps-with-trojan-go/" title="Trojan-Go 安装配置教程">Trojan-Go 安装配置教程</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-without-phd/" title="Tensorflow, Keras and deep learning, without a Phd">Tensorflow, Keras and deep learning, without a Phd</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-load-csv-data/" title="TensorFlow加载CSV数据">TensorFlow加载CSV数据</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-text-classification/" title="具有预处理文本的文本分类：电影评论">具有预处理文本的文本分类：电影评论</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-text-classification-with-hub/" title="使用TensorFlow Hub进行文本分类：电影评论">使用TensorFlow Hub进行文本分类：电影评论</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-image-classification/" title="TensorFlow基本分类：对服装图像进行分类">TensorFlow基本分类：对服装图像进行分类</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/07/install-lemp-on-debian/" title="在Debian 10上安装Linux，Nginx，MariaDB，PHP">在Debian 10上安装Linux，Nginx，MariaDB，PHP</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/07/install-nginx-on-debian/" title="在Debian 10上安装Nginx">在Debian 10上安装Nginx</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/07/set-up-debian-server/" title="在VPS上设置Debian 10服务器">在VPS上设置Debian 10服务器</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li><a href="https://qoanty.github.io/categories/blog/">Blog (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/caddy/">Caddy (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/captcha/">Captcha (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/debian/">Debian (5)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/docker/">Docker (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/hugo/">Hugo (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/kde/">KDE (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/kms/">KMS (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/learn/">Learn (14)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/manjaro/">Manjaro (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/nginx/">Nginx (2)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/pipenv/">Pipenv (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/python/">Python (12)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/ssh/">SSH (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/tensorflow/">TensorFlow (5)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/trojan/">Trojan (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/trojan-go/">Trojan-Go (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/v2ray/">V2Ray (2)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/vim/">Vim (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/vps/">VPS (7)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="https://qoanty.github.io/tags/asyncio/">asyncio</a>
+    
+    <a href="https://qoanty.github.io/tags/caddy/">Caddy</a>
+    
+    <a href="https://qoanty.github.io/tags/cdn/">CDN</a>
+    
+    <a href="https://qoanty.github.io/tags/data/">data</a>
+    
+    <a href="https://qoanty.github.io/tags/debian/">Debian</a>
+    
+    <a href="https://qoanty.github.io/tags/deep-learning/">deep learning</a>
+    
+    <a href="https://qoanty.github.io/tags/docker/">Docker</a>
+    
+    <a href="https://qoanty.github.io/tags/features/">features</a>
+    
+    <a href="https://qoanty.github.io/tags/functions/">functions</a>
+    
+    <a href="https://qoanty.github.io/tags/geetest/">geetest</a>
+    
+    <a href="https://qoanty.github.io/tags/github/">Github</a>
+    
+    <a href="https://qoanty.github.io/tags/hugo/">Hugo</a>
+    
+    <a href="https://qoanty.github.io/tags/ide/">IDE</a>
+    
+    <a href="https://qoanty.github.io/tags/kde/">KDE</a>
+    
+    <a href="https://qoanty.github.io/tags/keras/">keras</a>
+    
+    <a href="https://qoanty.github.io/tags/kms/">KMS</a>
+    
+    <a href="https://qoanty.github.io/tags/manjaro/">Manjaro</a>
+    
+    <a href="https://qoanty.github.io/tags/nginx/">Nginx</a>
+    
+    <a href="https://qoanty.github.io/tags/oop/">OOP</a>
+    
+    <a href="https://qoanty.github.io/tags/pipenv/">Pipenv</a>
+    
+    <a href="https://qoanty.github.io/tags/processes/">processes</a>
+    
+    <a href="https://qoanty.github.io/tags/python/">Python</a>
+    
+    <a href="https://qoanty.github.io/tags/scraping/">scraping</a>
+    
+    <a href="https://qoanty.github.io/tags/ssh/">SSH</a>
+    
+    <a href="https://qoanty.github.io/tags/tensorflow/">tensorflow</a>
+    
+    <a href="https://qoanty.github.io/tags/trojan/">Trojan</a>
+    
+    <a href="https://qoanty.github.io/tags/trojan-go/">Trojan-Go</a>
+    
+    <a href="https://qoanty.github.io/tags/v2ray/">V2Ray</a>
+    
+    <a href="https://qoanty.github.io/tags/vim/">Vim</a>
+    
+    <a href="https://qoanty.github.io/tags/vps/">VPS</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">友情链接</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://python3-cookbook.readthedocs.io/zh_CN/latest/index.html" title="Python Cookbook 3rd Edition">Python Cookbook</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="https://seancheney.gitbook.io/python-for-data-analysis-2nd/" title="Python for Data Analysis 2nd Edition">Python for Data Analysis</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="https://codelabs.developers.google.com/codelabs/cloud-tensorflow-mnist/#0" title="TensorFlow and deep learning, without a PhD">TensorFlow and deep learning</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://qoanty.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+    <footer id="footer">
+    <div class="container">
+        &copy; 2020 <a href="https://qoanty.github.io/">百年孤独的博客 By 百年孤独</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/flysnow-org/maupassant-hugo" target="_blank">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+
+
+
+
+
+
+</body>
+
+</html>

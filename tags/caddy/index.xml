@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Caddy on 百年孤独的博客</title>
+    <link>https://qoanty.github.io/tags/caddy/</link>
+    <description>Recent content in Caddy on 百年孤独的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Mon, 15 Apr 2019 14:37:11 +0800</lastBuildDate>
+    
+	<atom:link href="https://qoanty.github.io/tags/caddy/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>安装Caddy&#43;PHP7&#43;Sqlite3环境并搭建Typecho博客</title>
+      <link>https://qoanty.github.io/2019/04/vps-caddy-php7-typecho/</link>
+      <pubDate>Mon, 15 Apr 2019 14:37:11 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/04/vps-caddy-php7-typecho/</guid>
+      <description>Caddy是一个用golang编写的Web服务器，默认开启HTTPS与HTTP/2，自带https证书（来自let&amp;rsquo;s encrypt），配置简洁，这里简单记录下在服务器中安装配置Caddy+PHP7+Sqlite3的过程。 安装C</description>
+    </item>
+    
+  </channel>
+</rss>

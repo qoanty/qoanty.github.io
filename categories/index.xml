@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on 百年孤独的博客</title>
@@ -6,17 +6,116 @@
     <description>Recent content in Categories on 百年孤独的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Mon, 08 Apr 2019 14:02:04 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 18 Jul 2020 10:12:26 +0800</lastBuildDate>
     
 	<atom:link href="https://qoanty.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Blog</title>
-      <link>https://qoanty.github.io/categories/blog/</link>
-      <pubDate>Mon, 08 Apr 2019 14:02:04 +0800</pubDate>
+      <title>KDE</title>
+      <link>https://qoanty.github.io/categories/kde/</link>
+      <pubDate>Sat, 18 Jul 2020 10:12:26 +0800</pubDate>
       
-      <guid>https://qoanty.github.io/categories/blog/</guid>
+      <guid>https://qoanty.github.io/categories/kde/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Manjaro</title>
+      <link>https://qoanty.github.io/categories/manjaro/</link>
+      <pubDate>Sat, 18 Jul 2020 10:12:26 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/categories/manjaro/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Trojan-Go</title>
+      <link>https://qoanty.github.io/categories/trojan-go/</link>
+      <pubDate>Mon, 01 Jun 2020 21:36:31 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/categories/trojan-go/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>VPS</title>
+      <link>https://qoanty.github.io/categories/vps/</link>
+      <pubDate>Mon, 01 Jun 2020 21:36:31 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/categories/vps/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Learn</title>
+      <link>https://qoanty.github.io/categories/learn/</link>
+      <pubDate>Tue, 15 Oct 2019 10:06:45 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/categories/learn/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>TensorFlow</title>
+      <link>https://qoanty.github.io/categories/tensorflow/</link>
+      <pubDate>Tue, 15 Oct 2019 10:06:45 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/categories/tensorflow/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Debian</title>
+      <link>https://qoanty.github.io/categories/debian/</link>
+      <pubDate>Sun, 28 Jul 2019 18:22:37 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/categories/debian/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Nginx</title>
+      <link>https://qoanty.github.io/categories/nginx/</link>
+      <pubDate>Sun, 28 Jul 2019 18:22:37 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/categories/nginx/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>SSH</title>
+      <link>https://qoanty.github.io/categories/ssh/</link>
+      <pubDate>Tue, 16 Jul 2019 14:45:27 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/categories/ssh/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Docker</title>
+      <link>https://qoanty.github.io/categories/docker/</link>
+      <pubDate>Wed, 15 May 2019 16:35:28 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/categories/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Pipenv</title>
+      <link>https://qoanty.github.io/categories/pipenv/</link>
+      <pubDate>Wed, 15 May 2019 08:53:24 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/categories/pipenv/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Python</title>
+      <link>https://qoanty.github.io/categories/python/</link>
+      <pubDate>Wed, 15 May 2019 08:53:24 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/categories/python/</guid>
       <description></description>
     </item>
     
@@ -30,29 +129,11 @@
     </item>
     
     <item>
-      <title>Hugo</title>
-      <link>https://qoanty.github.io/categories/hugo/</link>
-      <pubDate>Mon, 08 Apr 2019 14:02:04 +0800</pubDate>
+      <title>Trojan</title>
+      <link>https://qoanty.github.io/categories/trojan/</link>
+      <pubDate>Tue, 30 Apr 2019 19:37:11 +0800</pubDate>
       
-      <guid>https://qoanty.github.io/categories/hugo/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Learn</title>
-      <link>https://qoanty.github.io/categories/learn/</link>
-      <pubDate>Sun, 21 Apr 2019 21:06:02 +0800</pubDate>
-      
-      <guid>https://qoanty.github.io/categories/learn/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Python</title>
-      <link>https://qoanty.github.io/categories/python/</link>
-      <pubDate>Tue, 07 May 2019 09:24:08 +0800</pubDate>
-      
-      <guid>https://qoanty.github.io/categories/python/</guid>
+      <guid>https://qoanty.github.io/categories/trojan/</guid>
       <description></description>
     </item>
     
@@ -66,11 +147,38 @@
     </item>
     
     <item>
-      <title>VPS</title>
-      <link>https://qoanty.github.io/categories/vps/</link>
-      <pubDate>Wed, 17 Apr 2019 20:02:32 +0800</pubDate>
+      <title>KMS</title>
+      <link>https://qoanty.github.io/categories/kms/</link>
+      <pubDate>Tue, 16 Apr 2019 16:32:41 +0800</pubDate>
       
-      <guid>https://qoanty.github.io/categories/vps/</guid>
+      <guid>https://qoanty.github.io/categories/kms/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Caddy</title>
+      <link>https://qoanty.github.io/categories/caddy/</link>
+      <pubDate>Mon, 15 Apr 2019 14:37:11 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/categories/caddy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Blog</title>
+      <link>https://qoanty.github.io/categories/blog/</link>
+      <pubDate>Mon, 08 Apr 2019 14:02:04 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/categories/blog/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Hugo</title>
+      <link>https://qoanty.github.io/categories/hugo/</link>
+      <pubDate>Mon, 08 Apr 2019 14:02:04 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/categories/hugo/</guid>
       <description></description>
     </item>
     

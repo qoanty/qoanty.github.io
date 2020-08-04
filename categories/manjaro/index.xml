@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Manjaro on 百年孤独的博客</title>
+    <link>https://qoanty.github.io/categories/manjaro/</link>
+    <description>Recent content in Manjaro on 百年孤独的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sat, 18 Jul 2020 10:12:26 +0800</lastBuildDate>
+    
+	<atom:link href="https://qoanty.github.io/categories/manjaro/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Manjaro-KDE 安装与设置</title>
+      <link>https://qoanty.github.io/2020/07/install-manjaro-kde/</link>
+      <pubDate>Sat, 18 Jul 2020 10:12:26 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2020/07/install-manjaro-kde/</guid>
+      <description>Manjaro 简介 Manjaro 是一款基于 Arch Linux，对用户友好的 Linux 发行版。在 Linux 社区，Arch Linux 的确是一个异常快速、强大、轻量级的发行版，它提供最新的、最全的软件。 Manjaro 由奥地利、法国和德国的爱好者共同开发，提供了 Arch Linux 操作系统的所有优点，同时注重用户友好性和可用性。</description>
+    </item>
+    
+  </channel>
+</rss>

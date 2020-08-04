@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>processes on 百年孤独的博客</title>
@@ -17,8 +17,7 @@
       <pubDate>Sat, 20 Apr 2019 20:07:34 +0800</pubDate>
       
       <guid>https://qoanty.github.io/2019/04/python3-distributed-processes/</guid>
-      <description>进程与多进程 对于操作系统来说，一个任务就是一个进程（Process），比如打开一个浏览器就是启动一个浏览器进程，打开一个记事本就启动了一个记事本进程，打开两个记事本就启动了两个记事本进程，打开一个Word就启动了一个Word进程。
-Python中的multiprocessing模块提供了一个Process类来代表一个进程对象，例如启动一个子进程并等待其结束：</description>
+      <description>进程与多进程 对于操作系统来说，一个任务就是一个进程（Process），比如打开一个浏览器就是启动一个浏览器进程，打开一个记事本就启动了一个记事本进程，打开两个记事本就启动了两个记事本进程，打开一个Word就启动了一个Word进程。 Pytho</description>
     </item>
     
   </channel>

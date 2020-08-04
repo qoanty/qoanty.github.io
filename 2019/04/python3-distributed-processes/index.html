@@ -3,7 +3,6 @@
 <head>
 
     <meta charset="utf-8">
-    <meta name="generator" content="Hugo 0.54.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -11,10 +10,10 @@
     <meta property="og:title" content="Python3 学习笔记（分布式进程） - 百年孤独的博客">
     <meta property="og:type" content="article">
         
-    <meta property="article:published_time" content="2019-04-20T20:07:34&#43;08:00">
+    <meta property="article:published_time" content='2019-04-20T20:07:34&#43;08:00'>
         
         
-    <meta property="article:modified_time" content="2019-04-20T20:07:34&#43;08:00">
+    <meta property="article:modified_time" content='2019-04-20T20:07:34&#43;08:00'>
         
     <meta name="Keywords" content="VPS, python, android, 博客, 小程序">
     <meta name="description" content="Python3 学习笔记（分布式进程）">
@@ -23,12 +22,9 @@
     <meta property="og:url" content="https://qoanty.github.io/2019/04/python3-distributed-processes/">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
-    <link rel="stylesheet" href="/css/normalize.css">
-    
-        <link rel="stylesheet" href="/css/prism.css">
-    
-    <link rel="stylesheet" href="/css/style.css">
-    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
 
@@ -37,8 +33,9 @@
     
 </head>
 
+
 <body>
-<header id="header" class="clearfix">
+    <header id="header" class="clearfix">
     <div class="container">
         <div class="col-group">
             <div class="site-name ">
@@ -51,7 +48,7 @@
             </div>
             <div>
                 <nav id="nav-menu" class="clearfix">
-                    <a class="" href="https://qoanty.github.io/">首页</a>
+                    <a class="current" href="https://qoanty.github.io/">首页</a>
                     
                     <a  href="https://qoanty.github.io/tools/" title="工具">工具</a>
                     
@@ -65,287 +62,506 @@
     </div>
 </header>
 
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
 
-<div id="body">
-    <div class="container">
-        <div class="col-group">
-
-            <div class="col-8" id="main">
-                <div class="res-cons">
-                    <article class="post">
-                        <header>
-                            <h1 class="post-title">Python3 学习笔记（分布式进程）</h1>
-                        </header>
-                        <date class="post-meta meta-date">
-                            2019年4月20日
-                        </date>
-                        
-                        <div class="post-meta">
-                            <span>|</span>
-                            
-                                <span class="meta-category"><a href="https://qoanty.github.io/categories/learn">Learn</a></span>
-                            
-                                <span class="meta-category"><a href="https://qoanty.github.io/categories/python">Python</a></span>
-                            
-                        </div>
-                        
-                        
-                        
-                        <div class="post-content">
-                            
-
-<h2 id="进程与多进程">进程与多进程</h2>
-
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">Python3 学习笔记（分布式进程）</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2019年4月20日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='https://qoanty.github.io/categories/learn'>Learn</a></span>
+            
+            <span class="meta-category"><a href='https://qoanty.github.io/categories/python'>Python</a></span>
+            
+        </div>
+        
+        
+        
+        <div class="post-content">
+            <h2 id="进程与多进程">进程与多进程</h2>
 <p>对于操作系统来说，一个任务就是一个进程（Process），比如打开一个浏览器就是启动一个浏览器进程，打开一个记事本就启动了一个记事本进程，打开两个记事本就启动了两个记事本进程，打开一个Word就启动了一个Word进程。</p>
-
 <p>Python中的<code>multiprocessing</code>模块提供了一个<code>Process</code>类来代表一个进程对象，例如启动一个子进程并等待其结束：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">from</span> <span style="color:#555">multiprocessing</span> <span style="color:#000;font-weight:bold">import</span> Process
+<span style="color:#000;font-weight:bold">import</span> <span style="color:#555">os</span>
 
-<pre><code class="language-python">from multiprocessing import Process
-import os
+<span style="color:#998;font-style:italic"># 子进程要执行的代码</span>
+<span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">run_proc</span>(name):
+    <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;Run child process </span><span style="color:#d14">%s</span><span style="color:#d14"> (</span><span style="color:#d14">%s</span><span style="color:#d14">) and parent process is (</span><span style="color:#d14">%s</span><span style="color:#d14">).&#39;</span> <span style="color:#000;font-weight:bold">%</span> (name, os<span style="color:#000;font-weight:bold">.</span>getpid(), os<span style="color:#000;font-weight:bold">.</span>getppid()))
 
-# 子进程要执行的代码
-def run_proc(name):
-    print('Run child process %s (%s) and parent process is (%s).' % (name, os.getpid(), os.getppid()))
-
-if __name__=='__main__':
-    print('Parent process %s.' % os.getpid())
-    p = Process(target=run_proc, args=('test',))
-    print('Child process will start.')
-    p.start()
-    p.join()
-    print('Child process end.')
-</code></pre>
-
-<p>执行结果为：</p>
-
-<pre><code class="language-python">Parent process 8488.
-Child process will start.
-Run child process test (1684) and parent process is (8488).
-Child process end.
-</code></pre>
-
-<p>创建子进程时，只需要传入一个执行函数和函数的参数，创建一个<code>Process</code>实例，用<code>start()</code>方法启动，<code>getpid()</code>获取子进程的ID，<code>getppid()</code>获取父进程的ID，<code>join()</code>方法可以等待子进程结束后再继续往下运行，通常用于进程间的同步。</p>
-
+<span style="color:#000;font-weight:bold">if</span> __name__<span style="color:#000;font-weight:bold">==</span><span style="color:#d14">&#39;__main__&#39;</span>:
+    <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;Parent process </span><span style="color:#d14">%s</span><span style="color:#d14">.&#39;</span> <span style="color:#000;font-weight:bold">%</span> os<span style="color:#000;font-weight:bold">.</span>getpid())
+    p <span style="color:#000;font-weight:bold">=</span> Process(target<span style="color:#000;font-weight:bold">=</span>run_proc, args<span style="color:#000;font-weight:bold">=</span>(<span style="color:#d14">&#39;test&#39;</span>,))
+    <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;Child process will start.&#39;</span>)
+    p<span style="color:#000;font-weight:bold">.</span>start()
+    p<span style="color:#000;font-weight:bold">.</span>join()
+    <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;Child process end.&#39;</span>)
+</code></pre></td></tr></table>
+</div>
+</div><p>执行结果为：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">Parent process <span style="color:#099">8488.</span>
+Child process will start<span style="color:#000;font-weight:bold">.</span>
+Run child process test (<span style="color:#099">1684</span>) <span style="color:#000;font-weight:bold">and</span> parent process <span style="color:#000;font-weight:bold">is</span> (<span style="color:#099">8488</span>)<span style="color:#000;font-weight:bold">.</span>
+Child process end<span style="color:#000;font-weight:bold">.</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>创建子进程时，只需要传入一个执行函数和函数的参数，创建一个<code>Process</code>实例，用<code>start()</code>方法启动，<code>getpid()</code>获取子进程的ID，<code>getppid()</code>获取父进程的ID，<code>join()</code>方法可以等待子进程结束后再继续往下运行，通常用于进程间的同步。</p>
 <p>如果要启动大量的子进程，可以用进程池的方式批量创建子进程：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">from</span> <span style="color:#555">multiprocessing</span> <span style="color:#000;font-weight:bold">import</span> Pool
+<span style="color:#000;font-weight:bold">import</span> <span style="color:#555">os</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#555">time</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#555">random</span>
 
-<pre><code class="language-python">from multiprocessing import Pool
-import os, time, random
+<span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">long_time_task</span>(name):
+    <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;Run task </span><span style="color:#d14">%s</span><span style="color:#d14"> (</span><span style="color:#d14">%s</span><span style="color:#d14">)...&#39;</span> <span style="color:#000;font-weight:bold">%</span> (name, os<span style="color:#000;font-weight:bold">.</span>getpid()))
+    start <span style="color:#000;font-weight:bold">=</span> time<span style="color:#000;font-weight:bold">.</span>time()
+    time<span style="color:#000;font-weight:bold">.</span>sleep(random<span style="color:#000;font-weight:bold">.</span>random() <span style="color:#000;font-weight:bold">*</span> <span style="color:#099">3</span>)
+    end <span style="color:#000;font-weight:bold">=</span> time<span style="color:#000;font-weight:bold">.</span>time()
+    <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;Task </span><span style="color:#d14">%s</span><span style="color:#d14"> runs </span><span style="color:#d14">%0.2f</span><span style="color:#d14"> seconds.&#39;</span> <span style="color:#000;font-weight:bold">%</span> (name, (end <span style="color:#000;font-weight:bold">-</span> start)))
 
-def long_time_task(name):
-    print('Run task %s (%s)...' % (name, os.getpid()))
-    start = time.time()
-    time.sleep(random.random() * 3)
-    end = time.time()
-    print('Task %s runs %0.2f seconds.' % (name, (end - start)))
-
-if __name__=='__main__':
-    print('Parent process %s.' % os.getpid())
-    p = Pool(4)
-    for i in range(5):
-        p.apply_async(long_time_task, args=(i,))
-    print('Waiting for all subprocesses done...')
-    p.close()
-    p.join()
-    print('All subprocesses done.')
-</code></pre>
-
-<p>执行结果为：</p>
-
-<pre><code class="language-python">Parent process 3932.
-Waiting for all subprocesses done...
-Run task 0 (1748)...
-Run task 1 (9512)...
-Run task 2 (9196)...
-Run task 3 (1484)...
-Task 2 runs 0.85 seconds.
-Run task 4 (9196)...
-Task 0 runs 1.29 seconds.
-Task 3 runs 1.33 seconds.
-Task 1 runs 2.30 seconds.
-Task 4 runs 2.57 seconds.
-All subprocesses done.
-</code></pre>
-
-<p>对<code>Pool</code>对象调用<code>join()</code>方法会等待所有子进程执行完毕，调用<code>join()</code>之前必须先调用<code>close()</code>，调用<code>close()</code>之后就不能继续添加新的<code>Process</code>了。</p>
-
+<span style="color:#000;font-weight:bold">if</span> __name__<span style="color:#000;font-weight:bold">==</span><span style="color:#d14">&#39;__main__&#39;</span>:
+    <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;Parent process </span><span style="color:#d14">%s</span><span style="color:#d14">.&#39;</span> <span style="color:#000;font-weight:bold">%</span> os<span style="color:#000;font-weight:bold">.</span>getpid())
+    p <span style="color:#000;font-weight:bold">=</span> Pool(<span style="color:#099">4</span>)
+    <span style="color:#000;font-weight:bold">for</span> i <span style="color:#000;font-weight:bold">in</span> <span style="color:#0086b3">range</span>(<span style="color:#099">5</span>):
+        p<span style="color:#000;font-weight:bold">.</span>apply_async(long_time_task, args<span style="color:#000;font-weight:bold">=</span>(i,))
+    <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;Waiting for all subprocesses done...&#39;</span>)
+    p<span style="color:#000;font-weight:bold">.</span>close()
+    p<span style="color:#000;font-weight:bold">.</span>join()
+    <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;All subprocesses done.&#39;</span>)
+</code></pre></td></tr></table>
+</div>
+</div><p>执行结果为：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">Parent process <span style="color:#099">3932.</span>
+Waiting <span style="color:#000;font-weight:bold">for</span> <span style="color:#0086b3">all</span> subprocesses done<span style="color:#000;font-weight:bold">...</span>
+Run task <span style="color:#099">0</span> (<span style="color:#099">1748</span>)<span style="color:#000;font-weight:bold">...</span>
+Run task <span style="color:#099">1</span> (<span style="color:#099">9512</span>)<span style="color:#000;font-weight:bold">...</span>
+Run task <span style="color:#099">2</span> (<span style="color:#099">9196</span>)<span style="color:#000;font-weight:bold">...</span>
+Run task <span style="color:#099">3</span> (<span style="color:#099">1484</span>)<span style="color:#000;font-weight:bold">...</span>
+Task <span style="color:#099">2</span> runs <span style="color:#099">0.85</span> seconds<span style="color:#000;font-weight:bold">.</span>
+Run task <span style="color:#099">4</span> (<span style="color:#099">9196</span>)<span style="color:#000;font-weight:bold">...</span>
+Task <span style="color:#099">0</span> runs <span style="color:#099">1.29</span> seconds<span style="color:#000;font-weight:bold">.</span>
+Task <span style="color:#099">3</span> runs <span style="color:#099">1.33</span> seconds<span style="color:#000;font-weight:bold">.</span>
+Task <span style="color:#099">1</span> runs <span style="color:#099">2.30</span> seconds<span style="color:#000;font-weight:bold">.</span>
+Task <span style="color:#099">4</span> runs <span style="color:#099">2.57</span> seconds<span style="color:#000;font-weight:bold">.</span>
+All subprocesses done<span style="color:#000;font-weight:bold">.</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>对<code>Pool</code>对象调用<code>join()</code>方法会等待所有子进程执行完毕，调用<code>join()</code>之前必须先调用<code>close()</code>，调用<code>close()</code>之后就不能继续添加新的<code>Process</code>了。</p>
 <p>请注意输出的结果，task 0，1，2，3是立刻执行的，而task 4要等待前面某个task完成后才执行，这是因为<code>Pool</code>被设置为4，因此最多同时执行4个进程，并不是操作系统的限制。</p>
-
 <p>Python的<code>multiprocessing</code>模块提供了<code>Queue</code>、<code>Pipes</code>等多种方式来交换数据，以<code>Queue</code>为例，在父进程中创建两个子进程，一个往<code>Queue</code>里写数据，一个从<code>Queue</code>里读数据：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">from</span> <span style="color:#555">multiprocessing</span> <span style="color:#000;font-weight:bold">import</span> Process, Queue
+<span style="color:#000;font-weight:bold">import</span> <span style="color:#555">os</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#555">time</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#555">random</span>
 
-<pre><code class="language-python">from multiprocessing import Process, Queue
-import os, time, random
+<span style="color:#998;font-style:italic"># 写数据进程执行的代码:</span>
+<span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">write</span>(q):
+    <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;Process to write: </span><span style="color:#d14">%s</span><span style="color:#d14">&#39;</span> <span style="color:#000;font-weight:bold">%</span> os<span style="color:#000;font-weight:bold">.</span>getpid())
+    <span style="color:#000;font-weight:bold">for</span> value <span style="color:#000;font-weight:bold">in</span> [<span style="color:#d14">&#39;A&#39;</span>, <span style="color:#d14">&#39;B&#39;</span>, <span style="color:#d14">&#39;C&#39;</span>]:
+        <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;Put </span><span style="color:#d14">%s</span><span style="color:#d14"> to queue...&#39;</span> <span style="color:#000;font-weight:bold">%</span> value)
+        q<span style="color:#000;font-weight:bold">.</span>put(value)
+        time<span style="color:#000;font-weight:bold">.</span>sleep(random<span style="color:#000;font-weight:bold">.</span>random())
 
-# 写数据进程执行的代码:
-def write(q):
-    print('Process to write: %s' % os.getpid())
-    for value in ['A', 'B', 'C']:
-        print('Put %s to queue...' % value)
-        q.put(value)
-        time.sleep(random.random())
+<span style="color:#998;font-style:italic"># 读数据进程执行的代码:</span>
+<span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">read</span>(q):
+    <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;Process to read: </span><span style="color:#d14">%s</span><span style="color:#d14">&#39;</span> <span style="color:#000;font-weight:bold">%</span> os<span style="color:#000;font-weight:bold">.</span>getpid())
+    <span style="color:#000;font-weight:bold">while</span> <span style="color:#999">True</span>:
+        value <span style="color:#000;font-weight:bold">=</span> q<span style="color:#000;font-weight:bold">.</span>get(<span style="color:#999">True</span>)
+        <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;Get </span><span style="color:#d14">%s</span><span style="color:#d14"> from queue.&#39;</span> <span style="color:#000;font-weight:bold">%</span> value)
 
-# 读数据进程执行的代码:
-def read(q):
-    print('Process to read: %s' % os.getpid())
-    while True:
-        value = q.get(True)
-        print('Get %s from queue.' % value)
-
-if __name__=='__main__':
-    # 父进程创建Queue，并传给各个子进程
-    q = Queue()
-    pw = Process(target=write, args=(q,))
-    pr = Process(target=read, args=(q,))
-    # 启动子进程pw，写入
-    pw.start()
-    # 启动子进程pr，读取
-    pr.start()
-    # 等待pw结束
-    pw.join()
-    # pr进程里是死循环，无法等待其结束，只能强行终止
-    pr.terminate()
-</code></pre>
-
-<p>执行结果为：</p>
-
-<pre><code class="language-python">Process to write: 1384
-Put A to queue...
-Process to read: 7308
-Get A from queue.
-Put B to queue...
-Get B from queue.
-Put C to queue...
-Get C from queue.
-</code></pre>
-
-<h2 id="分布式进程">分布式进程</h2>
-
+<span style="color:#000;font-weight:bold">if</span> __name__<span style="color:#000;font-weight:bold">==</span><span style="color:#d14">&#39;__main__&#39;</span>:
+    <span style="color:#998;font-style:italic"># 父进程创建Queue，并传给各个子进程</span>
+    q <span style="color:#000;font-weight:bold">=</span> Queue()
+    pw <span style="color:#000;font-weight:bold">=</span> Process(target<span style="color:#000;font-weight:bold">=</span>write, args<span style="color:#000;font-weight:bold">=</span>(q,))
+    pr <span style="color:#000;font-weight:bold">=</span> Process(target<span style="color:#000;font-weight:bold">=</span>read, args<span style="color:#000;font-weight:bold">=</span>(q,))
+    <span style="color:#998;font-style:italic"># 启动子进程pw，写入</span>
+    pw<span style="color:#000;font-weight:bold">.</span>start()
+    <span style="color:#998;font-style:italic"># 启动子进程pr，读取</span>
+    pr<span style="color:#000;font-weight:bold">.</span>start()
+    <span style="color:#998;font-style:italic"># 等待pw结束</span>
+    pw<span style="color:#000;font-weight:bold">.</span>join()
+    <span style="color:#998;font-style:italic"># pr进程里是死循环，无法等待其结束，只能强行终止</span>
+    pr<span style="color:#000;font-weight:bold">.</span>terminate()
+</code></pre></td></tr></table>
+</div>
+</div><p>执行结果为：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">Process to write: <span style="color:#099">1384</span>
+Put A to queue<span style="color:#000;font-weight:bold">...</span>
+Process to read: <span style="color:#099">7308</span>
+Get A <span style="color:#000;font-weight:bold">from</span> <span style="color:#555">queue.</span>
+Put B to queue<span style="color:#000;font-weight:bold">...</span>
+Get B <span style="color:#000;font-weight:bold">from</span> <span style="color:#555">queue.</span>
+Put C to queue<span style="color:#000;font-weight:bold">...</span>
+Get C <span style="color:#000;font-weight:bold">from</span> <span style="color:#555">queue.</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="分布式进程">分布式进程</h2>
 <p>Python的<code>multiprocessing</code>模块不但支持多进程，其中<code>managers</code>子模块还支持把多进程分布到多台机器上。一个服务进程可以作为调度者，将任务分布到其他多个进程中，依靠网络通信。</p>
-
 <p>先看服务进程，服务进程负责启动<code>Queue</code>，把<code>Queue</code>注册到网络上，然后往<code>Queue</code>里面写入任务：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">random</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#555">time</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#555">queue</span>
+<span style="color:#000;font-weight:bold">from</span> <span style="color:#555">multiprocessing.managers</span> <span style="color:#000;font-weight:bold">import</span> BaseManager
+<span style="color:#000;font-weight:bold">from</span> <span style="color:#555">multiprocessing</span> <span style="color:#000;font-weight:bold">import</span> freeze_support
 
-<pre><code class="language-python">import random, time, queue
-from multiprocessing.managers import BaseManager
-from multiprocessing import freeze_support
+<span style="color:#998;font-style:italic"># 任务个数</span>
+task_number <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">10</span>
+<span style="color:#998;font-style:italic"># 发送任务的队列</span>
+task_queue <span style="color:#000;font-weight:bold">=</span> queue<span style="color:#000;font-weight:bold">.</span>Queue(task_number)
+<span style="color:#998;font-style:italic"># 接收任务的队列</span>
+result_queue <span style="color:#000;font-weight:bold">=</span> queue<span style="color:#000;font-weight:bold">.</span>Queue(task_number)
 
-# 任务个数
-task_number = 10
-# 发送任务的队列
-task_queue = queue.Queue(task_number)
-# 接收任务的队列
-result_queue = queue.Queue(task_number)
+<span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">gettask</span>():
+    <span style="color:#000;font-weight:bold">return</span> task_queue
 
-def gettask():
-    return task_queue
+<span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">getresult</span>():
+    <span style="color:#000;font-weight:bold">return</span> result_queue
 
-def getresult():
-    return result_queue
+<span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">test</span>():
+    <span style="color:#998;font-style:italic"># windows下绑定调用接口不能使用lambda，所以只能先定义函数再绑定</span>
+    BaseManager<span style="color:#000;font-weight:bold">.</span>register(<span style="color:#d14">&#39;get_task&#39;</span>, <span style="color:#0086b3">callable</span><span style="color:#000;font-weight:bold">=</span>gettask)
+    BaseManager<span style="color:#000;font-weight:bold">.</span>register(<span style="color:#d14">&#39;get_result&#39;</span>, <span style="color:#0086b3">callable</span><span style="color:#000;font-weight:bold">=</span>getresult)
+    <span style="color:#998;font-style:italic"># 绑定端口并设置验证码，windows下需要填写ip地址，linux下不填默认为本地</span>
+    manager <span style="color:#000;font-weight:bold">=</span> BaseManager(address<span style="color:#000;font-weight:bold">=</span>(<span style="color:#d14">&#39;127.0.0.1&#39;</span>, <span style="color:#099">5002</span>), authkey<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">b</span><span style="color:#d14">&#39;abc&#39;</span>)
+    <span style="color:#998;font-style:italic"># 启动Queue</span>
+    manager<span style="color:#000;font-weight:bold">.</span>start()
+    <span style="color:#000;font-weight:bold">try</span>:
+        <span style="color:#998;font-style:italic"># 通过网络获取任务队列和结果队列</span>
+        task <span style="color:#000;font-weight:bold">=</span> manager<span style="color:#000;font-weight:bold">.</span>get_task()
+        result <span style="color:#000;font-weight:bold">=</span> manager<span style="color:#000;font-weight:bold">.</span>get_result()
+        <span style="color:#998;font-style:italic"># 添加任务</span>
+        <span style="color:#000;font-weight:bold">for</span> i <span style="color:#000;font-weight:bold">in</span> <span style="color:#0086b3">range</span>(task_number):
+            n <span style="color:#000;font-weight:bold">=</span> random<span style="color:#000;font-weight:bold">.</span>randint(<span style="color:#099">0</span>, <span style="color:#099">10000</span>)
+            <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;Put task </span><span style="color:#d14">%d</span><span style="color:#d14">...&#39;</span> <span style="color:#000;font-weight:bold">%</span> n)
+            task<span style="color:#000;font-weight:bold">.</span>put(n)
+        <span style="color:#998;font-style:italic"># 每秒检测一次是否所有任务都被执行完</span>
+        <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;Try get results...&#39;</span>)
+        <span style="color:#000;font-weight:bold">while</span> <span style="color:#000;font-weight:bold">not</span> result<span style="color:#000;font-weight:bold">.</span>full():
+            time<span style="color:#000;font-weight:bold">.</span>sleep(<span style="color:#099">1</span>)
+        <span style="color:#000;font-weight:bold">for</span> i <span style="color:#000;font-weight:bold">in</span> <span style="color:#0086b3">range</span>(result<span style="color:#000;font-weight:bold">.</span>qsize()):
+            ans <span style="color:#000;font-weight:bold">=</span> result<span style="color:#000;font-weight:bold">.</span>get()
+            <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;Result: </span><span style="color:#d14">%s</span><span style="color:#d14">, runtime: </span><span style="color:#d14">%d</span><span style="color:#d14">s&#39;</span> <span style="color:#000;font-weight:bold">%</span> ans)
+    <span style="color:#000;font-weight:bold">except</span> <span style="color:#900;font-weight:bold">Exception</span>:
+        <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;Manager error&#39;</span>)
+    <span style="color:#000;font-weight:bold">finally</span>:
+        <span style="color:#998;font-style:italic"># 一定要关闭，否则会爆管道未关闭的错误</span>
+        manager<span style="color:#000;font-weight:bold">.</span>shutdown()
 
-def test():
-    # windows下绑定调用接口不能使用lambda，所以只能先定义函数再绑定
-    BaseManager.register('get_task', callable=gettask)
-    BaseManager.register('get_result', callable=getresult)
-    # 绑定端口并设置验证码，windows下需要填写ip地址，linux下不填默认为本地
-    manager = BaseManager(address=('127.0.0.1', 5002), authkey=b'abc')
-    # 启动Queue
-    manager.start()
-    try:
-        # 通过网络获取任务队列和结果队列
-        task = manager.get_task()
-        result = manager.get_result()
-        # 添加任务
-        for i in range(task_number):
-            n = random.randint(0, 10000)
-            print('Put task %d...' % n)
-            task.put(n)
-        # 每秒检测一次是否所有任务都被执行完
-        print('Try get results...')
-        while not result.full():
-            time.sleep(1)
-        for i in range(result.qsize()):
-            ans = result.get()
-            print('Result: %s, runtime: %ds' % ans)
-    except Exception:
-        print('Manager error')
-    finally:
-        # 一定要关闭，否则会爆管道未关闭的错误
-        manager.shutdown()
-
-if __name__ == '__main__':
-    # windows下多进程可能会炸，添加这句可以缓解
+<span style="color:#000;font-weight:bold">if</span> __name__ <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;__main__&#39;</span>:
+    <span style="color:#998;font-style:italic"># windows下多进程可能会炸，添加这句可以缓解</span>
     freeze_support()
     test()
-</code></pre>
+</code></pre></td></tr></table>
+</div>
+</div><p>再看任务进程：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">time</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#555">sys</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#555">random</span>
+<span style="color:#000;font-weight:bold">from</span> <span style="color:#555">multiprocessing.managers</span> <span style="color:#000;font-weight:bold">import</span> BaseManager
 
-<p>再看任务进程：</p>
+<span style="color:#998;font-style:italic"># 从网络上获取Queue，注册时只提供名字</span>
+BaseManager<span style="color:#000;font-weight:bold">.</span>register(<span style="color:#d14">&#39;get_task&#39;</span>)
+BaseManager<span style="color:#000;font-weight:bold">.</span>register(<span style="color:#d14">&#39;get_result&#39;</span>)
+<span style="color:#998;font-style:italic"># 连接到服务器，注意端口和验证码要保持一致</span>
+conn <span style="color:#000;font-weight:bold">=</span> BaseManager(address<span style="color:#000;font-weight:bold">=</span>(<span style="color:#d14">&#39;127.0.0.1&#39;</span>, <span style="color:#099">5002</span>), authkey<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">b</span><span style="color:#d14">&#39;abc&#39;</span>)
 
-<pre><code class="language-python">import time, sys, random
-from multiprocessing.managers import BaseManager
+<span style="color:#000;font-weight:bold">try</span>:
+    conn<span style="color:#000;font-weight:bold">.</span>connect()
+<span style="color:#000;font-weight:bold">except</span> <span style="color:#900;font-weight:bold">Exception</span>:
+    <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;连接失败&#39;</span>)
+    sys<span style="color:#000;font-weight:bold">.</span>exit();
 
-# 从网络上获取Queue，注册时只提供名字
-BaseManager.register('get_task')
-BaseManager.register('get_result')
-# 连接到服务器，注意端口和验证码要保持一致
-conn = BaseManager(address=('127.0.0.1', 5002), authkey=b'abc')
+<span style="color:#998;font-style:italic"># 获取Queue的对象</span>
+task <span style="color:#000;font-weight:bold">=</span> conn<span style="color:#000;font-weight:bold">.</span>get_task()
+result <span style="color:#000;font-weight:bold">=</span> conn<span style="color:#000;font-weight:bold">.</span>get_result()
 
-try:
-    conn.connect()
-except Exception:
-    print('连接失败')
-    sys.exit();
+<span style="color:#998;font-style:italic"># 从task队列取任务，并把结果写入result队列</span>
+<span style="color:#000;font-weight:bold">while</span> <span style="color:#000;font-weight:bold">not</span> task<span style="color:#000;font-weight:bold">.</span>empty():
+    n <span style="color:#000;font-weight:bold">=</span> task<span style="color:#000;font-weight:bold">.</span>get(timeout<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1</span>)
+    <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;run task </span><span style="color:#d14">%d</span><span style="color:#d14"> * </span><span style="color:#d14">%d</span><span style="color:#d14">...&#39;</span> <span style="color:#000;font-weight:bold">%</span> (n, n))
+    r <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;</span><span style="color:#d14">%d</span><span style="color:#d14"> * </span><span style="color:#d14">%d</span><span style="color:#d14"> = </span><span style="color:#d14">%d</span><span style="color:#d14">&#39;</span> <span style="color:#000;font-weight:bold">%</span> (n, n, n<span style="color:#000;font-weight:bold">*</span>n)
+    sleeptime <span style="color:#000;font-weight:bold">=</span> random<span style="color:#000;font-weight:bold">.</span>randint(<span style="color:#099">0</span>, <span style="color:#099">3</span>)
+    time<span style="color:#000;font-weight:bold">.</span>sleep(sleeptime)
+    rt <span style="color:#000;font-weight:bold">=</span> (r, sleeptime)
+    result<span style="color:#000;font-weight:bold">.</span>put(rt)
 
-# 获取Queue的对象
-task = conn.get_task()
-result = conn.get_result()
-
-# 从task队列取任务，并把结果写入result队列
-while not task.empty():
-    n = task.get(timeout=1)
-    print('run task %d * %d...' % (n, n))
-    r = '%d * %d = %d' % (n, n, n*n)
-    sleeptime = random.randint(0, 3)
-    time.sleep(sleeptime)
-    rt = (r, sleeptime)
-    result.put(rt)
-
-if __name__ == '__main__':
-    pass
-</code></pre>
-
-<p>执行结果为：</p>
-
-<pre><code class="language-python">Put task 8399...
-Put task 4368...
-Put task 8098...
-Put task 6887...
-Put task 3504...
-Put task 7503...
-Put task 8492...
-Put task 5150...
-Put task 7444...
-Put task 8359...
-Try get results...
-Result: 8399 * 8399 = 70543201, runtime: 1s
-Result: 4368 * 4368 = 19079424, runtime: 0s
-Result: 8098 * 8098 = 65577604, runtime: 0s
-Result: 6887 * 6887 = 47430769, runtime: 1s
-Result: 3504 * 3504 = 12278016, runtime: 1s
-Result: 7503 * 7503 = 56295009, runtime: 2s
-Result: 8492 * 8492 = 72114064, runtime: 2s
-Result: 5150 * 5150 = 26522500, runtime: 3s
-Result: 7444 * 7444 = 55413136, runtime: 2s
-Result: 8359 * 8359 = 69872881, runtime: 1s
-</code></pre>
-
-<p>先启动服务进程，发送完任务后，开始等待result队列的结果，再启动任务进程，任务进程结束后，服务进程会继续打印出结果。</p>
-
+<span style="color:#000;font-weight:bold">if</span> __name__ <span style="color:#000;font-weight:bold">==</span> <span style="color:#d14">&#39;__main__&#39;</span>:
+    <span style="color:#000;font-weight:bold">pass</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>执行结果为：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">Put task <span style="color:#099">8399.</span><span style="color:#000;font-weight:bold">..</span>
+Put task <span style="color:#099">4368.</span><span style="color:#000;font-weight:bold">..</span>
+Put task <span style="color:#099">8098.</span><span style="color:#000;font-weight:bold">..</span>
+Put task <span style="color:#099">6887.</span><span style="color:#000;font-weight:bold">..</span>
+Put task <span style="color:#099">3504.</span><span style="color:#000;font-weight:bold">..</span>
+Put task <span style="color:#099">7503.</span><span style="color:#000;font-weight:bold">..</span>
+Put task <span style="color:#099">8492.</span><span style="color:#000;font-weight:bold">..</span>
+Put task <span style="color:#099">5150.</span><span style="color:#000;font-weight:bold">..</span>
+Put task <span style="color:#099">7444.</span><span style="color:#000;font-weight:bold">..</span>
+Put task <span style="color:#099">8359.</span><span style="color:#000;font-weight:bold">..</span>
+Try get results<span style="color:#000;font-weight:bold">...</span>
+Result: <span style="color:#099">8399</span> <span style="color:#000;font-weight:bold">*</span> <span style="color:#099">8399</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">70543201</span>, runtime: <span style="color:#099">1</span>s
+Result: <span style="color:#099">4368</span> <span style="color:#000;font-weight:bold">*</span> <span style="color:#099">4368</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">19079424</span>, runtime: <span style="color:#099">0</span>s
+Result: <span style="color:#099">8098</span> <span style="color:#000;font-weight:bold">*</span> <span style="color:#099">8098</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">65577604</span>, runtime: <span style="color:#099">0</span>s
+Result: <span style="color:#099">6887</span> <span style="color:#000;font-weight:bold">*</span> <span style="color:#099">6887</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">47430769</span>, runtime: <span style="color:#099">1</span>s
+Result: <span style="color:#099">3504</span> <span style="color:#000;font-weight:bold">*</span> <span style="color:#099">3504</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">12278016</span>, runtime: <span style="color:#099">1</span>s
+Result: <span style="color:#099">7503</span> <span style="color:#000;font-weight:bold">*</span> <span style="color:#099">7503</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">56295009</span>, runtime: <span style="color:#099">2</span>s
+Result: <span style="color:#099">8492</span> <span style="color:#000;font-weight:bold">*</span> <span style="color:#099">8492</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">72114064</span>, runtime: <span style="color:#099">2</span>s
+Result: <span style="color:#099">5150</span> <span style="color:#000;font-weight:bold">*</span> <span style="color:#099">5150</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">26522500</span>, runtime: <span style="color:#099">3</span>s
+Result: <span style="color:#099">7444</span> <span style="color:#000;font-weight:bold">*</span> <span style="color:#099">7444</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">55413136</span>, runtime: <span style="color:#099">2</span>s
+Result: <span style="color:#099">8359</span> <span style="color:#000;font-weight:bold">*</span> <span style="color:#099">8359</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">69872881</span>, runtime: <span style="color:#099">1</span>s
+</code></pre></td></tr></table>
+</div>
+</div><p>先启动服务进程，发送完任务后，开始等待result队列的结果，再启动任务进程，任务进程结束后，服务进程会继续打印出结果。</p>
 <p>这就是一个简单但真正的分布式计算，把代码稍加改造，启动多个worker，就可以把任务分布到几台甚至几十台机器上，比如把计算<code>n*n</code>的代码换成发送邮件，就实现了邮件队列的异步发送。</p>
 
-                        </div>
+        </div>
 
-                        
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://qoanty.github.io/">百年孤独</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://qoanty.github.io/2019/04/python3-distributed-processes/">https://qoanty.github.io/2019/04/python3-distributed-processes/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
 
 
-                        
+
+        
 
 <div class="post-archive">
     <h2>See Also</h2>
@@ -359,44 +575,36 @@ Result: 8359 * 8359 = 69872881, runtime: 1s
         
         <li><a href="/2019/04/python3-functions/">Python3 学习笔记（函数）</a></li>
         
-        <li><a href="/2019/04/wss-and-web/">基于V2Ray的WebSocket&#43;TLS&#43;Web&#43;CDN安全网络代理</a></li>
+        <li><a href="/2019/04/vps-wss-and-web/">基于V2Ray的WebSocket&#43;TLS&#43;Web&#43;CDN安全网络代理</a></li>
         
     </ul>
 </div>
 
 
-                        <div class="post-meta meta-tags">
-                            
-                            <ul class="clearfix">
-                                
-                                <li><a href="https://qoanty.github.io/tags/python">python</a></li>
-                                
-                                <li><a href="https://qoanty.github.io/tags/processes">processes</a></li>
-                                
-                            </ul>
-                            
-                        </div>
-                    </article>
-                    
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='https://qoanty.github.io/tags/python'>python</a></li>
+                
+                <li><a href='https://qoanty.github.io/tags/processes'>processes</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
     
 
     
     
-    <div class="post bg-white">
-      <script src="https://utteranc.es/client.js"
-            repo= "qoanty/qoanty.github.io"
-            issue-term="pathname"
-            theme="github-light"
-            crossorigin="anonymous"
-            async>
-      </script>
-    </div>
-    
+</div>
+
                 </div>
-            </div>
-            <div id="secondary">
+
+                <div id="secondary">
     <section class="widget">
-        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+        <form id="search" action='https://qoanty.github.io/search/' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
       
       <input type="text" name="q" maxlength="20" placeholder="Search">
       <input type="hidden" name="sitesearch" value="https://qoanty.github.io/">
@@ -409,43 +617,43 @@ Result: 8359 * 8359 = 69872881, runtime: 1s
 <ul class="widget-list">
     
     <li>
-        <a href="https://qoanty.github.io/2019/05/sliding-captcha/" title="极验滑动验证码识别">极验滑动验证码识别</a>
+        <a href="https://qoanty.github.io/2020/07/install-manjaro-kde/" title="Manjaro-KDE 安装与设置">Manjaro-KDE 安装与设置</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-web-scraping/" title="Python3 学习笔记（异步爬虫）">Python3 学习笔记（异步爬虫）</a>
+        <a href="https://qoanty.github.io/2020/06/vps-with-trojan-go/" title="Trojan-Go 安装配置教程">Trojan-Go 安装配置教程</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-asyncio/" title="Python3 学习笔记（异步IO）">Python3 学习笔记（异步IO）</a>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-without-phd/" title="Tensorflow, Keras and deep learning, without a Phd">Tensorflow, Keras and deep learning, without a Phd</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-built-in-functions-modules/" title="Python3 学习笔记（内建模块）">Python3 学习笔记（内建模块）</a>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-load-csv-data/" title="TensorFlow加载CSV数据">TensorFlow加载CSV数据</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-distributed-processes/" title="Python3 学习笔记（分布式进程）">Python3 学习笔记（分布式进程）</a>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-text-classification/" title="具有预处理文本的文本分类：电影评论">具有预处理文本的文本分类：电影评论</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-object-oriented-programming/" title="Python3 学习笔记（面向对象编程）">Python3 学习笔记（面向对象编程）</a>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-text-classification-with-hub/" title="使用TensorFlow Hub进行文本分类：电影评论">使用TensorFlow Hub进行文本分类：电影评论</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-functional-programming/" title="Python3 学习笔记（函数式编程）">Python3 学习笔记（函数式编程）</a>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-image-classification/" title="TensorFlow基本分类：对服装图像进行分类">TensorFlow基本分类：对服装图像进行分类</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-advanced-features/" title="Python3 学习笔记（高级特性）">Python3 学习笔记（高级特性）</a>
+        <a href="https://qoanty.github.io/2019/07/install-lemp-on-debian/" title="在Debian 10上安装Linux，Nginx，MariaDB，PHP">在Debian 10上安装Linux，Nginx，MariaDB，PHP</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-functions/" title="Python3 学习笔记（函数）">Python3 学习笔记（函数）</a>
+        <a href="https://qoanty.github.io/2019/07/install-nginx-on-debian/" title="在Debian 10上安装Nginx">在Debian 10上安装Nginx</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/wss-and-web/" title="基于V2Ray的WebSocket&#43;TLS&#43;Web&#43;CDN安全网络代理">基于V2Ray的WebSocket&#43;TLS&#43;Web&#43;CDN安全网络代理</a>
+        <a href="https://qoanty.github.io/2019/07/set-up-debian-server/" title="在VPS上设置Debian 10服务器">在VPS上设置Debian 10服务器</a>
     </li>
     
 </ul>
@@ -457,37 +665,45 @@ Result: 8359 * 8359 = 69872881, runtime: 1s
         <h3 class="widget-title">分类</h3>
 <ul class="widget-list">
     
-    <li>
-        <a href="https://qoanty.github.io/categories/blog/">Blog(1)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/blog/">Blog (1)</a></li>
     
-    <li>
-        <a href="https://qoanty.github.io/categories/captcha/">Captcha(1)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/caddy/">Caddy (1)</a></li>
     
-    <li>
-        <a href="https://qoanty.github.io/categories/hugo/">Hugo(1)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/captcha/">Captcha (1)</a></li>
     
-    <li>
-        <a href="https://qoanty.github.io/categories/learn/">Learn(8)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/debian/">Debian (5)</a></li>
     
-    <li>
-        <a href="https://qoanty.github.io/categories/python/">Python(10)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/docker/">Docker (1)</a></li>
     
-    <li>
-        <a href="https://qoanty.github.io/categories/v2ray/">V2Ray(2)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/hugo/">Hugo (1)</a></li>
     
-    <li>
-        <a href="https://qoanty.github.io/categories/vps/">VPS(2)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/kde/">KDE (1)</a></li>
     
-    <li>
-        <a href="https://qoanty.github.io/categories/vim/">Vim(1)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/kms/">KMS (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/learn/">Learn (14)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/manjaro/">Manjaro (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/nginx/">Nginx (2)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/pipenv/">Pipenv (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/python/">Python (12)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/ssh/">SSH (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/tensorflow/">TensorFlow (5)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/trojan/">Trojan (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/trojan-go/">Trojan-Go (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/v2ray/">V2Ray (2)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/vim/">Vim (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/vps/">VPS (7)</a></li>
     
 </ul>
     </section>
@@ -496,21 +712,19 @@ Result: 8359 * 8359 = 69872881, runtime: 1s
         <h3 class="widget-title">标签</h3>
 <div class="tagcloud">
     
+    <a href="https://qoanty.github.io/tags/asyncio/">asyncio</a>
+    
+    <a href="https://qoanty.github.io/tags/caddy/">Caddy</a>
+    
     <a href="https://qoanty.github.io/tags/cdn/">CDN</a>
     
-    <a href="https://qoanty.github.io/tags/github/">Github</a>
+    <a href="https://qoanty.github.io/tags/data/">data</a>
     
-    <a href="https://qoanty.github.io/tags/hugo/">Hugo</a>
+    <a href="https://qoanty.github.io/tags/debian/">Debian</a>
     
-    <a href="https://qoanty.github.io/tags/ide/">IDE</a>
+    <a href="https://qoanty.github.io/tags/deep-learning/">deep learning</a>
     
-    <a href="https://qoanty.github.io/tags/oop/">OOP</a>
-    
-    <a href="https://qoanty.github.io/tags/v2ray/">V2Ray</a>
-    
-    <a href="https://qoanty.github.io/tags/vps/">VPS</a>
-    
-    <a href="https://qoanty.github.io/tags/asyncio/">asyncio</a>
+    <a href="https://qoanty.github.io/tags/docker/">Docker</a>
     
     <a href="https://qoanty.github.io/tags/features/">features</a>
     
@@ -518,13 +732,45 @@ Result: 8359 * 8359 = 69872881, runtime: 1s
     
     <a href="https://qoanty.github.io/tags/geetest/">geetest</a>
     
+    <a href="https://qoanty.github.io/tags/github/">Github</a>
+    
+    <a href="https://qoanty.github.io/tags/hugo/">Hugo</a>
+    
+    <a href="https://qoanty.github.io/tags/ide/">IDE</a>
+    
+    <a href="https://qoanty.github.io/tags/kde/">KDE</a>
+    
+    <a href="https://qoanty.github.io/tags/keras/">keras</a>
+    
+    <a href="https://qoanty.github.io/tags/kms/">KMS</a>
+    
+    <a href="https://qoanty.github.io/tags/manjaro/">Manjaro</a>
+    
+    <a href="https://qoanty.github.io/tags/nginx/">Nginx</a>
+    
+    <a href="https://qoanty.github.io/tags/oop/">OOP</a>
+    
+    <a href="https://qoanty.github.io/tags/pipenv/">Pipenv</a>
+    
     <a href="https://qoanty.github.io/tags/processes/">processes</a>
     
-    <a href="https://qoanty.github.io/tags/python/">python</a>
+    <a href="https://qoanty.github.io/tags/python/">Python</a>
     
     <a href="https://qoanty.github.io/tags/scraping/">scraping</a>
     
-    <a href="https://qoanty.github.io/tags/vim/">vim</a>
+    <a href="https://qoanty.github.io/tags/ssh/">SSH</a>
+    
+    <a href="https://qoanty.github.io/tags/tensorflow/">tensorflow</a>
+    
+    <a href="https://qoanty.github.io/tags/trojan/">Trojan</a>
+    
+    <a href="https://qoanty.github.io/tags/trojan-go/">Trojan-Go</a>
+    
+    <a href="https://qoanty.github.io/tags/v2ray/">V2Ray</a>
+    
+    <a href="https://qoanty.github.io/tags/vim/">Vim</a>
+    
+    <a href="https://qoanty.github.io/tags/vps/">VPS</a>
     
 </div>
     </section>
@@ -557,37 +803,33 @@ Result: 8359 * 8359 = 69872881, runtime: 1s
         </ul>
     </section>
 </div>
+            </div>
         </div>
     </div>
-</div>
-<footer id="footer">
+    <footer id="footer">
     <div class="container">
-        &copy; 2019 <a href="https://qoanty.github.io/">百年孤独的博客 By 百年孤独</a>.
-        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a> & <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
+        &copy; 2020 <a href="https://qoanty.github.io/">百年孤独的博客 By 百年孤独</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/flysnow-org/maupassant-hugo" target="_blank">maupassant</a>.
         
     </div>
 </footer>
 
 
-    <script type="text/javascript">
     
-    (function(){
-        $("pre code").parent().addClass("line-numbers")
-    }())
-
-    window.MathJax = {
-        tex2jax: {
-            inlineMath: [ ['$','$'] ],
-            processEscapes: true
-        }
-    };
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
     </script>
-    <script type="text/javascript" src="/js/prism.js" async="true"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
 
-<a id="rocket" href="#top"></a>
-<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
 
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
 
 
 
@@ -595,4 +837,5 @@ Result: 8359 * 8359 = 69872881, runtime: 1s
 
 
 </body>
+
 </html>

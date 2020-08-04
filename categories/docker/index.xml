@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Docker on 百年孤独的博客</title>
+    <link>https://qoanty.github.io/categories/docker/</link>
+    <description>Recent content in Docker on 百年孤独的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Wed, 15 May 2019 16:35:28 +0800</lastBuildDate>
+    
+	<atom:link href="https://qoanty.github.io/categories/docker/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Debian 10使用Docker方式安装Weixin和QQ</title>
+      <link>https://qoanty.github.io/2019/05/debian-docker/</link>
+      <pubDate>Wed, 15 May 2019 16:35:28 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/05/debian-docker/</guid>
+      <description>Docker简介 Docker是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中,然后发布到任何流行的Linux机器或Windows机器上，也可以实现虚拟化，容器是完全使用沙箱机制，相互之间不会有任何接口。 Do</description>
+    </item>
+    
+  </channel>
+</rss>

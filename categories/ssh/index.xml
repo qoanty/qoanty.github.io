@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>SSH on 百年孤独的博客</title>
+    <link>https://qoanty.github.io/categories/ssh/</link>
+    <description>Recent content in SSH on 百年孤独的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Tue, 16 Jul 2019 14:45:27 +0800</lastBuildDate>
+    
+	<atom:link href="https://qoanty.github.io/categories/ssh/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Debian 10进行初始服务器设置</title>
+      <link>https://qoanty.github.io/2019/07/initial-server-with-debian/</link>
+      <pubDate>Tue, 16 Jul 2019 14:45:27 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/07/initial-server-with-debian/</guid>
+      <description>介绍 首次创建新的Debian 10服务器时，您应在基本设置的早期阶段执行一些配置步骤，这将提高服务器的安全性和可用性，并为后续操作奠定坚实的基础。 在本教程中，我们将学习如何以root用户登录到服务器，创建具有管理员权限的新用户以及如何设置基本</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Trojan on 百年孤独的博客</title>
+    <link>https://qoanty.github.io/tags/trojan/</link>
+    <description>Recent content in Trojan on 百年孤独的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Tue, 30 Apr 2019 19:37:11 +0800</lastBuildDate>
+    
+	<atom:link href="https://qoanty.github.io/tags/trojan/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Trojan安装配置教程</title>
+      <link>https://qoanty.github.io/2019/04/vps-with-trojan/</link>
+      <pubDate>Tue, 30 Apr 2019 19:37:11 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/04/vps-with-trojan/</guid>
+      <description>简介 Trojan是近两年兴起的网络工具，与强调加密和混淆的SS/SSR等工具不同，trojan将通信流量伪装成互联网上最常见的https流量，从而有效防止流量被GFW检测和干扰。 v2ray和trojan的区别及特点： v2ray是一个网络框架</description>
+    </item>
+    
+  </channel>
+</rss>

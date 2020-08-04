@@ -1,0 +1,1181 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>TensorFlow加载CSV数据 | 百年孤独的博客</title>
+    <meta property="og:title" content="TensorFlow加载CSV数据 - 百年孤独的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2019-10-12T14:41:22&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2019-10-12T14:41:22&#43;08:00'>
+        
+    <meta name="Keywords" content="VPS, python, android, 博客, 小程序">
+    <meta name="description" content="TensorFlow加载CSV数据">
+        
+    <meta name="author" content="百年孤独">
+    <meta property="og:url" content="https://qoanty.github.io/2019/10/tensorflow-load-csv-data/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+
+
+    
+    
+</head>
+
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://qoanty.github.io/">
+                        百年孤独的博客
+                    </a>
+                
+                <p class="description">艺术家用谎言揭露真相，政治家用谎言隐瞒真相</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://qoanty.github.io/">首页</a>
+                    
+                    <a  href="https://qoanty.github.io/tools/" title="工具">工具</a>
+                    
+                    <a  href="https://qoanty.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://qoanty.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">TensorFlow加载CSV数据</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2019年10月12日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='https://qoanty.github.io/categories/learn'>Learn</a></span>
+            
+            <span class="meta-category"><a href='https://qoanty.github.io/categories/tensorflow'>TensorFlow</a></span>
+            
+        </div>
+        
+        
+        
+        <div class="post-content">
+            <p><a href="https://www.tensorflow.org/tutorials/load_data/csv">本教程</a>提供了有关如何将CSV数据从文件加载到<a href="https://www.tensorflow.org/api_docs/python/tf/data/Dataset"><code>tf.data.Dataset</code></a>的示例。</p>
+<p>本教程中使用的数据取自《泰坦尼克号》乘客列表。该模型将根据年龄，性别，机票等级以及是否独自旅行等特征来预测乘客幸存的可能性。</p>
+<h2 id="设定">设定</h2>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">from</span> <span style="color:#555">__future__</span> <span style="color:#000;font-weight:bold">import</span> absolute_import, division, print_function, unicode_literals
+<span style="color:#000;font-weight:bold">import</span> <span style="color:#555">functools</span>
+<span style="color:#000;font-weight:bold">import</span> <span style="color:#555">numpy</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#555">np</span>
+<span style="color:#000;font-weight:bold">import</span> <span style="color:#555">tensorflow</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#555">tf</span>
+
+TRAIN_DATA_URL <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;https://storage.googleapis.com/tf-datasets/titanic/train.csv&#34;</span>
+TEST_DATA_URL <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;https://storage.googleapis.com/tf-datasets/titanic/eval.csv&#34;</span>
+
+train_file_path <span style="color:#000;font-weight:bold">=</span> tf<span style="color:#000;font-weight:bold">.</span>keras<span style="color:#000;font-weight:bold">.</span>utils<span style="color:#000;font-weight:bold">.</span>get_file(<span style="color:#d14">&#34;train.csv&#34;</span>, TRAIN_DATA_URL)
+test_file_path <span style="color:#000;font-weight:bold">=</span> tf<span style="color:#000;font-weight:bold">.</span>keras<span style="color:#000;font-weight:bold">.</span>utils<span style="color:#000;font-weight:bold">.</span>get_file(<span style="color:#d14">&#34;eval.csv&#34;</span>, TEST_DATA_URL)
+
+Downloading data <span style="color:#000;font-weight:bold">from</span> <span style="color:#555">https</span>:<span style="color:#000;font-weight:bold">//</span>storage<span style="color:#000;font-weight:bold">.</span>googleapis<span style="color:#000;font-weight:bold">.</span>com<span style="color:#000;font-weight:bold">/</span>tf<span style="color:#000;font-weight:bold">-</span>datasets<span style="color:#000;font-weight:bold">/</span>titanic<span style="color:#000;font-weight:bold">/</span>train<span style="color:#000;font-weight:bold">.</span>csv
+<span style="color:#099">32768</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">30874</span> [<span style="color:#000;font-weight:bold">===============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">0</span>s <span style="color:#099">0</span>us<span style="color:#000;font-weight:bold">/</span>step
+Downloading data <span style="color:#000;font-weight:bold">from</span> <span style="color:#555">https</span>:<span style="color:#000;font-weight:bold">//</span>storage<span style="color:#000;font-weight:bold">.</span>googleapis<span style="color:#000;font-weight:bold">.</span>com<span style="color:#000;font-weight:bold">/</span>tf<span style="color:#000;font-weight:bold">-</span>datasets<span style="color:#000;font-weight:bold">/</span>titanic<span style="color:#000;font-weight:bold">/</span><span style="color:#0086b3">eval</span><span style="color:#000;font-weight:bold">.</span>csv
+<span style="color:#099">16384</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">13049</span> [<span style="color:#000;font-weight:bold">=====================================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">0</span>s <span style="color:#099">0</span>us<span style="color:#000;font-weight:bold">/</span>step
+
+<span style="color:#998;font-style:italic"># Make numpy values easier to read.</span>
+np<span style="color:#000;font-weight:bold">.</span>set_printoptions(precision<span style="color:#000;font-weight:bold">=</span><span style="color:#099">3</span>, suppress<span style="color:#000;font-weight:bold">=</span><span style="color:#999">True</span>)
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="加载数据">加载数据</h2>
+<p>首先，让我们看一下CSV文件的前几行，以了解其格式。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a61717;background-color:#e3d2d2">!</span>head {train_file_path}
+
+survived,sex,age,n_siblings_spouses,parch,fare,class,deck,embark_town,alone
+<span style="color:#099">0</span>,male,<span style="color:#099">22.0</span>,<span style="color:#099">1</span>,<span style="color:#099">0</span>,<span style="color:#099">7.25</span>,Third,unknown,Southampton,n
+<span style="color:#099">1</span>,female,<span style="color:#099">38.0</span>,<span style="color:#099">1</span>,<span style="color:#099">0</span>,<span style="color:#099">71.2833</span>,First,C,Cherbourg,n
+<span style="color:#099">1</span>,female,<span style="color:#099">26.0</span>,<span style="color:#099">0</span>,<span style="color:#099">0</span>,<span style="color:#099">7.925</span>,Third,unknown,Southampton,y
+<span style="color:#099">1</span>,female,<span style="color:#099">35.0</span>,<span style="color:#099">1</span>,<span style="color:#099">0</span>,<span style="color:#099">53.1</span>,First,C,Southampton,n
+<span style="color:#099">0</span>,male,<span style="color:#099">28.0</span>,<span style="color:#099">0</span>,<span style="color:#099">0</span>,<span style="color:#099">8.4583</span>,Third,unknown,Queenstown,y
+<span style="color:#099">0</span>,male,<span style="color:#099">2.0</span>,<span style="color:#099">3</span>,<span style="color:#099">1</span>,<span style="color:#099">21.075</span>,Third,unknown,Southampton,n
+<span style="color:#099">1</span>,female,<span style="color:#099">27.0</span>,<span style="color:#099">0</span>,<span style="color:#099">2</span>,<span style="color:#099">11.1333</span>,Third,unknown,Southampton,n
+<span style="color:#099">1</span>,female,<span style="color:#099">14.0</span>,<span style="color:#099">1</span>,<span style="color:#099">0</span>,<span style="color:#099">30.0708</span>,Second,unknown,Cherbourg,n
+<span style="color:#099">1</span>,female,<span style="color:#099">4.0</span>,<span style="color:#099">1</span>,<span style="color:#099">1</span>,<span style="color:#099">16.7</span>,Third,G,Southampton,n
+</code></pre></td></tr></table>
+</div>
+</div><p>你可以使用<a href="https://www.tensorflow.org/tutorials/load_data/pandas">pandas</a>加载它，并将NumPy数组传递给TensorFlow。如果你需要扩展到一个大的文件集，或者需要一个与<a href="https://www.tensorflow.org/guide/data">TensorFlow和tf.data</a>集成的数据集，请使用<code>tf.data.experimental.make_csv_dataset</code>函数：</p>
+<p>唯一需要明确标识的列是模型要预测的值的列。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">LABEL_COLUMN <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;survived&#39;</span>
+LABELS <span style="color:#000;font-weight:bold">=</span> [<span style="color:#099">0</span>, <span style="color:#099">1</span>]
+</code></pre></td></tr></table>
+</div>
+</div><p>现在，从文件中读取CSV数据并创建一个数据集。（有关完整文档，请参阅<code>tf.data.experimental.make_csv_dataset</code>）</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">get_dataset</span>(file_path, <span style="color:#000;font-weight:bold">**</span>kwargs):
+  dataset <span style="color:#000;font-weight:bold">=</span> tf<span style="color:#000;font-weight:bold">.</span>data<span style="color:#000;font-weight:bold">.</span>experimental<span style="color:#000;font-weight:bold">.</span>make_csv_dataset(
+      file_path,
+      batch_size<span style="color:#000;font-weight:bold">=</span><span style="color:#099">5</span>, <span style="color:#998;font-style:italic"># Artificially small to make examples easier to show.</span>
+      label_name<span style="color:#000;font-weight:bold">=</span>LABEL_COLUMN,
+      na_value<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#34;?&#34;</span>,
+      num_epochs<span style="color:#000;font-weight:bold">=</span><span style="color:#099">1</span>,
+      ignore_errors<span style="color:#000;font-weight:bold">=</span><span style="color:#999">True</span>,
+      <span style="color:#000;font-weight:bold">**</span>kwargs)
+  <span style="color:#000;font-weight:bold">return</span> dataset
+
+raw_train_data <span style="color:#000;font-weight:bold">=</span> get_dataset(train_file_path)
+raw_test_data <span style="color:#000;font-weight:bold">=</span> get_dataset(test_file_path)
+
+WARNING:tensorflow:From <span style="color:#000;font-weight:bold">/</span>tmpfs<span style="color:#000;font-weight:bold">/</span>src<span style="color:#000;font-weight:bold">/</span>tf_docs_env<span style="color:#000;font-weight:bold">/</span>lib<span style="color:#000;font-weight:bold">/</span>python3<span style="color:#000;font-weight:bold">.</span><span style="color:#099">6</span><span style="color:#000;font-weight:bold">/</span>site<span style="color:#000;font-weight:bold">-</span>packages<span style="color:#000;font-weight:bold">/</span>tensorflow_core<span style="color:#000;font-weight:bold">/</span>python<span style="color:#000;font-weight:bold">/</span>data<span style="color:#000;font-weight:bold">/</span>experimental<span style="color:#000;font-weight:bold">/</span>ops<span style="color:#000;font-weight:bold">/</span>readers<span style="color:#000;font-weight:bold">.</span>py:<span style="color:#099">521</span>: parallel_interleave (<span style="color:#000;font-weight:bold">from</span> <span style="color:#555">tensorflow.python.data.experimental.ops.interleave_ops</span>) <span style="color:#000;font-weight:bold">is</span> deprecated <span style="color:#000;font-weight:bold">and</span> will be removed <span style="color:#000;font-weight:bold">in</span> a future version<span style="color:#000;font-weight:bold">.</span>
+Instructions <span style="color:#000;font-weight:bold">for</span> updating:
+Use <span style="color:#d14">`tf.data.Dataset.interleave(map_func, cycle_length, block_length, num_parallel_calls=tf.data.experimental.AUTOTUNE)`</span> instead<span style="color:#000;font-weight:bold">.</span> If sloppy execution <span style="color:#000;font-weight:bold">is</span> desired, use <span style="color:#d14">`tf.data.Options.experimental_determinstic`</span><span style="color:#000;font-weight:bold">.</span>
+
+<span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">show_batch</span>(dataset):
+  <span style="color:#000;font-weight:bold">for</span> batch, label <span style="color:#000;font-weight:bold">in</span> dataset<span style="color:#000;font-weight:bold">.</span>take(<span style="color:#099">1</span>):
+    <span style="color:#000;font-weight:bold">for</span> key, value <span style="color:#000;font-weight:bold">in</span> batch<span style="color:#000;font-weight:bold">.</span>items():
+      <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#34;{:20s}: {}&#34;</span><span style="color:#000;font-weight:bold">.</span>format(key,value<span style="color:#000;font-weight:bold">.</span>numpy()))
+</code></pre></td></tr></table>
+</div>
+</div><p>数据集中的每个项目都是一个批量，表示为（许多示例，许多标签）的元组。示例中的数据以基于列的张量（而不是基于行的张量）进行组织，每个张量具有与批量大小一样多的元素（本例中为5）。</p>
+<p>自己看一下也许会有所帮助。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">show_batch(raw_train_data)
+
+sex                 : [<span style="color:#d14">b</span><span style="color:#d14">&#39;female&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;female&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;male&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;female&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;female&#39;</span>]
+age                 : [ <span style="color:#099">9.</span> <span style="color:#099">16.</span> <span style="color:#099">25.</span> <span style="color:#099">29.</span> <span style="color:#099">17.</span>]
+n_siblings_spouses  : [<span style="color:#099">4</span> <span style="color:#099">0</span> <span style="color:#099">0</span> <span style="color:#099">1</span> <span style="color:#099">4</span>]
+parch               : [<span style="color:#099">2</span> <span style="color:#099">0</span> <span style="color:#099">0</span> <span style="color:#099">0</span> <span style="color:#099">2</span>]
+fare                : [<span style="color:#099">31.275</span>  <span style="color:#099">7.733</span>  <span style="color:#099">7.05</span>  <span style="color:#099">26.</span>     <span style="color:#099">7.925</span>]
+<span style="color:#000;font-weight:bold">class</span>               <span style="color:#a61717;background-color:#e3d2d2">: [</span><span style="color:#458;font-weight:bold">b</span><span style="color:#d14">&#39;Third&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Third&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Third&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Second&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Third&#39;</span>]
+deck                : [<span style="color:#d14">b</span><span style="color:#d14">&#39;unknown&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;unknown&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;unknown&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;unknown&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;unknown&#39;</span>]
+embark_town         : [<span style="color:#d14">b</span><span style="color:#d14">&#39;Southampton&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Queenstown&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Southampton&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Southampton&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Southampton&#39;</span>]
+alone               : [<span style="color:#d14">b</span><span style="color:#d14">&#39;n&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;y&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;y&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;n&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;n&#39;</span>]
+</code></pre></td></tr></table>
+</div>
+</div><p>如你所见，CSV中的列已命名。数据集构造函数将自动获取这些名称。如果使用的文件的第一行不包含列名，则将它们以字符串列表的形式传递给<code>make_csv_dataset</code>函数中的<code>column_names</code>参数。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">CSV_COLUMNS <span style="color:#000;font-weight:bold">=</span> [<span style="color:#d14">&#39;survived&#39;</span>, <span style="color:#d14">&#39;sex&#39;</span>, <span style="color:#d14">&#39;age&#39;</span>, <span style="color:#d14">&#39;n_siblings_spouses&#39;</span>, <span style="color:#d14">&#39;parch&#39;</span>, <span style="color:#d14">&#39;fare&#39;</span>, <span style="color:#d14">&#39;class&#39;</span>, <span style="color:#d14">&#39;deck&#39;</span>, <span style="color:#d14">&#39;embark_town&#39;</span>, <span style="color:#d14">&#39;alone&#39;</span>]
+temp_dataset <span style="color:#000;font-weight:bold">=</span> get_dataset(train_file_path, column_names<span style="color:#000;font-weight:bold">=</span>CSV_COLUMNS)
+show_batch(temp_dataset)
+
+sex                 : [<span style="color:#d14">b</span><span style="color:#d14">&#39;male&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;female&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;male&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;female&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;female&#39;</span>]
+age                 : [<span style="color:#099">48.</span> <span style="color:#099">45.</span> <span style="color:#099">28.</span> <span style="color:#099">60.</span> <span style="color:#099">36.</span>]
+n_siblings_spouses  : [<span style="color:#099">1</span> <span style="color:#099">0</span> <span style="color:#099">0</span> <span style="color:#099">1</span> <span style="color:#099">0</span>]
+parch               : [<span style="color:#099">0</span> <span style="color:#099">0</span> <span style="color:#099">0</span> <span style="color:#099">0</span> <span style="color:#099">2</span>]
+fare                : [<span style="color:#099">76.729</span>  <span style="color:#099">7.75</span>   <span style="color:#099">7.896</span> <span style="color:#099">75.25</span>  <span style="color:#099">71.</span>   ]
+<span style="color:#000;font-weight:bold">class</span>               <span style="color:#a61717;background-color:#e3d2d2">: [</span><span style="color:#458;font-weight:bold">b</span><span style="color:#d14">&#39;First&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Third&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Third&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;First&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;First&#39;</span>]
+deck                : [<span style="color:#d14">b</span><span style="color:#d14">&#39;D&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;unknown&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;unknown&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;D&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;B&#39;</span>]
+embark_town         : [<span style="color:#d14">b</span><span style="color:#d14">&#39;Cherbourg&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Southampton&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Southampton&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Cherbourg&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Southampton&#39;</span>]
+alone               : [<span style="color:#d14">b</span><span style="color:#d14">&#39;n&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;y&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;y&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;n&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;n&#39;</span>]
+</code></pre></td></tr></table>
+</div>
+</div><p>本示例将使用所有可用的列。如果你需要从数据集中省略一些列，请创建想要使用的列的列表，并将其传递到构造函数的（可选）<code>select_columns</code>参数中。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">SELECT_COLUMNS <span style="color:#000;font-weight:bold">=</span> [<span style="color:#d14">&#39;survived&#39;</span>, <span style="color:#d14">&#39;age&#39;</span>, <span style="color:#d14">&#39;n_siblings_spouses&#39;</span>, <span style="color:#d14">&#39;class&#39;</span>, <span style="color:#d14">&#39;deck&#39;</span>, <span style="color:#d14">&#39;alone&#39;</span>]
+temp_dataset <span style="color:#000;font-weight:bold">=</span> get_dataset(train_file_path, select_columns<span style="color:#000;font-weight:bold">=</span>SELECT_COLUMNS)
+show_batch(temp_dataset)
+
+age                 : [<span style="color:#099">28.</span>  <span style="color:#099">40.</span>  <span style="color:#099">20.5</span> <span style="color:#099">23.</span>  <span style="color:#099">28.</span> ]
+n_siblings_spouses  : [<span style="color:#099">0</span> <span style="color:#099">1</span> <span style="color:#099">0</span> <span style="color:#099">3</span> <span style="color:#099">0</span>]
+<span style="color:#000;font-weight:bold">class</span>               <span style="color:#a61717;background-color:#e3d2d2">: [</span><span style="color:#458;font-weight:bold">b</span><span style="color:#d14">&#39;First&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Second&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Third&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;First&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Third&#39;</span>]
+deck                : [<span style="color:#d14">b</span><span style="color:#d14">&#39;C&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;unknown&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;unknown&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;C&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;unknown&#39;</span>]
+alone               : [<span style="color:#d14">b</span><span style="color:#d14">&#39;y&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;n&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;y&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;n&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;y&#39;</span>]
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="数据预处理">数据预处理</h2>
+<p>CSV文件可以包含多种数据类型。通常，你需要先将这些混合类型转换为固定长度的向量，然后再将数据输入模型。</p>
+<p>TensorFlow有一个用于描述常见输入转换的内置系统：<code>tf.feature_column</code>，请参阅<a href="https://www.tensorflow.org/tutorials/keras/feature_columns">此教程</a>以获取详细信息。</p>
+<p>你可以使用任何喜欢的工具（如<a href="https://www.nltk.org/">nltk</a>或<a href="https://scikit-learn.org/stable/">sklearn</a>）对数据进行预处理，然后将处理后的输出传递给TensorFlow。</p>
+<p>在模型内部进行预处理的主要优点是，当导出模型时，它包括预处理。这样，你可以将原始数据直接传递到模型。</p>
+<h3 id="连续数据">连续数据</h3>
+<p>如果你的数据已经采用适当的数字格式，则可以将数据打包为向量，然后再传递给模型：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">SELECT_COLUMNS <span style="color:#000;font-weight:bold">=</span> [<span style="color:#d14">&#39;survived&#39;</span>, <span style="color:#d14">&#39;age&#39;</span>, <span style="color:#d14">&#39;n_siblings_spouses&#39;</span>, <span style="color:#d14">&#39;parch&#39;</span>, <span style="color:#d14">&#39;fare&#39;</span>]
+DEFAULTS <span style="color:#000;font-weight:bold">=</span> [<span style="color:#099">0</span>, <span style="color:#099">0.0</span>, <span style="color:#099">0.0</span>, <span style="color:#099">0.0</span>, <span style="color:#099">0.0</span>]
+temp_dataset <span style="color:#000;font-weight:bold">=</span> get_dataset(train_file_path,
+                           select_columns<span style="color:#000;font-weight:bold">=</span>SELECT_COLUMNS,
+                           column_defaults <span style="color:#000;font-weight:bold">=</span> DEFAULTS)
+show_batch(temp_dataset)
+
+age                 : [<span style="color:#099">31.</span> <span style="color:#099">61.</span> <span style="color:#099">25.</span> <span style="color:#099">28.</span> <span style="color:#099">37.</span>]
+n_siblings_spouses  : [<span style="color:#099">0.</span> <span style="color:#099">0.</span> <span style="color:#099">0.</span> <span style="color:#099">0.</span> <span style="color:#099">0.</span>]
+parch               : [<span style="color:#099">0.</span> <span style="color:#099">0.</span> <span style="color:#099">0.</span> <span style="color:#099">0.</span> <span style="color:#099">1.</span>]
+fare                : [<span style="color:#099">13.</span>    <span style="color:#099">32.321</span>  <span style="color:#099">7.896</span>  <span style="color:#099">7.775</span> <span style="color:#099">29.7</span>  ]
+
+example_batch, labels_batch <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">next</span>(<span style="color:#0086b3">iter</span>(temp_dataset))
+</code></pre></td></tr></table>
+</div>
+</div><p>这是一个将所有列打包在一起的简单函数：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">pack</span>(features, label):
+  <span style="color:#000;font-weight:bold">return</span> tf<span style="color:#000;font-weight:bold">.</span>stack(<span style="color:#0086b3">list</span>(features<span style="color:#000;font-weight:bold">.</span>values()), axis<span style="color:#000;font-weight:bold">=-</span><span style="color:#099">1</span>), label
+</code></pre></td></tr></table>
+</div>
+</div><p>将此应用于数据集的每个元素：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">packed_dataset <span style="color:#000;font-weight:bold">=</span> temp_dataset<span style="color:#000;font-weight:bold">.</span>map(pack)
+<span style="color:#000;font-weight:bold">for</span> features, labels <span style="color:#000;font-weight:bold">in</span> packed_dataset<span style="color:#000;font-weight:bold">.</span>take(<span style="color:#099">1</span>):
+  <span style="color:#000;font-weight:bold">print</span>(features<span style="color:#000;font-weight:bold">.</span>numpy())
+  <span style="color:#000;font-weight:bold">print</span>()
+  <span style="color:#000;font-weight:bold">print</span>(labels<span style="color:#000;font-weight:bold">.</span>numpy())
+
+[[<span style="color:#099">28.</span>     <span style="color:#099">0.</span>     <span style="color:#099">0.</span>     <span style="color:#099">7.775</span>]
+ [<span style="color:#099">17.</span>     <span style="color:#099">0.</span>     <span style="color:#099">0.</span>    <span style="color:#099">14.458</span>]
+ [<span style="color:#099">34.</span>     <span style="color:#099">0.</span>     <span style="color:#099">0.</span>     <span style="color:#099">8.05</span> ]
+ [ <span style="color:#099">3.</span>     <span style="color:#099">1.</span>     <span style="color:#099">1.</span>    <span style="color:#099">18.75</span> ]
+ [<span style="color:#099">28.</span>     <span style="color:#099">0.</span>     <span style="color:#099">0.</span>     <span style="color:#099">7.75</span> ]]
+
+[<span style="color:#099">0</span> <span style="color:#099">0</span> <span style="color:#099">0</span> <span style="color:#099">1</span> <span style="color:#099">0</span>]
+</code></pre></td></tr></table>
+</div>
+</div><p>如果你有混合数据类型，则可能需要将这些简单数字字段分开。<code>tf.feature_column</code>api可以处理它们，但这会产生一些开销，除非确实需要，否则应该避免。切换回混合数据集：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">show_batch(raw_train_data)
+
+sex                 : [<span style="color:#d14">b</span><span style="color:#d14">&#39;female&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;male&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;male&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;male&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;female&#39;</span>]
+age                 : [<span style="color:#099">28.</span> <span style="color:#099">28.</span> <span style="color:#099">44.</span> <span style="color:#099">23.</span> <span style="color:#099">18.</span>]
+n_siblings_spouses  : [<span style="color:#099">0</span> <span style="color:#099">0</span> <span style="color:#099">0</span> <span style="color:#099">0</span> <span style="color:#099">0</span>]
+parch               : [<span style="color:#099">0</span> <span style="color:#099">0</span> <span style="color:#099">0</span> <span style="color:#099">0</span> <span style="color:#099">2</span>]
+fare                : [<span style="color:#099">12.35</span>   <span style="color:#099">8.05</span>   <span style="color:#099">7.925</span> <span style="color:#099">13.</span>    <span style="color:#099">13.</span>   ]
+<span style="color:#000;font-weight:bold">class</span>               <span style="color:#a61717;background-color:#e3d2d2">: [</span><span style="color:#458;font-weight:bold">b</span><span style="color:#d14">&#39;Second&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Third&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Third&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Second&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Second&#39;</span>]
+deck                : [<span style="color:#d14">b</span><span style="color:#d14">&#39;E&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;unknown&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;unknown&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;unknown&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;unknown&#39;</span>]
+embark_town         : [<span style="color:#d14">b</span><span style="color:#d14">&#39;Queenstown&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Southampton&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Southampton&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Southampton&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Southampton&#39;</span>]
+alone               : [<span style="color:#d14">b</span><span style="color:#d14">&#39;y&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;y&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;y&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;y&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;n&#39;</span>]
+</code></pre></td></tr></table>
+</div>
+</div><p>因此，定义一个更通用的预处理器，该预处理器选择一系列数字特征并将其打包到单个列中：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">PackNumericFeatures</span>(<span style="color:#0086b3">object</span>):
+  <span style="color:#000;font-weight:bold">def</span> __init__(<span style="color:#999">self</span>, names):
+    <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>names <span style="color:#000;font-weight:bold">=</span> names
+
+  <span style="color:#000;font-weight:bold">def</span> __call__(<span style="color:#999">self</span>, features, labels):
+    numeric_freatures <span style="color:#000;font-weight:bold">=</span> [features<span style="color:#000;font-weight:bold">.</span>pop(name) <span style="color:#000;font-weight:bold">for</span> name <span style="color:#000;font-weight:bold">in</span> <span style="color:#999">self</span><span style="color:#000;font-weight:bold">.</span>names]
+    numeric_features <span style="color:#000;font-weight:bold">=</span> [tf<span style="color:#000;font-weight:bold">.</span>cast(feat, tf<span style="color:#000;font-weight:bold">.</span>float32) <span style="color:#000;font-weight:bold">for</span> feat <span style="color:#000;font-weight:bold">in</span> numeric_freatures]
+    numeric_features <span style="color:#000;font-weight:bold">=</span> tf<span style="color:#000;font-weight:bold">.</span>stack(numeric_features, axis<span style="color:#000;font-weight:bold">=-</span><span style="color:#099">1</span>)
+    features[<span style="color:#d14">&#39;numeric&#39;</span>] <span style="color:#000;font-weight:bold">=</span> numeric_features
+
+    <span style="color:#000;font-weight:bold">return</span> features, labels
+
+NUMERIC_FEATURES <span style="color:#000;font-weight:bold">=</span> [<span style="color:#d14">&#39;age&#39;</span>,<span style="color:#d14">&#39;n_siblings_spouses&#39;</span>,<span style="color:#d14">&#39;parch&#39;</span>, <span style="color:#d14">&#39;fare&#39;</span>]
+
+packed_train_data <span style="color:#000;font-weight:bold">=</span> raw_train_data<span style="color:#000;font-weight:bold">.</span>map(
+    PackNumericFeatures(NUMERIC_FEATURES))
+
+packed_test_data <span style="color:#000;font-weight:bold">=</span> raw_test_data<span style="color:#000;font-weight:bold">.</span>map(
+    PackNumericFeatures(NUMERIC_FEATURES))
+
+show_batch(packed_train_data)
+
+sex                 : [<span style="color:#d14">b</span><span style="color:#d14">&#39;male&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;male&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;male&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;male&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;male&#39;</span>]
+<span style="color:#000;font-weight:bold">class</span>               <span style="color:#a61717;background-color:#e3d2d2">: [</span><span style="color:#458;font-weight:bold">b</span><span style="color:#d14">&#39;Third&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Second&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Second&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Third&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Third&#39;</span>]
+deck                : [<span style="color:#d14">b</span><span style="color:#d14">&#39;unknown&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;unknown&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;unknown&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;unknown&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;unknown&#39;</span>]
+embark_town         : [<span style="color:#d14">b</span><span style="color:#d14">&#39;Southampton&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Cherbourg&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Southampton&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Queenstown&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;Cherbourg&#39;</span>]
+alone               : [<span style="color:#d14">b</span><span style="color:#d14">&#39;y&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;n&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;y&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;y&#39;</span> <span style="color:#d14">b</span><span style="color:#d14">&#39;n&#39;</span>]
+numeric             : [[<span style="color:#099">28.</span>     <span style="color:#099">0.</span>     <span style="color:#099">0.</span>     <span style="color:#099">8.05</span> ]
+ [<span style="color:#099">31.</span>     <span style="color:#099">1.</span>     <span style="color:#099">1.</span>    <span style="color:#099">37.004</span>]
+ [<span style="color:#099">47.</span>     <span style="color:#099">0.</span>     <span style="color:#099">0.</span>    <span style="color:#099">15.</span>   ]
+ [<span style="color:#099">40.5</span>    <span style="color:#099">0.</span>     <span style="color:#099">0.</span>     <span style="color:#099">7.75</span> ]
+ [<span style="color:#099">15.</span>     <span style="color:#099">1.</span>     <span style="color:#099">1.</span>     <span style="color:#099">7.229</span>]]
+
+example_batch, labels_batch <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">next</span>(<span style="color:#0086b3">iter</span>(packed_train_data))
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="数据归一化">数据归一化</h3>
+<p>连续数据应始终归一化。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">pandas</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#555">pd</span>
+desc <span style="color:#000;font-weight:bold">=</span> pd<span style="color:#000;font-weight:bold">.</span>read_csv(train_file_path)[NUMERIC_FEATURES]<span style="color:#000;font-weight:bold">.</span>describe()
+desc
+</code></pre></td></tr></table>
+</div>
+</div><p><img src="/images/tfkc1.png" alt=""></p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">MEAN <span style="color:#000;font-weight:bold">=</span> np<span style="color:#000;font-weight:bold">.</span>array(desc<span style="color:#000;font-weight:bold">.</span>T[<span style="color:#d14">&#39;mean&#39;</span>])
+STD <span style="color:#000;font-weight:bold">=</span> np<span style="color:#000;font-weight:bold">.</span>array(desc<span style="color:#000;font-weight:bold">.</span>T[<span style="color:#d14">&#39;std&#39;</span>])
+
+<span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">normalize_numeric_data</span>(data, mean, std):
+  <span style="color:#998;font-style:italic"># Center the data</span>
+  <span style="color:#000;font-weight:bold">return</span> (data<span style="color:#000;font-weight:bold">-</span>mean)<span style="color:#000;font-weight:bold">/</span>std
+</code></pre></td></tr></table>
+</div>
+</div><p>现在创建一个数值列。<code>tf.feature_columns.numeric_column</code>API接受一个<code>normalizer_fn</code>参数，该参数将在每个批量上运行。</p>
+<p>使用<a href="https://docs.python.org/3/library/functools.html#functools.partial"><code>functools.partial</code></a>函数将<code>MEAN</code>和<code>STD</code>绑定到<code>normalizer fn</code>。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#998;font-style:italic"># See what you just created.</span>
+normalizer <span style="color:#000;font-weight:bold">=</span> functools<span style="color:#000;font-weight:bold">.</span>partial(normalize_numeric_data, mean<span style="color:#000;font-weight:bold">=</span>MEAN, std<span style="color:#000;font-weight:bold">=</span>STD)
+numeric_column <span style="color:#000;font-weight:bold">=</span> tf<span style="color:#000;font-weight:bold">.</span>feature_column<span style="color:#000;font-weight:bold">.</span>numeric_column(<span style="color:#d14">&#39;numeric&#39;</span>, normalizer_fn<span style="color:#000;font-weight:bold">=</span>normalizer, shape<span style="color:#000;font-weight:bold">=</span>[<span style="color:#0086b3">len</span>(NUMERIC_FEATURES)])
+numeric_columns <span style="color:#000;font-weight:bold">=</span> [numeric_column]
+numeric_column
+
+NumericColumn(key<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;numeric&#39;</span>, shape<span style="color:#000;font-weight:bold">=</span>(<span style="color:#099">4</span>,), default_value<span style="color:#000;font-weight:bold">=</span><span style="color:#999">None</span>, dtype<span style="color:#000;font-weight:bold">=</span>tf<span style="color:#000;font-weight:bold">.</span>float32, normalizer_fn<span style="color:#000;font-weight:bold">=</span>functools<span style="color:#000;font-weight:bold">.</span>partial(<span style="color:#000;font-weight:bold">&lt;</span>function normalize_numeric_data at <span style="color:#099">0x7fbe901b9598</span><span style="color:#000;font-weight:bold">&gt;</span>, mean<span style="color:#000;font-weight:bold">=</span>array([<span style="color:#099">29.631</span>,  <span style="color:#099">0.545</span>,  <span style="color:#099">0.38</span> , <span style="color:#099">34.385</span>]), std<span style="color:#000;font-weight:bold">=</span>array([<span style="color:#099">12.512</span>,  <span style="color:#099">1.151</span>,  <span style="color:#099">0.793</span>, <span style="color:#099">54.598</span>])))
+</code></pre></td></tr></table>
+</div>
+</div><p>训练模型时，请选择包含此特征列并将此数据块的数值居中：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">example_batch[<span style="color:#d14">&#39;numeric&#39;</span>]
+
+<span style="color:#000;font-weight:bold">&lt;</span>tf<span style="color:#000;font-weight:bold">.</span>Tensor: <span style="color:#0086b3">id</span><span style="color:#000;font-weight:bold">=</span><span style="color:#099">550</span>, shape<span style="color:#000;font-weight:bold">=</span>(<span style="color:#099">5</span>, <span style="color:#099">4</span>), dtype<span style="color:#000;font-weight:bold">=</span>float32, numpy<span style="color:#000;font-weight:bold">=</span>
+array([[<span style="color:#099">18.</span>   ,  <span style="color:#099">0.</span>   ,  <span style="color:#099">1.</span>   , <span style="color:#099">23.</span>   ],
+       [<span style="color:#099">29.</span>   ,  <span style="color:#099">1.</span>   ,  <span style="color:#099">0.</span>   ,  <span style="color:#099">7.046</span>],
+       [<span style="color:#099">28.</span>   ,  <span style="color:#099">1.</span>   ,  <span style="color:#099">0.</span>   , <span style="color:#099">15.5</span>  ],
+       [<span style="color:#099">27.</span>   ,  <span style="color:#099">0.</span>   ,  <span style="color:#099">0.</span>   , <span style="color:#099">76.729</span>],
+       [<span style="color:#099">28.</span>   ,  <span style="color:#099">0.</span>   ,  <span style="color:#099">0.</span>   ,  <span style="color:#099">7.75</span> ]], dtype<span style="color:#000;font-weight:bold">=</span>float32)<span style="color:#000;font-weight:bold">&gt;</span>
+
+numeric_layer <span style="color:#000;font-weight:bold">=</span> tf<span style="color:#000;font-weight:bold">.</span>keras<span style="color:#000;font-weight:bold">.</span>layers<span style="color:#000;font-weight:bold">.</span>DenseFeatures(numeric_columns)
+numeric_layer(example_batch)<span style="color:#000;font-weight:bold">.</span>numpy()
+
+array([[<span style="color:#000;font-weight:bold">-</span><span style="color:#099">0.93</span> , <span style="color:#000;font-weight:bold">-</span><span style="color:#099">0.474</span>,  <span style="color:#099">0.782</span>, <span style="color:#000;font-weight:bold">-</span><span style="color:#099">0.209</span>],
+       [<span style="color:#000;font-weight:bold">-</span><span style="color:#099">0.05</span> ,  <span style="color:#099">0.395</span>, <span style="color:#000;font-weight:bold">-</span><span style="color:#099">0.479</span>, <span style="color:#000;font-weight:bold">-</span><span style="color:#099">0.501</span>],
+       [<span style="color:#000;font-weight:bold">-</span><span style="color:#099">0.13</span> ,  <span style="color:#099">0.395</span>, <span style="color:#000;font-weight:bold">-</span><span style="color:#099">0.479</span>, <span style="color:#000;font-weight:bold">-</span><span style="color:#099">0.346</span>],
+       [<span style="color:#000;font-weight:bold">-</span><span style="color:#099">0.21</span> , <span style="color:#000;font-weight:bold">-</span><span style="color:#099">0.474</span>, <span style="color:#000;font-weight:bold">-</span><span style="color:#099">0.479</span>,  <span style="color:#099">0.776</span>],
+       [<span style="color:#000;font-weight:bold">-</span><span style="color:#099">0.13</span> , <span style="color:#000;font-weight:bold">-</span><span style="color:#099">0.474</span>, <span style="color:#000;font-weight:bold">-</span><span style="color:#099">0.479</span>, <span style="color:#000;font-weight:bold">-</span><span style="color:#099">0.488</span>]], dtype<span style="color:#000;font-weight:bold">=</span>float32)
+</code></pre></td></tr></table>
+</div>
+</div><p>这里使用的是基于均值的归一化，要求提前知道每一列的均值。</p>
+<h3 id="分类数据">分类数据</h3>
+<p>CSV数据中的某些列是分类列。也就是说，内容应该是一组有限的选项之一。</p>
+<p>使用<code>tf.feature_column</code>API为每个分类创建一个具有<code>tf.feature_column.indicator_column</code>的集合。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">CATEGORIES <span style="color:#000;font-weight:bold">=</span> {
+    <span style="color:#d14">&#39;sex&#39;</span>: [<span style="color:#d14">&#39;male&#39;</span>, <span style="color:#d14">&#39;female&#39;</span>],
+    <span style="color:#d14">&#39;class&#39;</span> : [<span style="color:#d14">&#39;First&#39;</span>, <span style="color:#d14">&#39;Second&#39;</span>, <span style="color:#d14">&#39;Third&#39;</span>],
+    <span style="color:#d14">&#39;deck&#39;</span> : [<span style="color:#d14">&#39;A&#39;</span>, <span style="color:#d14">&#39;B&#39;</span>, <span style="color:#d14">&#39;C&#39;</span>, <span style="color:#d14">&#39;D&#39;</span>, <span style="color:#d14">&#39;E&#39;</span>, <span style="color:#d14">&#39;F&#39;</span>, <span style="color:#d14">&#39;G&#39;</span>, <span style="color:#d14">&#39;H&#39;</span>, <span style="color:#d14">&#39;I&#39;</span>, <span style="color:#d14">&#39;J&#39;</span>],
+    <span style="color:#d14">&#39;embark_town&#39;</span> : [<span style="color:#d14">&#39;Cherbourg&#39;</span>, <span style="color:#d14">&#39;Southhampton&#39;</span>, <span style="color:#d14">&#39;Queenstown&#39;</span>],
+    <span style="color:#d14">&#39;alone&#39;</span> : [<span style="color:#d14">&#39;y&#39;</span>, <span style="color:#d14">&#39;n&#39;</span>]
+}
+
+categorical_columns <span style="color:#000;font-weight:bold">=</span> []
+<span style="color:#000;font-weight:bold">for</span> feature, vocab <span style="color:#000;font-weight:bold">in</span> CATEGORIES<span style="color:#000;font-weight:bold">.</span>items():
+  cat_col <span style="color:#000;font-weight:bold">=</span> tf<span style="color:#000;font-weight:bold">.</span>feature_column<span style="color:#000;font-weight:bold">.</span>categorical_column_with_vocabulary_list(
+        key<span style="color:#000;font-weight:bold">=</span>feature, vocabulary_list<span style="color:#000;font-weight:bold">=</span>vocab)
+  categorical_columns<span style="color:#000;font-weight:bold">.</span>append(tf<span style="color:#000;font-weight:bold">.</span>feature_column<span style="color:#000;font-weight:bold">.</span>indicator_column(cat_col))
+
+<span style="color:#998;font-style:italic"># See what you just created.</span>
+categorical_columns
+
+[IndicatorColumn(categorical_column<span style="color:#000;font-weight:bold">=</span>VocabularyListCategoricalColumn(key<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;sex&#39;</span>, vocabulary_list<span style="color:#000;font-weight:bold">=</span>(<span style="color:#d14">&#39;male&#39;</span>, <span style="color:#d14">&#39;female&#39;</span>), dtype<span style="color:#000;font-weight:bold">=</span>tf<span style="color:#000;font-weight:bold">.</span>string, default_value<span style="color:#000;font-weight:bold">=-</span><span style="color:#099">1</span>, num_oov_buckets<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0</span>)),
+ IndicatorColumn(categorical_column<span style="color:#000;font-weight:bold">=</span>VocabularyListCategoricalColumn(key<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;class&#39;</span>, vocabulary_list<span style="color:#000;font-weight:bold">=</span>(<span style="color:#d14">&#39;First&#39;</span>, <span style="color:#d14">&#39;Second&#39;</span>, <span style="color:#d14">&#39;Third&#39;</span>), dtype<span style="color:#000;font-weight:bold">=</span>tf<span style="color:#000;font-weight:bold">.</span>string, default_value<span style="color:#000;font-weight:bold">=-</span><span style="color:#099">1</span>, num_oov_buckets<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0</span>)),
+ IndicatorColumn(categorical_column<span style="color:#000;font-weight:bold">=</span>VocabularyListCategoricalColumn(key<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;deck&#39;</span>, vocabulary_list<span style="color:#000;font-weight:bold">=</span>(<span style="color:#d14">&#39;A&#39;</span>, <span style="color:#d14">&#39;B&#39;</span>, <span style="color:#d14">&#39;C&#39;</span>, <span style="color:#d14">&#39;D&#39;</span>, <span style="color:#d14">&#39;E&#39;</span>, <span style="color:#d14">&#39;F&#39;</span>, <span style="color:#d14">&#39;G&#39;</span>, <span style="color:#d14">&#39;H&#39;</span>, <span style="color:#d14">&#39;I&#39;</span>, <span style="color:#d14">&#39;J&#39;</span>), dtype<span style="color:#000;font-weight:bold">=</span>tf<span style="color:#000;font-weight:bold">.</span>string, default_value<span style="color:#000;font-weight:bold">=-</span><span style="color:#099">1</span>, num_oov_buckets<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0</span>)),
+ IndicatorColumn(categorical_column<span style="color:#000;font-weight:bold">=</span>VocabularyListCategoricalColumn(key<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;embark_town&#39;</span>, vocabulary_list<span style="color:#000;font-weight:bold">=</span>(<span style="color:#d14">&#39;Cherbourg&#39;</span>, <span style="color:#d14">&#39;Southhampton&#39;</span>, <span style="color:#d14">&#39;Queenstown&#39;</span>), dtype<span style="color:#000;font-weight:bold">=</span>tf<span style="color:#000;font-weight:bold">.</span>string, default_value<span style="color:#000;font-weight:bold">=-</span><span style="color:#099">1</span>, num_oov_buckets<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0</span>)),
+ IndicatorColumn(categorical_column<span style="color:#000;font-weight:bold">=</span>VocabularyListCategoricalColumn(key<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;alone&#39;</span>, vocabulary_list<span style="color:#000;font-weight:bold">=</span>(<span style="color:#d14">&#39;y&#39;</span>, <span style="color:#d14">&#39;n&#39;</span>), dtype<span style="color:#000;font-weight:bold">=</span>tf<span style="color:#000;font-weight:bold">.</span>string, default_value<span style="color:#000;font-weight:bold">=-</span><span style="color:#099">1</span>, num_oov_buckets<span style="color:#000;font-weight:bold">=</span><span style="color:#099">0</span>))]
+
+categorical_layer <span style="color:#000;font-weight:bold">=</span> tf<span style="color:#000;font-weight:bold">.</span>keras<span style="color:#000;font-weight:bold">.</span>layers<span style="color:#000;font-weight:bold">.</span>DenseFeatures(categorical_columns)
+<span style="color:#000;font-weight:bold">print</span>(categorical_layer(example_batch)<span style="color:#000;font-weight:bold">.</span>numpy()[<span style="color:#099">0</span>])
+
+WARNING:tensorflow:From <span style="color:#000;font-weight:bold">/</span>tmpfs<span style="color:#000;font-weight:bold">/</span>src<span style="color:#000;font-weight:bold">/</span>tf_docs_env<span style="color:#000;font-weight:bold">/</span>lib<span style="color:#000;font-weight:bold">/</span>python3<span style="color:#000;font-weight:bold">.</span><span style="color:#099">6</span><span style="color:#000;font-weight:bold">/</span>site<span style="color:#000;font-weight:bold">-</span>packages<span style="color:#000;font-weight:bold">/</span>tensorflow_core<span style="color:#000;font-weight:bold">/</span>python<span style="color:#000;font-weight:bold">/</span>feature_column<span style="color:#000;font-weight:bold">/</span>feature_column_v2<span style="color:#000;font-weight:bold">.</span>py:<span style="color:#099">4276</span>: IndicatorColumn<span style="color:#000;font-weight:bold">.</span>_variable_shape (<span style="color:#000;font-weight:bold">from</span> <span style="color:#555">tensorflow.python.feature_column.feature_column_v2</span>) <span style="color:#000;font-weight:bold">is</span> deprecated <span style="color:#000;font-weight:bold">and</span> will be removed <span style="color:#000;font-weight:bold">in</span> a future version<span style="color:#000;font-weight:bold">.</span>
+Instructions <span style="color:#000;font-weight:bold">for</span> updating:
+The old _FeatureColumn APIs are being deprecated<span style="color:#000;font-weight:bold">.</span> Please use the new FeatureColumn APIs instead<span style="color:#000;font-weight:bold">.</span>
+WARNING:tensorflow:From <span style="color:#000;font-weight:bold">/</span>tmpfs<span style="color:#000;font-weight:bold">/</span>src<span style="color:#000;font-weight:bold">/</span>tf_docs_env<span style="color:#000;font-weight:bold">/</span>lib<span style="color:#000;font-weight:bold">/</span>python3<span style="color:#000;font-weight:bold">.</span><span style="color:#099">6</span><span style="color:#000;font-weight:bold">/</span>site<span style="color:#000;font-weight:bold">-</span>packages<span style="color:#000;font-weight:bold">/</span>tensorflow_core<span style="color:#000;font-weight:bold">/</span>python<span style="color:#000;font-weight:bold">/</span>feature_column<span style="color:#000;font-weight:bold">/</span>feature_column_v2<span style="color:#000;font-weight:bold">.</span>py:<span style="color:#099">4331</span>: VocabularyListCategoricalColumn<span style="color:#000;font-weight:bold">.</span>_num_buckets (<span style="color:#000;font-weight:bold">from</span> <span style="color:#555">tensorflow.python.feature_column.feature_column_v2</span>) <span style="color:#000;font-weight:bold">is</span> deprecated <span style="color:#000;font-weight:bold">and</span> will be removed <span style="color:#000;font-weight:bold">in</span> a future version<span style="color:#000;font-weight:bold">.</span>
+Instructions <span style="color:#000;font-weight:bold">for</span> updating:
+The old _FeatureColumn APIs are being deprecated<span style="color:#000;font-weight:bold">.</span> Please use the new FeatureColumn APIs instead<span style="color:#000;font-weight:bold">.</span>
+[<span style="color:#099">0.</span> <span style="color:#099">1.</span> <span style="color:#099">0.</span> <span style="color:#099">1.</span> <span style="color:#099">0.</span> <span style="color:#099">0.</span> <span style="color:#099">0.</span> <span style="color:#099">0.</span> <span style="color:#099">0.</span> <span style="color:#099">0.</span> <span style="color:#099">0.</span> <span style="color:#099">0.</span> <span style="color:#099">0.</span> <span style="color:#099">0.</span> <span style="color:#099">0.</span> <span style="color:#099">0.</span> <span style="color:#099">0.</span> <span style="color:#099">0.</span> <span style="color:#099">0.</span> <span style="color:#099">1.</span>]
+</code></pre></td></tr></table>
+</div>
+</div><p>稍后在构建模型时，这将成为数据处理输入的一部分。</p>
+<h3 id="组合预处理层">组合预处理层</h3>
+<p>添加两个特征列集合，并将它们传递给<code>tf.keras.layers.DenseFeatures</code>以创建一个输入层，该层将提取并预处理这两种输入类型：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">preprocessing_layer <span style="color:#000;font-weight:bold">=</span> tf<span style="color:#000;font-weight:bold">.</span>keras<span style="color:#000;font-weight:bold">.</span>layers<span style="color:#000;font-weight:bold">.</span>DenseFeatures(categorical_columns<span style="color:#000;font-weight:bold">+</span>numeric_columns)
+<span style="color:#000;font-weight:bold">print</span>(preprocessing_layer(example_batch)<span style="color:#000;font-weight:bold">.</span>numpy()[<span style="color:#099">0</span>])
+
+[ <span style="color:#099">0.</span>     <span style="color:#099">1.</span>     <span style="color:#099">0.</span>     <span style="color:#099">1.</span>     <span style="color:#099">0.</span>     <span style="color:#099">0.</span>     <span style="color:#099">0.</span>     <span style="color:#099">0.</span>     <span style="color:#099">0.</span>     <span style="color:#099">0.</span>
+  <span style="color:#099">0.</span>     <span style="color:#099">0.</span>     <span style="color:#099">0.</span>     <span style="color:#099">0.</span>     <span style="color:#099">0.</span>     <span style="color:#099">0.</span>     <span style="color:#099">0.</span>     <span style="color:#099">0.</span>    <span style="color:#000;font-weight:bold">-</span><span style="color:#099">0.93</span>  <span style="color:#000;font-weight:bold">-</span><span style="color:#099">0.474</span>
+  <span style="color:#099">0.782</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">0.209</span>  <span style="color:#099">0.</span>     <span style="color:#099">1.</span>   ]
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="建立模型">建立模型</h2>
+<p>建立一个以<code>preprocessing_layer</code>开始的<code>tf.keras.Sequential</code>。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">model <span style="color:#000;font-weight:bold">=</span> tf<span style="color:#000;font-weight:bold">.</span>keras<span style="color:#000;font-weight:bold">.</span>Sequential([
+  preprocessing_layer,
+  tf<span style="color:#000;font-weight:bold">.</span>keras<span style="color:#000;font-weight:bold">.</span>layers<span style="color:#000;font-weight:bold">.</span>Dense(<span style="color:#099">128</span>, activation<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;relu&#39;</span>),
+  tf<span style="color:#000;font-weight:bold">.</span>keras<span style="color:#000;font-weight:bold">.</span>layers<span style="color:#000;font-weight:bold">.</span>Dense(<span style="color:#099">128</span>, activation<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;relu&#39;</span>),
+  tf<span style="color:#000;font-weight:bold">.</span>keras<span style="color:#000;font-weight:bold">.</span>layers<span style="color:#000;font-weight:bold">.</span>Dense(<span style="color:#099">1</span>, activation<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;sigmoid&#39;</span>),
+])
+
+model<span style="color:#000;font-weight:bold">.</span>compile(
+    loss<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;binary_crossentropy&#39;</span>,
+    optimizer<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;adam&#39;</span>,
+    metrics<span style="color:#000;font-weight:bold">=</span>[<span style="color:#d14">&#39;accuracy&#39;</span>])
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="训练评估和预测">训练、评估和预测</h2>
+<p>现在可以实例化和训练模型。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">train_data <span style="color:#000;font-weight:bold">=</span> packed_train_data<span style="color:#000;font-weight:bold">.</span>shuffle(<span style="color:#099">500</span>)
+test_data <span style="color:#000;font-weight:bold">=</span> packed_test_data
+
+model<span style="color:#000;font-weight:bold">.</span>fit(train_data, epochs<span style="color:#000;font-weight:bold">=</span><span style="color:#099">20</span>)
+
+Epoch <span style="color:#099">1</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">20</span>
+<span style="color:#099">126</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">126</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">2</span>s <span style="color:#099">15</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.5163</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.7528</span>
+Epoch <span style="color:#099">2</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">20</span>
+<span style="color:#099">126</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">126</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">1</span>s <span style="color:#099">4</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.4242</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.8214</span>
+Epoch <span style="color:#099">3</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">20</span>
+<span style="color:#099">126</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">126</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">1</span>s <span style="color:#099">4</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.4011</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.8325</span>
+Epoch <span style="color:#099">4</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">20</span>
+<span style="color:#099">126</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">126</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">1</span>s <span style="color:#099">4</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.3893</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.8309</span>
+Epoch <span style="color:#099">5</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">20</span>
+<span style="color:#099">126</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">126</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">1</span>s <span style="color:#099">4</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.3915</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.8357</span>
+Epoch <span style="color:#099">6</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">20</span>
+<span style="color:#099">126</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">126</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">1</span>s <span style="color:#099">4</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.3689</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.8533</span>
+Epoch <span style="color:#099">7</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">20</span>
+<span style="color:#099">126</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">126</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">1</span>s <span style="color:#099">4</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.3601</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.8581</span>
+Epoch <span style="color:#099">8</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">20</span>
+<span style="color:#099">126</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">126</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">1</span>s <span style="color:#099">4</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.3547</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.8501</span>
+Epoch <span style="color:#099">9</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">20</span>
+<span style="color:#099">126</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">126</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">1</span>s <span style="color:#099">4</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.3484</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.8549</span>
+Epoch <span style="color:#099">10</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">20</span>
+<span style="color:#099">126</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">126</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">1</span>s <span style="color:#099">4</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.3494</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.8549</span>
+Epoch <span style="color:#099">11</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">20</span>
+<span style="color:#099">126</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">126</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">1</span>s <span style="color:#099">4</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.3410</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.8565</span>
+Epoch <span style="color:#099">12</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">20</span>
+<span style="color:#099">126</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">126</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">1</span>s <span style="color:#099">4</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.3381</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.8565</span>
+Epoch <span style="color:#099">13</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">20</span>
+<span style="color:#099">126</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">126</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">1</span>s <span style="color:#099">4</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.3287</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.8644</span>
+Epoch <span style="color:#099">14</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">20</span>
+<span style="color:#099">126</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">126</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">1</span>s <span style="color:#099">4</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.3278</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.8565</span>
+Epoch <span style="color:#099">15</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">20</span>
+<span style="color:#099">126</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">126</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">1</span>s <span style="color:#099">4</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.3220</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.8708</span>
+Epoch <span style="color:#099">16</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">20</span>
+<span style="color:#099">126</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">126</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">1</span>s <span style="color:#099">4</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.3263</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.8628</span>
+Epoch <span style="color:#099">17</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">20</span>
+<span style="color:#099">126</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">126</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">1</span>s <span style="color:#099">4</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.3167</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.8708</span>
+Epoch <span style="color:#099">18</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">20</span>
+<span style="color:#099">126</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">126</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">1</span>s <span style="color:#099">4</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.3216</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.8565</span>
+Epoch <span style="color:#099">19</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">20</span>
+<span style="color:#099">126</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">126</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">1</span>s <span style="color:#099">4</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.3093</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.8644</span>
+Epoch <span style="color:#099">20</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">20</span>
+<span style="color:#099">126</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">126</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">1</span>s <span style="color:#099">4</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.3141</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.8676</span>
+
+<span style="color:#000;font-weight:bold">&lt;</span>tensorflow<span style="color:#000;font-weight:bold">.</span>python<span style="color:#000;font-weight:bold">.</span>keras<span style="color:#000;font-weight:bold">.</span>callbacks<span style="color:#000;font-weight:bold">.</span>History at <span style="color:#099">0x7fbe901e1e48</span><span style="color:#000;font-weight:bold">&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>训练模型后，你可以在<code>test_data</code>数据集上测试模型的准确性。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">test_loss, test_accuracy <span style="color:#000;font-weight:bold">=</span> model<span style="color:#000;font-weight:bold">.</span>evaluate(test_data)
+
+<span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">\n\n</span><span style="color:#d14">Test Loss {}, Test Accuracy {}&#39;</span><span style="color:#000;font-weight:bold">.</span>format(test_loss, test_accuracy))
+
+<span style="color:#099">53</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">53</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">0</span>s <span style="color:#099">9</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.4456</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.8258</span>
+
+Test Loss <span style="color:#099">0.44557267272809764</span>, Test Accuracy <span style="color:#099">0.8257575631141663</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>使用<code>tf.keras.Model.predict</code>预测批量或批量数据集上的标签。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">predictions <span style="color:#000;font-weight:bold">=</span> model<span style="color:#000;font-weight:bold">.</span>predict(test_data)
+
+<span style="color:#998;font-style:italic"># Show some results</span>
+<span style="color:#000;font-weight:bold">for</span> prediction, survived <span style="color:#000;font-weight:bold">in</span> <span style="color:#0086b3">zip</span>(predictions[:<span style="color:#099">10</span>], <span style="color:#0086b3">list</span>(test_data)[<span style="color:#099">0</span>][<span style="color:#099">1</span>][:<span style="color:#099">10</span>]):
+  <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#34;Predicted survival: {:.2%}&#34;</span><span style="color:#000;font-weight:bold">.</span>format(prediction[<span style="color:#099">0</span>]),
+        <span style="color:#d14">&#34; | Actual outcome: &#34;</span>,
+        (<span style="color:#d14">&#34;SURVIVED&#34;</span> <span style="color:#000;font-weight:bold">if</span> <span style="color:#0086b3">bool</span>(survived) <span style="color:#000;font-weight:bold">else</span> <span style="color:#d14">&#34;DIED&#34;</span>))
+
+Predicted survival: <span style="color:#099">10.28</span><span style="color:#000;font-weight:bold">%</span>  <span style="color:#000;font-weight:bold">|</span> Actual outcome:  SURVIVED
+Predicted survival: <span style="color:#099">83.55</span><span style="color:#000;font-weight:bold">%</span>  <span style="color:#000;font-weight:bold">|</span> Actual outcome:  SURVIVED
+Predicted survival: <span style="color:#099">39.76</span><span style="color:#000;font-weight:bold">%</span>  <span style="color:#000;font-weight:bold">|</span> Actual outcome:  DIED
+Predicted survival: <span style="color:#099">13.50</span><span style="color:#000;font-weight:bold">%</span>  <span style="color:#000;font-weight:bold">|</span> Actual outcome:  DIED
+Predicted survival: <span style="color:#099">14.96</span><span style="color:#000;font-weight:bold">%</span>  <span style="color:#000;font-weight:bold">|</span> Actual outcome:  DIED
+</code></pre></td></tr></table>
+</div>
+</div>
+        </div>
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://qoanty.github.io/">百年孤独</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://qoanty.github.io/2019/10/tensorflow-load-csv-data/">https://qoanty.github.io/2019/10/tensorflow-load-csv-data/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/2019/10/tensorflow-text-classification/">具有预处理文本的文本分类：电影评论</a></li>
+        
+        <li><a href="/2019/10/tensorflow-text-classification-with-hub/">使用TensorFlow Hub进行文本分类：电影评论</a></li>
+        
+        <li><a href="/2019/10/tensorflow-image-classification/">TensorFlow基本分类：对服装图像进行分类</a></li>
+        
+        <li><a href="/2019/07/install-lemp-on-debian/">在Debian 10上安装Linux，Nginx，MariaDB，PHP</a></li>
+        
+        <li><a href="/2019/07/install-nginx-on-debian/">在Debian 10上安装Nginx</a></li>
+        
+    </ul>
+</div>
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='https://qoanty.github.io/tags/tensorflow'>tensorflow</a></li>
+                
+                <li><a href='https://qoanty.github.io/tags/keras'>keras</a></li>
+                
+                <li><a href='https://qoanty.github.io/tags/deep-learning'>deep learning</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+</div>
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='https://qoanty.github.io/search/' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://qoanty.github.io/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://qoanty.github.io/2020/07/install-manjaro-kde/" title="Manjaro-KDE 安装与设置">Manjaro-KDE 安装与设置</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2020/06/vps-with-trojan-go/" title="Trojan-Go 安装配置教程">Trojan-Go 安装配置教程</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-without-phd/" title="Tensorflow, Keras and deep learning, without a Phd">Tensorflow, Keras and deep learning, without a Phd</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-load-csv-data/" title="TensorFlow加载CSV数据">TensorFlow加载CSV数据</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-text-classification/" title="具有预处理文本的文本分类：电影评论">具有预处理文本的文本分类：电影评论</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-text-classification-with-hub/" title="使用TensorFlow Hub进行文本分类：电影评论">使用TensorFlow Hub进行文本分类：电影评论</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-image-classification/" title="TensorFlow基本分类：对服装图像进行分类">TensorFlow基本分类：对服装图像进行分类</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/07/install-lemp-on-debian/" title="在Debian 10上安装Linux，Nginx，MariaDB，PHP">在Debian 10上安装Linux，Nginx，MariaDB，PHP</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/07/install-nginx-on-debian/" title="在Debian 10上安装Nginx">在Debian 10上安装Nginx</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/07/set-up-debian-server/" title="在VPS上设置Debian 10服务器">在VPS上设置Debian 10服务器</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li><a href="https://qoanty.github.io/categories/blog/">Blog (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/caddy/">Caddy (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/captcha/">Captcha (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/debian/">Debian (5)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/docker/">Docker (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/hugo/">Hugo (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/kde/">KDE (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/kms/">KMS (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/learn/">Learn (14)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/manjaro/">Manjaro (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/nginx/">Nginx (2)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/pipenv/">Pipenv (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/python/">Python (12)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/ssh/">SSH (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/tensorflow/">TensorFlow (5)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/trojan/">Trojan (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/trojan-go/">Trojan-Go (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/v2ray/">V2Ray (2)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/vim/">Vim (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/vps/">VPS (7)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="https://qoanty.github.io/tags/asyncio/">asyncio</a>
+    
+    <a href="https://qoanty.github.io/tags/caddy/">Caddy</a>
+    
+    <a href="https://qoanty.github.io/tags/cdn/">CDN</a>
+    
+    <a href="https://qoanty.github.io/tags/data/">data</a>
+    
+    <a href="https://qoanty.github.io/tags/debian/">Debian</a>
+    
+    <a href="https://qoanty.github.io/tags/deep-learning/">deep learning</a>
+    
+    <a href="https://qoanty.github.io/tags/docker/">Docker</a>
+    
+    <a href="https://qoanty.github.io/tags/features/">features</a>
+    
+    <a href="https://qoanty.github.io/tags/functions/">functions</a>
+    
+    <a href="https://qoanty.github.io/tags/geetest/">geetest</a>
+    
+    <a href="https://qoanty.github.io/tags/github/">Github</a>
+    
+    <a href="https://qoanty.github.io/tags/hugo/">Hugo</a>
+    
+    <a href="https://qoanty.github.io/tags/ide/">IDE</a>
+    
+    <a href="https://qoanty.github.io/tags/kde/">KDE</a>
+    
+    <a href="https://qoanty.github.io/tags/keras/">keras</a>
+    
+    <a href="https://qoanty.github.io/tags/kms/">KMS</a>
+    
+    <a href="https://qoanty.github.io/tags/manjaro/">Manjaro</a>
+    
+    <a href="https://qoanty.github.io/tags/nginx/">Nginx</a>
+    
+    <a href="https://qoanty.github.io/tags/oop/">OOP</a>
+    
+    <a href="https://qoanty.github.io/tags/pipenv/">Pipenv</a>
+    
+    <a href="https://qoanty.github.io/tags/processes/">processes</a>
+    
+    <a href="https://qoanty.github.io/tags/python/">Python</a>
+    
+    <a href="https://qoanty.github.io/tags/scraping/">scraping</a>
+    
+    <a href="https://qoanty.github.io/tags/ssh/">SSH</a>
+    
+    <a href="https://qoanty.github.io/tags/tensorflow/">tensorflow</a>
+    
+    <a href="https://qoanty.github.io/tags/trojan/">Trojan</a>
+    
+    <a href="https://qoanty.github.io/tags/trojan-go/">Trojan-Go</a>
+    
+    <a href="https://qoanty.github.io/tags/v2ray/">V2Ray</a>
+    
+    <a href="https://qoanty.github.io/tags/vim/">Vim</a>
+    
+    <a href="https://qoanty.github.io/tags/vps/">VPS</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">友情链接</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://python3-cookbook.readthedocs.io/zh_CN/latest/index.html" title="Python Cookbook 3rd Edition">Python Cookbook</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="https://seancheney.gitbook.io/python-for-data-analysis-2nd/" title="Python for Data Analysis 2nd Edition">Python for Data Analysis</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="https://codelabs.developers.google.com/codelabs/cloud-tensorflow-mnist/#0" title="TensorFlow and deep learning, without a PhD">TensorFlow and deep learning</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://qoanty.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+    <footer id="footer">
+    <div class="container">
+        &copy; 2020 <a href="https://qoanty.github.io/">百年孤独的博客 By 百年孤独</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/flysnow-org/maupassant-hugo" target="_blank">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+
+
+
+
+
+
+</body>
+
+</html>

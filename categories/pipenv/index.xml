@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pipenv on 百年孤独的博客</title>
+    <link>https://qoanty.github.io/categories/pipenv/</link>
+    <description>Recent content in Pipenv on 百年孤独的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Wed, 15 May 2019 08:53:24 +0800</lastBuildDate>
+    
+	<atom:link href="https://qoanty.github.io/categories/pipenv/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Python虚拟环境和包管理工具Pipenv</title>
+      <link>https://qoanty.github.io/2019/05/python-pipenv/</link>
+      <pubDate>Wed, 15 May 2019 08:53:24 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/05/python-pipenv/</guid>
+      <description>Pipenv是Kenneth Reitz的作品，Python官方推荐的包管理工具，它能够有效管理python多个版本及各种包。 它主要有以下特性： Pipenv集成了pip，virtualenv两者的功能，且完善了两者的一些缺陷。 Pipenv使用</description>
+    </item>
+    
+  </channel>
+</rss>

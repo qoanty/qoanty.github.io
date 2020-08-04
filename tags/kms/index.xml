@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>KMS on 百年孤独的博客</title>
+    <link>https://qoanty.github.io/tags/kms/</link>
+    <description>Recent content in KMS on 百年孤独的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Tue, 16 Apr 2019 16:32:41 +0800</lastBuildDate>
+    
+	<atom:link href="https://qoanty.github.io/tags/kms/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Debian 10搭建KMS服务器及激活Windows和Office</title>
+      <link>https://qoanty.github.io/2019/04/vps-kms/</link>
+      <pubDate>Tue, 16 Apr 2019 16:32:41 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/04/vps-kms/</guid>
+      <description>vlmcsd是一个开源的KMS模拟器，可以在各种CPU架构和操作系统上运行，具体信息见GitHub。 安装 使用命令cat /proc/cpuinfo查看机器的CPU架构，一般都是intel架构。运行以下命令： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18</description>
+    </item>
+    
+  </channel>
+</rss>

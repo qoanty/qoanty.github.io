@@ -1,7 +1,7 @@
 ---
 title: "windows 10下使用vim8配置python3开发环境"
 date: 2019-04-05T16:57:01+08:00
-tags: ["vim", "IDE"]
+tags: ["Vim", "IDE"]
 categories: ["Vim", "Python"]
 draft: false
 ---

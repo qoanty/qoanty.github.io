@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>features on 百年孤独的博客</title>
@@ -17,8 +17,7 @@
       <pubDate>Fri, 19 Apr 2019 15:04:36 +0800</pubDate>
       
       <guid>https://qoanty.github.io/2019/04/python3-advanced-features/</guid>
-      <description>高级特性 在Python中，代码不是越多越好，而是越少越好。代码不是越复杂越好，而是越简单越好，代码越少，开发效率越高。
-切片 先创建一个0-99的数列：</description>
+      <description>高级特性 在Python中，代码不是越多越好，而是越少越好。代码不是越复杂越好，而是越简单越好，代码越少，开发效率越高。 切片 先创建一个0-99的数列： 1 2 3 &amp;gt;&amp;gt;&amp;gt; L = list(range(100)) &amp;gt;&amp;gt;&amp;gt; L [0, 1, 2, 3, ..., 99] 可以通过切片轻松取出某一段数列。比如前10个数： 1 2 &amp;gt;&amp;gt;&amp;gt; L[:10] [0, 1, 2,</description>
     </item>
     
   </channel>

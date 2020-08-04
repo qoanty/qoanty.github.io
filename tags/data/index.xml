@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>data on 百年孤独的博客</title>
+    <link>https://qoanty.github.io/tags/data/</link>
+    <description>Recent content in data on 百年孤独的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Thu, 25 Apr 2019 15:36:02 +0800</lastBuildDate>
+    
+	<atom:link href="https://qoanty.github.io/tags/data/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Python3 数据结构</title>
+      <link>https://qoanty.github.io/2019/04/python3-data-structure/</link>
+      <pubDate>Thu, 25 Apr 2019 15:36:02 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/04/python3-data-structure/</guid>
+      <description>Python支持以下数据结构：列表list，字典dict，元组tuple，集合set。 使用字典： 需要键：值对之间的逻辑关联时。 需要基于自定义密钥快速查找数据时。 数据不断修改时，字典是可变的。 使用其他类型： 不需要随机访问的数据集合，请使用列表</description>
+    </item>
+    
+  </channel>
+</rss>

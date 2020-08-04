@@ -1,0 +1,871 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>具有预处理文本的文本分类：电影评论 | 百年孤独的博客</title>
+    <meta property="og:title" content="具有预处理文本的文本分类：电影评论 - 百年孤独的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2019-10-10T12:21:33&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2019-10-10T12:21:33&#43;08:00'>
+        
+    <meta name="Keywords" content="VPS, python, android, 博客, 小程序">
+    <meta name="description" content="具有预处理文本的文本分类：电影评论">
+        
+    <meta name="author" content="百年孤独">
+    <meta property="og:url" content="https://qoanty.github.io/2019/10/tensorflow-text-classification/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+
+
+    
+    
+</head>
+
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://qoanty.github.io/">
+                        百年孤独的博客
+                    </a>
+                
+                <p class="description">艺术家用谎言揭露真相，政治家用谎言隐瞒真相</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://qoanty.github.io/">首页</a>
+                    
+                    <a  href="https://qoanty.github.io/tools/" title="工具">工具</a>
+                    
+                    <a  href="https://qoanty.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://qoanty.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">具有预处理文本的文本分类：电影评论</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2019年10月10日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='https://qoanty.github.io/categories/learn'>Learn</a></span>
+            
+            <span class="meta-category"><a href='https://qoanty.github.io/categories/tensorflow'>TensorFlow</a></span>
+            
+        </div>
+        
+        
+        
+        <div class="post-content">
+            <p><a href="https://www.tensorflow.org/tutorials/keras/text_classification">本笔记</a>使用评论文本将电影评论分为正面评论或负面评论。这是二进制（或两类）分类的一个示例，它是一种重要且广泛适用的机器学习问题。</p>
+<p>我们将使用<a href="https://www.tensorflow.org/datasets/catalog/imdb_reviews">IMDB</a>数据集，其中包含来自网络电影数据库的50,000个电影评论的文本。这些内容分为25,000条用于训练的评论和25,000条用于测试的评论。训练集和测试集是平衡的，这意味着它们包含相同数量的正面和负面评论。</p>
+<p>本笔记本使用<a href="https://www.tensorflow.org/guide/keras">tf.keras</a>，一个高级API在TensorFlow以及<a href="https://www.tensorflow.org/hub">TensorFlow Hub</a>（用于转移学习的库和平台）中构建和训练模型，。有关使用<a href="https://www.tensorflow.org/api_docs/python/tf/keras"><code>tf.keras</code></a>进行更高级的文本分类教程，请参阅<a href="https://developers.google.com/machine-learning/guides/text-classification/">《MLCC文本分类指南》</a>。</p>
+<h2 id="设置">设置</h2>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">from</span> <span style="color:#555">__future__</span> <span style="color:#000;font-weight:bold">import</span> absolute_import, division, print_function, unicode_literals
+<span style="color:#000;font-weight:bold">import</span> <span style="color:#555">tensorflow</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#555">tf</span>
+<span style="color:#000;font-weight:bold">from</span> <span style="color:#555">tensorflow</span> <span style="color:#000;font-weight:bold">import</span> keras
+
+<span style="color:#a61717;background-color:#e3d2d2">!</span>pip install <span style="color:#000;font-weight:bold">-</span>q tensorflow<span style="color:#000;font-weight:bold">-</span>datasets
+<span style="color:#000;font-weight:bold">import</span> <span style="color:#555">tensorflow_datasets</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#555">tfds</span>
+tfds<span style="color:#000;font-weight:bold">.</span>disable_progress_bar()
+<span style="color:#000;font-weight:bold">import</span> <span style="color:#555">numpy</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#555">np</span>
+
+<span style="color:#000;font-weight:bold">print</span>(tf<span style="color:#000;font-weight:bold">.</span>__version__)
+
+<span style="color:#099">2.0</span><span style="color:#000;font-weight:bold">.</span><span style="color:#099">0</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="下载imdb数据集">下载IMDB数据集</h2>
+<p>IMDB电影评论数据集打包在<a href="https://www.tensorflow.org/datasets/api_docs/python/tfds"><code>tfds</code></a>中。它已经过预处理，以便将评论（单词序列）转换为整数序列，其中每个整数代表字典中的特定单词。</p>
+<p>以下代码将IMDB数据集下载到计算机上（如果已下载，则使用缓存的副本）：</p>
+<p>要对自己的文本进行编码，请参阅<a href="https://www.tensorflow.org/tutorials/load_data/text">加载文本</a>教程。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">(train_data, test_data), info <span style="color:#000;font-weight:bold">=</span> tfds<span style="color:#000;font-weight:bold">.</span>load(
+    <span style="color:#998;font-style:italic"># Use the version pre-encoded with an ~8k vocabulary.</span>
+    <span style="color:#d14">&#39;imdb_reviews/subwords8k&#39;</span>,
+    <span style="color:#998;font-style:italic"># Return the train/test datasets as a tuple.</span>
+    split <span style="color:#000;font-weight:bold">=</span> (tfds<span style="color:#000;font-weight:bold">.</span>Split<span style="color:#000;font-weight:bold">.</span>TRAIN, tfds<span style="color:#000;font-weight:bold">.</span>Split<span style="color:#000;font-weight:bold">.</span>TEST),
+    <span style="color:#998;font-style:italic"># Return (example, label) pairs from the dataset (instead of a dictionary).</span>
+    as_supervised<span style="color:#000;font-weight:bold">=</span><span style="color:#999">True</span>,
+    <span style="color:#998;font-style:italic"># Also return the `info` structure. </span>
+    with_info<span style="color:#000;font-weight:bold">=</span><span style="color:#999">True</span>)
+
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="尝试编码器">尝试编码器</h2>
+<p>数据集<code>info</code>包括文本编码器（<a href="https://www.tensorflow.org/datasets/api_docs/python/tfds/features/text/SubwordTextEncoder">tfds.features.text.SubwordTextEncoder</a>）。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">encoder <span style="color:#000;font-weight:bold">=</span> info<span style="color:#000;font-weight:bold">.</span>features[<span style="color:#d14">&#39;text&#39;</span>]<span style="color:#000;font-weight:bold">.</span>encoder
+<span style="color:#000;font-weight:bold">print</span> (<span style="color:#d14">&#39;Vocabulary size: {}&#39;</span><span style="color:#000;font-weight:bold">.</span>format(encoder<span style="color:#000;font-weight:bold">.</span>vocab_size))
+
+Vocabulary size: <span style="color:#099">8185</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>此文本编码器将可逆地编码任何字符串：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">sample_string <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#39;Hello TensorFlow.&#39;</span>
+
+encoded_string <span style="color:#000;font-weight:bold">=</span> encoder<span style="color:#000;font-weight:bold">.</span>encode(sample_string)
+<span style="color:#000;font-weight:bold">print</span> (<span style="color:#d14">&#39;Encoded string is {}&#39;</span><span style="color:#000;font-weight:bold">.</span>format(encoded_string))
+
+original_string <span style="color:#000;font-weight:bold">=</span> encoder<span style="color:#000;font-weight:bold">.</span>decode(encoded_string)
+<span style="color:#000;font-weight:bold">print</span> (<span style="color:#d14">&#39;The original string: &#34;{}&#34;&#39;</span><span style="color:#000;font-weight:bold">.</span>format(original_string))
+
+<span style="color:#000;font-weight:bold">assert</span> original_string <span style="color:#000;font-weight:bold">==</span> sample_string
+
+Encoded string <span style="color:#000;font-weight:bold">is</span> [<span style="color:#099">4025</span>, <span style="color:#099">222</span>, <span style="color:#099">6307</span>, <span style="color:#099">2327</span>, <span style="color:#099">4043</span>, <span style="color:#099">2120</span>, <span style="color:#099">7975</span>]
+The original string: <span style="color:#d14">&#34;Hello TensorFlow.&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如果单词不在字典中，则编码器通过将其分为子单词或字符来对其进行编码。因此，字符串越类似于数据集，则编码的表示形式越短。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">for</span> ts <span style="color:#000;font-weight:bold">in</span> encoded_string:
+  <span style="color:#000;font-weight:bold">print</span> (<span style="color:#d14">&#39;{} ----&gt; {}&#39;</span><span style="color:#000;font-weight:bold">.</span>format(ts, encoder<span style="color:#000;font-weight:bold">.</span>decode([ts])))
+
+<span style="color:#099">4025</span> <span style="color:#000;font-weight:bold">----&gt;</span> Hell
+<span style="color:#099">222</span> <span style="color:#000;font-weight:bold">----&gt;</span> o
+<span style="color:#099">6307</span> <span style="color:#000;font-weight:bold">----&gt;</span> Ten
+<span style="color:#099">2327</span> <span style="color:#000;font-weight:bold">----&gt;</span> sor
+<span style="color:#099">4043</span> <span style="color:#000;font-weight:bold">----&gt;</span> Fl
+<span style="color:#099">2120</span> <span style="color:#000;font-weight:bold">----&gt;</span> ow
+<span style="color:#099">7975</span> <span style="color:#000;font-weight:bold">----&gt;</span> <span style="color:#000;font-weight:bold">.</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="研究数据">研究数据</h2>
+<p>让我们花一点时间来了解下数据的格式。数据集经过了预处理：每个示例都是一个整数数组，代表电影评论的单词。</p>
+<p>评论文本已转换为整数，其中每个整数代表字典中的特定词条。</p>
+<p>每个标签都是0或1的整数值，其中0表示负面评论，而1表示正面评论。</p>
+<p>下面是第一条评论的样子：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">for</span> train_example, train_label <span style="color:#000;font-weight:bold">in</span> train_data<span style="color:#000;font-weight:bold">.</span>take(<span style="color:#099">1</span>):
+  <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;Encoded text:&#39;</span>, train_example[:<span style="color:#099">10</span>]<span style="color:#000;font-weight:bold">.</span>numpy())
+  <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;Label:&#39;</span>, train_label<span style="color:#000;font-weight:bold">.</span>numpy())
+
+Encoded text: [ <span style="color:#099">249</span>    <span style="color:#099">4</span>  <span style="color:#099">277</span>  <span style="color:#099">309</span>  <span style="color:#099">560</span>    <span style="color:#099">6</span> <span style="color:#099">6639</span> <span style="color:#099">4574</span>    <span style="color:#099">2</span>   <span style="color:#099">12</span>]
+Label: <span style="color:#099">1</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>该<code>info</code>结构包含编码器/解码器。编码器可用于恢复原始文本：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">encoder<span style="color:#000;font-weight:bold">.</span>decode(train_example)
+
+<span style="color:#d14">&#34;As a lifelong fan of Dickens, I have invariably been disappointed by adaptations of his novels ...... I ought to give it 10 points, but I&#39;m feeling more like Scrooge today. Soak it up with your Christmas dinner. No original has been better realised.&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="准备数据进行训练">准备数据进行训练</h2>
+<p>你需要为模型创建批量训练数据。评论的长度各不相同，因此使用<code>padded_batch</code>在处理批量时用零填充序列：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">BUFFER_SIZE <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1000</span>
+
+train_batches <span style="color:#000;font-weight:bold">=</span> (
+    train_data
+    <span style="color:#000;font-weight:bold">.</span>shuffle(BUFFER_SIZE)
+    <span style="color:#000;font-weight:bold">.</span>padded_batch(<span style="color:#099">32</span>, train_data<span style="color:#000;font-weight:bold">.</span>output_shapes))
+
+test_batches <span style="color:#000;font-weight:bold">=</span> (
+    test_data
+    <span style="color:#000;font-weight:bold">.</span>padded_batch(<span style="color:#099">32</span>, train_data<span style="color:#000;font-weight:bold">.</span>output_shapes))
+</code></pre></td></tr></table>
+</div>
+</div><p>由于填充是动态的，因此每个批量具有<code>(batch_size, sequence_length)</code>形状，每个批量具有不同的长度：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">for</span> example_batch, label_batch <span style="color:#000;font-weight:bold">in</span> train_batches<span style="color:#000;font-weight:bold">.</span>take(<span style="color:#099">2</span>):
+  <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#34;Batch shape:&#34;</span>, example_batch<span style="color:#000;font-weight:bold">.</span>shape)
+  <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#34;label shape:&#34;</span>, label_batch<span style="color:#000;font-weight:bold">.</span>shape)
+
+Batch shape: (<span style="color:#099">32</span>, <span style="color:#099">1201</span>)
+label shape: (<span style="color:#099">32</span>,)
+Batch shape: (<span style="color:#099">32</span>, <span style="color:#099">1359</span>)
+label shape: (<span style="color:#099">32</span>,)
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="建立模型">建立模型</h2>
+<p>神经网络是通过叠加层来创建的，这需要两个主要的体系结构决策：</p>
+<ul>
+<li>在模型中使用多少层？</li>
+<li>每层使用多少个隐藏单元？</li>
+</ul>
+<p>在本例中，输入数据由单词索引数组组成。要预测的标签为0或1。让我们为这个问题构建一个“连续的单词包”样式模型：</p>
+<p>警告：此模型不使用掩码，因此零填充用作输入的一部分，因此填充长度可能会影响输出。要解决此问题，请参见<a href="https://www.tensorflow.org/guide/keras/masking_and_padding">掩码和填充</a>指南。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">model <span style="color:#000;font-weight:bold">=</span> keras<span style="color:#000;font-weight:bold">.</span>Sequential([
+  keras<span style="color:#000;font-weight:bold">.</span>layers<span style="color:#000;font-weight:bold">.</span>Embedding(encoder<span style="color:#000;font-weight:bold">.</span>vocab_size, <span style="color:#099">16</span>),
+  keras<span style="color:#000;font-weight:bold">.</span>layers<span style="color:#000;font-weight:bold">.</span>GlobalAveragePooling1D(),
+  keras<span style="color:#000;font-weight:bold">.</span>layers<span style="color:#000;font-weight:bold">.</span>Dense(<span style="color:#099">1</span>, activation<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;sigmoid&#39;</span>)])
+
+model<span style="color:#000;font-weight:bold">.</span>summary()
+
+Model: <span style="color:#d14">&#34;sequential&#34;</span>
+_________________________________________________________________
+Layer (<span style="color:#0086b3">type</span>)                 Output Shape              Param <span style="color:#998;font-style:italic">#   </span>
+<span style="color:#000;font-weight:bold">=================================================================</span>
+embedding (Embedding)        (<span style="color:#999">None</span>, <span style="color:#999">None</span>, <span style="color:#099">16</span>)          <span style="color:#099">130960</span>
+_________________________________________________________________
+global_average_pooling1d (Gl (<span style="color:#999">None</span>, <span style="color:#099">16</span>)                <span style="color:#099">0</span>
+_________________________________________________________________
+dense (Dense)                (<span style="color:#999">None</span>, <span style="color:#099">1</span>)                 <span style="color:#099">17</span>
+<span style="color:#000;font-weight:bold">=================================================================</span>
+Total params: <span style="color:#099">130</span>,<span style="color:#099">977</span>
+Trainable params: <span style="color:#099">130</span>,<span style="color:#099">977</span>
+Non<span style="color:#000;font-weight:bold">-</span>trainable params: <span style="color:#099">0</span>
+_________________________________________________________________
+</code></pre></td></tr></table>
+</div>
+</div><p>依次叠加各层以构建分类器：</p>
+<ol>
+<li>第一层是<code>Embedding</code>层。该层采用整数编码的词汇表，并查找每个单词索引的嵌入向量，这些向量是在模型训练中学习的。向量将维度添加到输出数组，生成的维度是：<code>(batch, sequence, embedding)</code>。</li>
+<li>接下来，<code>GlobalAveragePooling1D</code>层通过在序列维度上求平均值，为每个示例返回固定长度的输出向量。这允许模型以最简单的方式处理可变长度的输入。</li>
+<li>这个固定长度的输出向量通过一个具有16个隐藏单元的完全连接<code>(Dense)</code>层进行管道传输。</li>
+<li>最后一层与单个输出节点紧密连接。使用<code>sigmoid</code>激活函数，此值是0到1之间的浮点数，表示概率或可信度。</li>
+</ol>
+<p><strong>隐藏单元</strong></p>
+<p>上述模型在输入和输出之间有两个中间层或“隐藏”层。输出（单位，节点或神经元）的数量是该层的表示空间的维度。换句话说，当学习一个内部表示时，允许网络的自由度。</p>
+<p>如果模型具有更多的隐藏单元（较高维度的表示空间）和/或更多的层，则网络可以学习更多复杂的表示。但是，这会使网络的计算成本更高，并且可能导致学习不需要的模式，这些模式可以提高训练数据的性能，但不能提高测试数据的性能，这称为过拟合，稍后我们将进行探讨。</p>
+<p><strong>损失函数和优化器</strong></p>
+<p>模型需要损失函数和用于训练的优化器。由于这是一个二元分类问题，并且该模型输出一个概率（具有sigmoid激活的单个单元层），因此我们将使用<code>binary_crossentropy</code>损失函数。</p>
+<p>这不是损失函数的唯一选择，例如，你可以选择<code>mean_squared_error</code>。但是，总的来说，<code>binary_crossentropy</code>它更适合于处理概率，它可以测量概率分布之间的距离，或者在我们的例子中，测量实地分布与预测之间的距离。</p>
+<p>稍后，当我们探讨回归问题（例如，预测房屋价格）时，我们将看到如何使用另一个称为均方差的损失函数。</p>
+<p>现在，配置模型以使用优化器和损失函数：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">model<span style="color:#000;font-weight:bold">.</span>compile(optimizer<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;adam&#39;</span>,
+              loss<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;binary_crossentropy&#39;</span>,
+              metrics<span style="color:#000;font-weight:bold">=</span>[<span style="color:#d14">&#39;accuracy&#39;</span>])
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="训练模型">训练模型</h2>
+<p>通过将<code>Dataset</code>对象传递给模型的拟合函数来训练模型，设置时代数。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">history <span style="color:#000;font-weight:bold">=</span> model<span style="color:#000;font-weight:bold">.</span>fit(train_batches,
+                    epochs<span style="color:#000;font-weight:bold">=</span><span style="color:#099">10</span>,
+                    validation_data<span style="color:#000;font-weight:bold">=</span>test_batches,
+                    validation_steps<span style="color:#000;font-weight:bold">=</span><span style="color:#099">30</span>)
+
+Epoch <span style="color:#099">1</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">10</span>
+<span style="color:#099">782</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">782</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">6</span>s <span style="color:#099">8</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.6832</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.6080</span> <span style="color:#000;font-weight:bold">-</span> val_loss: <span style="color:#099">0.0000e+00</span> <span style="color:#000;font-weight:bold">-</span> val_accuracy: <span style="color:#099">0.0000e+00</span>
+Epoch <span style="color:#099">2</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">10</span>
+<span style="color:#099">782</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">782</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">5</span>s <span style="color:#099">6</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.6247</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.7529</span> <span style="color:#000;font-weight:bold">-</span> val_loss: <span style="color:#099">0.5981</span> <span style="color:#000;font-weight:bold">-</span> val_accuracy: <span style="color:#099">0.7812</span>
+Epoch <span style="color:#099">3</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">10</span>
+<span style="color:#099">782</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">782</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">5</span>s <span style="color:#099">7</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.5453</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.8023</span> <span style="color:#000;font-weight:bold">-</span> val_loss: <span style="color:#099">0.5323</span> <span style="color:#000;font-weight:bold">-</span> val_accuracy: <span style="color:#099">0.8083</span>
+Epoch <span style="color:#099">4</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">10</span>
+<span style="color:#099">782</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">782</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">5</span>s <span style="color:#099">6</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.4780</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.8368</span> <span style="color:#000;font-weight:bold">-</span> val_loss: <span style="color:#099">0.4787</span> <span style="color:#000;font-weight:bold">-</span> val_accuracy: <span style="color:#099">0.8531</span>
+Epoch <span style="color:#099">5</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">10</span>
+<span style="color:#099">782</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">782</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">5</span>s <span style="color:#099">6</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.4268</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.8624</span> <span style="color:#000;font-weight:bold">-</span> val_loss: <span style="color:#099">0.4363</span> <span style="color:#000;font-weight:bold">-</span> val_accuracy: <span style="color:#099">0.8500</span>
+Epoch <span style="color:#099">6</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">10</span>
+<span style="color:#099">782</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">782</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">5</span>s <span style="color:#099">6</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.3853</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.8761</span> <span style="color:#000;font-weight:bold">-</span> val_loss: <span style="color:#099">0.4041</span> <span style="color:#000;font-weight:bold">-</span> val_accuracy: <span style="color:#099">0.8573</span>
+Epoch <span style="color:#099">7</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">10</span>
+<span style="color:#099">782</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">782</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">5</span>s <span style="color:#099">6</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.3531</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.8857</span> <span style="color:#000;font-weight:bold">-</span> val_loss: <span style="color:#099">0.3794</span> <span style="color:#000;font-weight:bold">-</span> val_accuracy: <span style="color:#099">0.8667</span>
+Epoch <span style="color:#099">8</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">10</span>
+<span style="color:#099">782</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">782</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">5</span>s <span style="color:#099">6</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.3278</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.8923</span> <span style="color:#000;font-weight:bold">-</span> val_loss: <span style="color:#099">0.3589</span> <span style="color:#000;font-weight:bold">-</span> val_accuracy: <span style="color:#099">0.8740</span>
+Epoch <span style="color:#099">9</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">10</span>
+<span style="color:#099">782</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">782</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">5</span>s <span style="color:#099">6</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.3067</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.8976</span> <span style="color:#000;font-weight:bold">-</span> val_loss: <span style="color:#099">0.3435</span> <span style="color:#000;font-weight:bold">-</span> val_accuracy: <span style="color:#099">0.8771</span>
+Epoch <span style="color:#099">10</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">10</span>
+<span style="color:#099">782</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">782</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">5</span>s <span style="color:#099">6</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.2893</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.9031</span> <span style="color:#000;font-weight:bold">-</span> val_loss: <span style="color:#099">0.3312</span> <span style="color:#000;font-weight:bold">-</span> val_accuracy: <span style="color:#099">0.8844</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="评估模型">评估模型</h2>
+<p>让我们看看模型的表现。将返回两个值，损失（代表误差的数字，数值越低越好）和准确性。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">loss, accuracy <span style="color:#000;font-weight:bold">=</span> model<span style="color:#000;font-weight:bold">.</span>evaluate(test_batches)
+
+<span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#34;Loss: &#34;</span>, loss)
+<span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#34;Accuracy: &#34;</span>, accuracy)
+
+<span style="color:#099">782</span><span style="color:#000;font-weight:bold">/</span><span style="color:#099">782</span> [<span style="color:#000;font-weight:bold">==============================</span>] <span style="color:#000;font-weight:bold">-</span> <span style="color:#099">3</span>s <span style="color:#099">4</span>ms<span style="color:#000;font-weight:bold">/</span>step <span style="color:#000;font-weight:bold">-</span> loss: <span style="color:#099">0.3350</span> <span style="color:#000;font-weight:bold">-</span> accuracy: <span style="color:#099">0.8728</span>
+Loss:  <span style="color:#099">0.3349540359090509</span>
+Accuracy:  <span style="color:#099">0.87284</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这种相当简单的方法可以达到约87%的准确率。如果使用更高级的方法，模型应接近95%。</p>
+<h2 id="创建准确度和损失随时间变化的图表">创建准确度和损失随时间变化的图表</h2>
+<p><code>model.fit()</code>返回一个<code>History</code>的对象，该对象包含一个字典，该字典包含训练期间发生的所有事情：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">history_dict <span style="color:#000;font-weight:bold">=</span> history<span style="color:#000;font-weight:bold">.</span>history
+history_dict<span style="color:#000;font-weight:bold">.</span>keys()
+
+dict_keys([<span style="color:#d14">&#39;loss&#39;</span>, <span style="color:#d14">&#39;accuracy&#39;</span>, <span style="color:#d14">&#39;val_loss&#39;</span>, <span style="color:#d14">&#39;val_accuracy&#39;</span>])
+</code></pre></td></tr></table>
+</div>
+</div><p>共有四个条目：在训练和验证期间每个受监控的指标对应一个条目。我们可以使用这些来绘制训练和验证损失以进行比较，以及训练和验证的准确性：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">matplotlib.pyplot</span> <span style="color:#000;font-weight:bold">as</span> <span style="color:#555">plt</span>
+
+acc <span style="color:#000;font-weight:bold">=</span> history_dict[<span style="color:#d14">&#39;accuracy&#39;</span>]
+val_acc <span style="color:#000;font-weight:bold">=</span> history_dict[<span style="color:#d14">&#39;val_accuracy&#39;</span>]
+loss <span style="color:#000;font-weight:bold">=</span> history_dict[<span style="color:#d14">&#39;loss&#39;</span>]
+val_loss <span style="color:#000;font-weight:bold">=</span> history_dict[<span style="color:#d14">&#39;val_loss&#39;</span>]
+
+epochs <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">range</span>(<span style="color:#099">1</span>, <span style="color:#0086b3">len</span>(acc) <span style="color:#000;font-weight:bold">+</span> <span style="color:#099">1</span>)
+
+<span style="color:#998;font-style:italic"># &#34;bo&#34; is for &#34;blue dot&#34;</span>
+plt<span style="color:#000;font-weight:bold">.</span>plot(epochs, loss, <span style="color:#d14">&#39;bo&#39;</span>, label<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;Training loss&#39;</span>)
+<span style="color:#998;font-style:italic"># b is for &#34;solid blue line&#34;</span>
+plt<span style="color:#000;font-weight:bold">.</span>plot(epochs, val_loss, <span style="color:#d14">&#39;b&#39;</span>, label<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;Validation loss&#39;</span>)
+plt<span style="color:#000;font-weight:bold">.</span>title(<span style="color:#d14">&#39;Training and validation loss&#39;</span>)
+plt<span style="color:#000;font-weight:bold">.</span>xlabel(<span style="color:#d14">&#39;Epochs&#39;</span>)
+plt<span style="color:#000;font-weight:bold">.</span>ylabel(<span style="color:#d14">&#39;Loss&#39;</span>)
+plt<span style="color:#000;font-weight:bold">.</span>legend()
+
+plt<span style="color:#000;font-weight:bold">.</span>show()
+</code></pre></td></tr></table>
+</div>
+</div><p><img src="/images/tfkt1.png" alt=""></p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">plt<span style="color:#000;font-weight:bold">.</span>clf()   <span style="color:#998;font-style:italic"># clear figure</span>
+
+plt<span style="color:#000;font-weight:bold">.</span>plot(epochs, acc, <span style="color:#d14">&#39;bo&#39;</span>, label<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;Training acc&#39;</span>)
+plt<span style="color:#000;font-weight:bold">.</span>plot(epochs, val_acc, <span style="color:#d14">&#39;b&#39;</span>, label<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;Validation acc&#39;</span>)
+plt<span style="color:#000;font-weight:bold">.</span>title(<span style="color:#d14">&#39;Training and validation accuracy&#39;</span>)
+plt<span style="color:#000;font-weight:bold">.</span>xlabel(<span style="color:#d14">&#39;Epochs&#39;</span>)
+plt<span style="color:#000;font-weight:bold">.</span>ylabel(<span style="color:#d14">&#39;Accuracy&#39;</span>)
+plt<span style="color:#000;font-weight:bold">.</span>legend(loc<span style="color:#000;font-weight:bold">=</span><span style="color:#d14">&#39;lower right&#39;</span>)
+
+plt<span style="color:#000;font-weight:bold">.</span>show()
+</code></pre></td></tr></table>
+</div>
+</div><p><img src="/images/tfkt2.png" alt=""></p>
+<p>在该图中，点表示训练损失和准确性，实线表示验证损失和准确性。</p>
+<p>请注意，训练损失随每个时代(epoch)而减小，训练准确性随每个时代而增大。当使用梯度下降优化时，这是可以预期的，它应在每次迭代中将所需的数量最小化。</p>
+<p>验证损失和准确性不是这种情况，它们似乎在大约20个时代(epoch)后达到峰值。这是一个过度拟合的例子：该模型在训练数据上的性能比在以前从未见过的数据上更好。此后，模型将过度优化并学习特定于训练数据的表示，而这些表示不能推广到测试数据。</p>
+<p>对于这种特殊情况，我们可以通过简单地在大约20个时代(epoch)后停止训练来防止过度拟合。稍后，你将看到如何使用回调自动执行此操作。</p>
+
+        </div>
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://qoanty.github.io/">百年孤独</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://qoanty.github.io/2019/10/tensorflow-text-classification/">https://qoanty.github.io/2019/10/tensorflow-text-classification/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/2019/10/tensorflow-text-classification-with-hub/">使用TensorFlow Hub进行文本分类：电影评论</a></li>
+        
+        <li><a href="/2019/10/tensorflow-image-classification/">TensorFlow基本分类：对服装图像进行分类</a></li>
+        
+        <li><a href="/2019/07/install-lemp-on-debian/">在Debian 10上安装Linux，Nginx，MariaDB，PHP</a></li>
+        
+        <li><a href="/2019/07/install-nginx-on-debian/">在Debian 10上安装Nginx</a></li>
+        
+        <li><a href="/2019/07/set-up-debian-server/">在VPS上设置Debian 10服务器</a></li>
+        
+    </ul>
+</div>
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='https://qoanty.github.io/tags/tensorflow'>tensorflow</a></li>
+                
+                <li><a href='https://qoanty.github.io/tags/keras'>keras</a></li>
+                
+                <li><a href='https://qoanty.github.io/tags/deep-learning'>deep learning</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+</div>
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='https://qoanty.github.io/search/' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://qoanty.github.io/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://qoanty.github.io/2020/07/install-manjaro-kde/" title="Manjaro-KDE 安装与设置">Manjaro-KDE 安装与设置</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2020/06/vps-with-trojan-go/" title="Trojan-Go 安装配置教程">Trojan-Go 安装配置教程</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-without-phd/" title="Tensorflow, Keras and deep learning, without a Phd">Tensorflow, Keras and deep learning, without a Phd</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-load-csv-data/" title="TensorFlow加载CSV数据">TensorFlow加载CSV数据</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-text-classification/" title="具有预处理文本的文本分类：电影评论">具有预处理文本的文本分类：电影评论</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-text-classification-with-hub/" title="使用TensorFlow Hub进行文本分类：电影评论">使用TensorFlow Hub进行文本分类：电影评论</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-image-classification/" title="TensorFlow基本分类：对服装图像进行分类">TensorFlow基本分类：对服装图像进行分类</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/07/install-lemp-on-debian/" title="在Debian 10上安装Linux，Nginx，MariaDB，PHP">在Debian 10上安装Linux，Nginx，MariaDB，PHP</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/07/install-nginx-on-debian/" title="在Debian 10上安装Nginx">在Debian 10上安装Nginx</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/07/set-up-debian-server/" title="在VPS上设置Debian 10服务器">在VPS上设置Debian 10服务器</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li><a href="https://qoanty.github.io/categories/blog/">Blog (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/caddy/">Caddy (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/captcha/">Captcha (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/debian/">Debian (5)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/docker/">Docker (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/hugo/">Hugo (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/kde/">KDE (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/kms/">KMS (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/learn/">Learn (14)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/manjaro/">Manjaro (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/nginx/">Nginx (2)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/pipenv/">Pipenv (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/python/">Python (12)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/ssh/">SSH (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/tensorflow/">TensorFlow (5)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/trojan/">Trojan (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/trojan-go/">Trojan-Go (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/v2ray/">V2Ray (2)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/vim/">Vim (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/vps/">VPS (7)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="https://qoanty.github.io/tags/asyncio/">asyncio</a>
+    
+    <a href="https://qoanty.github.io/tags/caddy/">Caddy</a>
+    
+    <a href="https://qoanty.github.io/tags/cdn/">CDN</a>
+    
+    <a href="https://qoanty.github.io/tags/data/">data</a>
+    
+    <a href="https://qoanty.github.io/tags/debian/">Debian</a>
+    
+    <a href="https://qoanty.github.io/tags/deep-learning/">deep learning</a>
+    
+    <a href="https://qoanty.github.io/tags/docker/">Docker</a>
+    
+    <a href="https://qoanty.github.io/tags/features/">features</a>
+    
+    <a href="https://qoanty.github.io/tags/functions/">functions</a>
+    
+    <a href="https://qoanty.github.io/tags/geetest/">geetest</a>
+    
+    <a href="https://qoanty.github.io/tags/github/">Github</a>
+    
+    <a href="https://qoanty.github.io/tags/hugo/">Hugo</a>
+    
+    <a href="https://qoanty.github.io/tags/ide/">IDE</a>
+    
+    <a href="https://qoanty.github.io/tags/kde/">KDE</a>
+    
+    <a href="https://qoanty.github.io/tags/keras/">keras</a>
+    
+    <a href="https://qoanty.github.io/tags/kms/">KMS</a>
+    
+    <a href="https://qoanty.github.io/tags/manjaro/">Manjaro</a>
+    
+    <a href="https://qoanty.github.io/tags/nginx/">Nginx</a>
+    
+    <a href="https://qoanty.github.io/tags/oop/">OOP</a>
+    
+    <a href="https://qoanty.github.io/tags/pipenv/">Pipenv</a>
+    
+    <a href="https://qoanty.github.io/tags/processes/">processes</a>
+    
+    <a href="https://qoanty.github.io/tags/python/">Python</a>
+    
+    <a href="https://qoanty.github.io/tags/scraping/">scraping</a>
+    
+    <a href="https://qoanty.github.io/tags/ssh/">SSH</a>
+    
+    <a href="https://qoanty.github.io/tags/tensorflow/">tensorflow</a>
+    
+    <a href="https://qoanty.github.io/tags/trojan/">Trojan</a>
+    
+    <a href="https://qoanty.github.io/tags/trojan-go/">Trojan-Go</a>
+    
+    <a href="https://qoanty.github.io/tags/v2ray/">V2Ray</a>
+    
+    <a href="https://qoanty.github.io/tags/vim/">Vim</a>
+    
+    <a href="https://qoanty.github.io/tags/vps/">VPS</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">友情链接</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://python3-cookbook.readthedocs.io/zh_CN/latest/index.html" title="Python Cookbook 3rd Edition">Python Cookbook</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="https://seancheney.gitbook.io/python-for-data-analysis-2nd/" title="Python for Data Analysis 2nd Edition">Python for Data Analysis</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="https://codelabs.developers.google.com/codelabs/cloud-tensorflow-mnist/#0" title="TensorFlow and deep learning, without a PhD">TensorFlow and deep learning</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://qoanty.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+    <footer id="footer">
+    <div class="container">
+        &copy; 2020 <a href="https://qoanty.github.io/">百年孤独的博客 By 百年孤独</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/flysnow-org/maupassant-hugo" target="_blank">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+
+
+
+
+
+
+</body>
+
+</html>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>OOP on 百年孤独的博客</title>
@@ -17,7 +17,7 @@
       <pubDate>Sat, 20 Apr 2019 11:39:49 +0800</pubDate>
       
       <guid>https://qoanty.github.io/2019/04/python3-object-oriented-programming/</guid>
-      <description>面向对象编程 面向对象编程——Object Oriented Programming，简称OOP，是一种程序设计思想。OOP把对象作为程序的基本单元，一个对象包含了数据和操作数据的函数。</description>
+      <description>面向对象编程 面向对象编程——Object Oriented Programming，简称OOP，是一种程序设计思想。OOP把对象作为程序的基本单元，一个对象包含了数据和操作数据的函数。 面向对象的程序设计把计算机程序视为一组对象的集合，而每个对象都可以接收其他</description>
     </item>
     
   </channel>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>scraping on 百年孤独的博客</title>
@@ -17,9 +17,7 @@
       <pubDate>Sun, 21 Apr 2019 21:06:02 +0800</pubDate>
       
       <guid>https://qoanty.github.io/2019/04/python3-web-scraping/</guid>
-      <description>异步爬虫不同于多进程爬虫，它使用单线程(即仅创建一个事件循环，然后把所有任务添加到事件循环中)就能并发处理多任务。在轮询到某个任务后，当遇到耗时操作(如请求URL)时，挂起该任务并进行下一个任务，当之前被挂起的任务更新了状态(如获得了网页响应)，则被唤醒，程序继续从上次挂起的地方运行下去。极大的减少了中间不必要的等待时间。
-有了Asyncio异步IO库实现协程后，我们还需要实现异步网页请求。普通的爬虫程序会经常用到requests库用以请求网页并获得服务器响应。而在协程中，由于requests库提供的相关方法不是可等待对象（awaitable），使得无法放在await后面，因此无法使用requests库在协程程序中实现请求。
-官方专门提供了一个aiohttp库，用来实现异步网页请求等功能，简直就是异步版的requests库。在协程中使用ClientSession()的get()或request()方法来请求网页（其中async with是异步上下文管理器，其封装了异步实现等功能），完整的aiohttp使用方法，请见官方文档。</description>
+      <description>异步爬虫不同于多进程爬虫，它使用单线程(即仅创建一个事件循环，然后把所有任务添加到事件循环中)就能并发处理多任务。在轮询到某个任务后，当遇到耗时操作(如请求URL)时，挂起该任务并进行下一个任务，当之前被挂起的任务更新了状态(如获得了网页响</description>
     </item>
     
   </channel>

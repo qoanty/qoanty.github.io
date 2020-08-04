@@ -1,10 +1,255 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://qoanty.github.io/categories/</loc>
+    <lastmod>2020-07-18T10:12:26+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/tags/kde/</loc>
+    <lastmod>2020-07-18T10:12:26+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/categories/kde/</loc>
+    <lastmod>2020-07-18T10:12:26+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/tags/manjaro/</loc>
+    <lastmod>2020-07-18T10:12:26+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/categories/manjaro/</loc>
+    <lastmod>2020-07-18T10:12:26+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/2020/07/install-manjaro-kde/</loc>
+    <lastmod>2020-07-18T10:12:26+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/post/</loc>
+    <lastmod>2020-07-18T10:12:26+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/tags/</loc>
+    <lastmod>2020-07-18T10:12:26+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/</loc>
+    <lastmod>2020-07-18T10:12:26+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/tags/trojan-go/</loc>
+    <lastmod>2020-06-01T21:36:31+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/categories/trojan-go/</loc>
+    <lastmod>2020-06-01T21:36:31+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/2020/06/vps-with-trojan-go/</loc>
+    <lastmod>2020-06-01T21:36:31+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/tags/vps/</loc>
+    <lastmod>2020-06-01T21:36:31+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/categories/vps/</loc>
+    <lastmod>2020-06-01T21:36:31+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/tags/deep-learning/</loc>
+    <lastmod>2019-10-15T10:06:45+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/tags/keras/</loc>
+    <lastmod>2019-10-15T10:06:45+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/categories/learn/</loc>
+    <lastmod>2019-10-15T10:06:45+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/categories/tensorflow/</loc>
+    <lastmod>2019-10-15T10:06:45+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/tags/tensorflow/</loc>
+    <lastmod>2019-10-15T10:06:45+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/2019/10/tensorflow-without-phd/</loc>
+    <lastmod>2019-10-15T10:06:45+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/2019/10/tensorflow-load-csv-data/</loc>
+    <lastmod>2019-10-12T14:41:22+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/2019/10/tensorflow-text-classification/</loc>
+    <lastmod>2019-10-10T12:21:33+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/2019/10/tensorflow-text-classification-with-hub/</loc>
+    <lastmod>2019-10-09T14:01:25+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/2019/10/tensorflow-image-classification/</loc>
+    <lastmod>2019-10-08T15:21:42+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/tags/debian/</loc>
+    <lastmod>2019-07-28T18:22:37+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/categories/debian/</loc>
+    <lastmod>2019-07-28T18:22:37+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/tags/nginx/</loc>
+    <lastmod>2019-07-28T18:22:37+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/categories/nginx/</loc>
+    <lastmod>2019-07-28T18:22:37+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/2019/07/install-lemp-on-debian/</loc>
+    <lastmod>2019-07-28T18:22:37+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/2019/07/install-nginx-on-debian/</loc>
+    <lastmod>2019-07-23T11:25:15+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/2019/07/set-up-debian-server/</loc>
+    <lastmod>2019-07-20T12:31:13+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/2019/07/initial-server-with-debian/</loc>
+    <lastmod>2019-07-16T14:45:27+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/tags/ssh/</loc>
+    <lastmod>2019-07-16T14:45:27+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/categories/ssh/</loc>
+    <lastmod>2019-07-16T14:45:27+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/2019/05/debian-docker/</loc>
+    <lastmod>2019-05-15T16:35:28+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/tags/docker/</loc>
+    <lastmod>2019-05-15T16:35:28+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/categories/docker/</loc>
+    <lastmod>2019-05-15T16:35:28+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/tags/pipenv/</loc>
+    <lastmod>2019-05-15T08:53:24+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/categories/pipenv/</loc>
+    <lastmod>2019-05-15T08:53:24+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/tags/python/</loc>
+    <lastmod>2019-05-15T08:53:24+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/categories/python/</loc>
+    <lastmod>2019-05-15T08:53:24+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/2019/05/python-pipenv/</loc>
+    <lastmod>2019-05-15T08:53:24+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/categories/captcha/</loc>
+    <lastmod>2019-05-07T09:24:08+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/tags/geetest/</loc>
+    <lastmod>2019-05-07T09:24:08+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://qoanty.github.io/2019/05/sliding-captcha/</loc>
     <lastmod>2019-05-07T09:24:08+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/tags/trojan/</loc>
+    <lastmod>2019-04-30T19:37:11+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/categories/trojan/</loc>
+    <lastmod>2019-04-30T19:37:11+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/2019/04/vps-with-trojan/</loc>
+    <lastmod>2019-04-30T19:37:11+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/tags/data/</loc>
+    <lastmod>2019-04-25T15:36:02+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/2019/04/python3-data-structure/</loc>
+    <lastmod>2019-04-25T15:36:02+08:00</lastmod>
   </url>
   
   <url>
@@ -13,8 +258,23 @@
   </url>
   
   <url>
+    <loc>https://qoanty.github.io/tags/scraping/</loc>
+    <lastmod>2019-04-21T21:06:02+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/tags/asyncio/</loc>
+    <lastmod>2019-04-21T15:01:59+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://qoanty.github.io/2019/04/python3-asyncio/</loc>
     <lastmod>2019-04-21T15:01:59+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/tags/functions/</loc>
+    <lastmod>2019-04-21T11:58:09+08:00</lastmod>
   </url>
   
   <url>
@@ -23,8 +283,18 @@
   </url>
   
   <url>
+    <loc>https://qoanty.github.io/tags/processes/</loc>
+    <lastmod>2019-04-20T20:07:34+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://qoanty.github.io/2019/04/python3-distributed-processes/</loc>
     <lastmod>2019-04-20T20:07:34+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/tags/oop/</loc>
+    <lastmod>2019-04-20T11:39:49+08:00</lastmod>
   </url>
   
   <url>
@@ -38,6 +308,11 @@
   </url>
   
   <url>
+    <loc>https://qoanty.github.io/tags/features/</loc>
+    <lastmod>2019-04-19T15:04:36+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://qoanty.github.io/2019/04/python3-advanced-features/</loc>
     <lastmod>2019-04-19T15:04:36+08:00</lastmod>
   </url>
@@ -48,8 +323,53 @@
   </url>
   
   <url>
-    <loc>https://qoanty.github.io/2019/04/wss-and-web/</loc>
+    <loc>https://qoanty.github.io/tags/cdn/</loc>
     <lastmod>2019-04-17T20:02:32+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/tags/v2ray/</loc>
+    <lastmod>2019-04-17T20:02:32+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/categories/v2ray/</loc>
+    <lastmod>2019-04-17T20:02:32+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/2019/04/vps-wss-and-web/</loc>
+    <lastmod>2019-04-17T20:02:32+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/2019/04/vps-kms/</loc>
+    <lastmod>2019-04-16T16:32:41+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/tags/kms/</loc>
+    <lastmod>2019-04-16T16:32:41+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/categories/kms/</loc>
+    <lastmod>2019-04-16T16:32:41+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/tags/caddy/</loc>
+    <lastmod>2019-04-15T14:37:11+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/categories/caddy/</loc>
+    <lastmod>2019-04-15T14:37:11+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/2019/04/vps-caddy-php7-typecho/</loc>
+    <lastmod>2019-04-15T14:37:11+08:00</lastmod>
   </url>
   
   <url>
@@ -58,8 +378,43 @@
   </url>
   
   <url>
+    <loc>https://qoanty.github.io/categories/blog/</loc>
+    <lastmod>2019-04-08T14:02:04+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/tags/github/</loc>
+    <lastmod>2019-04-08T14:02:04+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/tags/hugo/</loc>
+    <lastmod>2019-04-08T14:02:04+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/categories/hugo/</loc>
+    <lastmod>2019-04-08T14:02:04+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://qoanty.github.io/2019/04/blog-with-hugo/</loc>
     <lastmod>2019-04-08T14:02:04+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/tags/ide/</loc>
+    <lastmod>2019-04-05T16:57:01+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/tags/vim/</loc>
+    <lastmod>2019-04-05T16:57:01+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://qoanty.github.io/categories/vim/</loc>
+    <lastmod>2019-04-05T16:57:01+08:00</lastmod>
   </url>
   
   <url>
@@ -73,169 +428,11 @@
   </url>
   
   <url>
-    <loc>https://qoanty.github.io/categories/blog/</loc>
-    <lastmod>2019-04-08T14:02:04+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://qoanty.github.io/tags/cdn/</loc>
-    <lastmod>2019-04-17T20:02:32+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://qoanty.github.io/categories/captcha/</loc>
-    <lastmod>2019-05-07T09:24:08+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://qoanty.github.io/categories/</loc>
-    <lastmod>2019-04-08T14:02:04+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://qoanty.github.io/tags/github/</loc>
-    <lastmod>2019-04-08T14:02:04+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://qoanty.github.io/tags/hugo/</loc>
-    <lastmod>2019-04-08T14:02:04+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://qoanty.github.io/categories/hugo/</loc>
-    <lastmod>2019-04-08T14:02:04+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://qoanty.github.io/tags/ide/</loc>
-    <lastmod>2019-04-05T16:57:01+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://qoanty.github.io/categories/learn/</loc>
-    <lastmod>2019-04-21T21:06:02+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://qoanty.github.io/tags/oop/</loc>
-    <lastmod>2019-04-20T11:39:49+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://qoanty.github.io/posts/</loc>
-    <lastmod>2019-05-07T09:24:08+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://qoanty.github.io/categories/python/</loc>
-    <lastmod>2019-05-07T09:24:08+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://qoanty.github.io/tags/</loc>
-    <lastmod>2019-04-17T20:02:32+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://qoanty.github.io/tags/v2ray/</loc>
-    <lastmod>2019-04-17T20:02:32+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://qoanty.github.io/categories/v2ray/</loc>
-    <lastmod>2019-04-17T20:02:32+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://qoanty.github.io/tags/vps/</loc>
-    <lastmod>2019-04-12T17:49:11+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://qoanty.github.io/categories/vps/</loc>
-    <lastmod>2019-04-17T20:02:32+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://qoanty.github.io/categories/vim/</loc>
-    <lastmod>2019-04-05T16:57:01+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://qoanty.github.io/tags/asyncio/</loc>
-    <lastmod>2019-04-21T15:01:59+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://qoanty.github.io/tags/features/</loc>
-    <lastmod>2019-04-19T15:04:36+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://qoanty.github.io/tags/functions/</loc>
-    <lastmod>2019-04-21T11:58:09+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://qoanty.github.io/tags/geetest/</loc>
-    <lastmod>2019-05-07T09:24:08+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://qoanty.github.io/tags/processes/</loc>
-    <lastmod>2019-04-20T20:07:34+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://qoanty.github.io/tags/python/</loc>
-    <lastmod>2019-05-07T09:24:08+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://qoanty.github.io/tags/scraping/</loc>
-    <lastmod>2019-04-21T21:06:02+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://qoanty.github.io/tags/vim/</loc>
-    <lastmod>2019-04-05T16:57:01+08:00</lastmod>
-    <priority>0</priority>
+    <loc>https://qoanty.github.io/tools/</loc>
   </url>
   
   <url>
     <loc>https://qoanty.github.io/archives/</loc>
-  </url>
-  
-  <url>
-    <loc>https://qoanty.github.io/</loc>
-    <lastmod>2019-05-07T09:24:08+08:00</lastmod>
-    <priority>0</priority>
   </url>
   
 </urlset>

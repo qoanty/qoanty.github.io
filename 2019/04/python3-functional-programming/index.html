@@ -3,7 +3,6 @@
 <head>
 
     <meta charset="utf-8">
-    <meta name="generator" content="Hugo 0.54.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -11,10 +10,10 @@
     <meta property="og:title" content="Python3 学习笔记（函数式编程） - 百年孤独的博客">
     <meta property="og:type" content="article">
         
-    <meta property="article:published_time" content="2019-04-19T19:23:49&#43;08:00">
+    <meta property="article:published_time" content='2019-04-19T19:23:49&#43;08:00'>
         
         
-    <meta property="article:modified_time" content="2019-04-19T19:23:49&#43;08:00">
+    <meta property="article:modified_time" content='2019-04-19T19:23:49&#43;08:00'>
         
     <meta name="Keywords" content="VPS, python, android, 博客, 小程序">
     <meta name="description" content="Python3 学习笔记（函数式编程）">
@@ -23,12 +22,9 @@
     <meta property="og:url" content="https://qoanty.github.io/2019/04/python3-functional-programming/">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 
-    <link rel="stylesheet" href="/css/normalize.css">
-    
-        <link rel="stylesheet" href="/css/prism.css">
-    
-    <link rel="stylesheet" href="/css/style.css">
-    <script type="text/javascript" src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
 
@@ -37,8 +33,9 @@
     
 </head>
 
+
 <body>
-<header id="header" class="clearfix">
+    <header id="header" class="clearfix">
     <div class="container">
         <div class="col-group">
             <div class="site-name ">
@@ -51,7 +48,7 @@
             </div>
             <div>
                 <nav id="nav-menu" class="clearfix">
-                    <a class="" href="https://qoanty.github.io/">首页</a>
+                    <a class="current" href="https://qoanty.github.io/">首页</a>
                     
                     <a  href="https://qoanty.github.io/tools/" title="工具">工具</a>
                     
@@ -65,388 +62,592 @@
     </div>
 </header>
 
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
 
-<div id="body">
-    <div class="container">
-        <div class="col-group">
-
-            <div class="col-8" id="main">
-                <div class="res-cons">
-                    <article class="post">
-                        <header>
-                            <h1 class="post-title">Python3 学习笔记（函数式编程）</h1>
-                        </header>
-                        <date class="post-meta meta-date">
-                            2019年4月19日
-                        </date>
-                        
-                        <div class="post-meta">
-                            <span>|</span>
-                            
-                                <span class="meta-category"><a href="https://qoanty.github.io/categories/learn">Learn</a></span>
-                            
-                                <span class="meta-category"><a href="https://qoanty.github.io/categories/python">Python</a></span>
-                            
-                        </div>
-                        
-                        
-                        
-                        <div class="post-content">
-                            
-
-<h2 id="函数式编程">函数式编程</h2>
-
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">Python3 学习笔记（函数式编程）</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2019年4月19日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='https://qoanty.github.io/categories/learn'>Learn</a></span>
+            
+            <span class="meta-category"><a href='https://qoanty.github.io/categories/python'>Python</a></span>
+            
+        </div>
+        
+        
+        
+        <div class="post-content">
+            <h2 id="函数式编程">函数式编程</h2>
 <p>函数是Python内建支持的一种封装，我们通过把大段代码拆成函数，通过一层一层的函数调用，就可以把复杂任务分解成简单的任务，这种分解可以称之为面向过程的程序设计。函数就是面向过程的程序设计的基本单元。</p>
-
 <p>对于编程语言，就是越低级的语言，越贴近计算机，抽象程度低，执行效率高，比如C语言；越高级的语言，越贴近计算，抽象程度高，执行效率低，比如Lisp语言。</p>
-
 <p>函数式编程(Functional Programming)的一个特点就是，允许把函数本身作为参数传入另一个函数，还允许返回一个函数！</p>
-
 <p>Python对函数式编程提供部分支持。由于Python允许使用变量，因此，Python不是纯函数式编程语言。</p>
-
 <h3 id="高阶函数">高阶函数</h3>
-
 <p><strong>变量可以指向函数</strong></p>
-
 <p>以Python内置的求绝对值的函数<code>abs()</code>为例。</p>
-
-<pre><code class="language-python">&gt;&gt;&gt; abs(-10)
-10
-&gt;&gt;&gt; abs
-&lt;built-in function abs&gt;
-&gt;&gt;&gt; x = abs(-10)
-&gt;&gt;&gt; x
-10
-&gt;&gt;&gt; f = abs
-&gt;&gt;&gt; f(-10)
-10
-</code></pre>
-
-<p>可见，<code>abs(-10)</code>是函数调用，而<code>abs</code>是函数本身，我们可以把结果赋值给变量，也可以把函数本身赋值给变量，即：变量可以指向函数。</p>
-
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> <span style="color:#0086b3">abs</span>(<span style="color:#000;font-weight:bold">-</span><span style="color:#099">10</span>)
+<span style="color:#099">10</span>
+<span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> <span style="color:#0086b3">abs</span>
+<span style="color:#000;font-weight:bold">&lt;</span>built<span style="color:#000;font-weight:bold">-</span><span style="color:#000;font-weight:bold">in</span> function <span style="color:#0086b3">abs</span><span style="color:#000;font-weight:bold">&gt;</span>
+<span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> x <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">abs</span>(<span style="color:#000;font-weight:bold">-</span><span style="color:#099">10</span>)
+<span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> x
+<span style="color:#099">10</span>
+<span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> f <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">abs</span>
+<span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> f(<span style="color:#000;font-weight:bold">-</span><span style="color:#099">10</span>)
+<span style="color:#099">10</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>可见，<code>abs(-10)</code>是函数调用，而<code>abs</code>是函数本身，我们可以把结果赋值给变量，也可以把函数本身赋值给变量，即：变量可以指向函数。</p>
 <p><strong>函数名也是变量</strong></p>
-
 <p>函数名其实就是指向函数的变量，对于<code>abs()</code>这个函数，完全可以把函数名<code>abs</code>看成变量，如果把<code>abs</code>指向10后，就无法通过<code>abs(-10)</code>调用该函数了。</p>
-
-<pre><code class="language-python">&gt;&gt;&gt; abs = 10
-&gt;&gt;&gt; abs(-10)
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> <span style="color:#0086b3">abs</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">10</span>
+<span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> <span style="color:#0086b3">abs</span>(<span style="color:#000;font-weight:bold">-</span><span style="color:#099">10</span>)
 Traceback (most recent call last):
-  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
-TypeError: 'int' object is not callable
-</code></pre>
-
-<p><strong>传入函数</strong></p>
-
+  File <span style="color:#d14">&#34;&lt;stdin&gt;&#34;</span>, line <span style="color:#099">1</span>, <span style="color:#000;font-weight:bold">in</span> <span style="color:#000;font-weight:bold">&lt;</span>module<span style="color:#000;font-weight:bold">&gt;</span>
+<span style="color:#900;font-weight:bold">TypeError</span>: <span style="color:#d14">&#39;int&#39;</span> <span style="color:#0086b3">object</span> <span style="color:#000;font-weight:bold">is</span> <span style="color:#000;font-weight:bold">not</span> <span style="color:#0086b3">callable</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>传入函数</strong></p>
 <p>既然变量可以指向函数，函数的参数能接收变量，那么一个函数就可以接收另一个函数作为参数，这种函数就称之为高阶函数。</p>
-
-<pre><code class="language-python">&gt;&gt;&gt; def add(x, y, f):
-...     return f(x) + f(y)
-...
-&gt;&gt;&gt; x = -5
-&gt;&gt;&gt; y = 6
-&gt;&gt;&gt; f = abs
-&gt;&gt;&gt; add(x, y, f)
-11
-</code></pre>
-
-<p>把函数作为参数传入，这样的函数称为高阶函数，函数式编程就是指这种高度抽象的编程范式。</p>
-
-<h4 id="map-reduce">map/reduce</h4>
-
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">add</span>(x, y, f):
+<span style="color:#000;font-weight:bold">...</span>     <span style="color:#000;font-weight:bold">return</span> f(x) <span style="color:#000;font-weight:bold">+</span> f(y)
+<span style="color:#000;font-weight:bold">...</span>
+<span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> x <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">-</span><span style="color:#099">5</span>
+<span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> y <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">6</span>
+<span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> f <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">abs</span>
+<span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> add(x, y, f)
+<span style="color:#099">11</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>把函数作为参数传入，这样的函数称为高阶函数，函数式编程就是指这种高度抽象的编程范式。</p>
+<h4 id="mapreduce">map/reduce</h4>
 <p>Python内建了<code>map()</code>和<code>reduce()</code>函数。</p>
-
 <p><code>map()</code>函数接收两个参数，一个是函数，一个是<code>Iterable</code>，<code>map</code>将传入的函数依次作用到序列的每个元素，并把结果作为新的<code>Iterator</code>返回。</p>
-
-<pre><code class="language-python">&gt;&gt;&gt; def f(x):
-...     return x * x
-...
-&gt;&gt;&gt; r = map(f, [1, 2, 3, 4, 5, 6, 7, 8, 9])
-&gt;&gt;&gt; list(r)
-[1, 4, 9, 16, 25, 36, 49, 64, 81]
-</code></pre>
-
-<p><code>map()</code>传入的第一个参数是<code>f</code>，即函数对象本身。由于结果<code>r</code>是一个<code>Iterator</code>，因此可以通过<code>list()</code>函数把整个序列都计算出来并返回一个list。</p>
-
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">f</span>(x):
+<span style="color:#000;font-weight:bold">...</span>     <span style="color:#000;font-weight:bold">return</span> x <span style="color:#000;font-weight:bold">*</span> x
+<span style="color:#000;font-weight:bold">...</span>
+<span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> r <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">map</span>(f, [<span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#099">3</span>, <span style="color:#099">4</span>, <span style="color:#099">5</span>, <span style="color:#099">6</span>, <span style="color:#099">7</span>, <span style="color:#099">8</span>, <span style="color:#099">9</span>])
+<span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> <span style="color:#0086b3">list</span>(r)
+[<span style="color:#099">1</span>, <span style="color:#099">4</span>, <span style="color:#099">9</span>, <span style="color:#099">16</span>, <span style="color:#099">25</span>, <span style="color:#099">36</span>, <span style="color:#099">49</span>, <span style="color:#099">64</span>, <span style="color:#099">81</span>]
+</code></pre></td></tr></table>
+</div>
+</div><p><code>map()</code>传入的第一个参数是<code>f</code>，即函数对象本身。由于结果<code>r</code>是一个<code>Iterator</code>，因此可以通过<code>list()</code>函数把整个序列都计算出来并返回一个list。</p>
 <p><code>map()</code>作为高阶函数，事实上它把运算规则抽象了，因此它可以计算任意复杂的函数，比如，把list所有数字转为字符串：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> <span style="color:#0086b3">list</span>(<span style="color:#0086b3">map</span>(<span style="color:#0086b3">str</span>, [<span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#099">3</span>, <span style="color:#099">4</span>, <span style="color:#099">5</span>, <span style="color:#099">6</span>, <span style="color:#099">7</span>, <span style="color:#099">8</span>, <span style="color:#099">9</span>]))
+[<span style="color:#d14">&#39;1&#39;</span>, <span style="color:#d14">&#39;2&#39;</span>, <span style="color:#d14">&#39;3&#39;</span>, <span style="color:#d14">&#39;4&#39;</span>, <span style="color:#d14">&#39;5&#39;</span>, <span style="color:#d14">&#39;6&#39;</span>, <span style="color:#d14">&#39;7&#39;</span>, <span style="color:#d14">&#39;8&#39;</span>, <span style="color:#d14">&#39;9&#39;</span>]
+</code></pre></td></tr></table>
+</div>
+</div><p><code>reduce</code>把一个函数作用在一个序列<code>[x1, x2, x3, ...]</code>上，这个函数必须接收两个参数，<code>reduce</code>把结果继续和序列的下一个元素做累积计算，其效果就是：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#0086b3">reduce</span>(f, [x1, x2, x3, x4]) <span style="color:#000;font-weight:bold">=</span> f(f(f(x1, x2), x3), x4)
+</code></pre></td></tr></table>
+</div>
+</div><p>把序列<code>[1, 3, 5, 7, 9]</code>变换成整数<code>13579</code>，就可以用<code>reduce</code>实现：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> <span style="color:#000;font-weight:bold">from</span> <span style="color:#555">functools</span> <span style="color:#000;font-weight:bold">import</span> <span style="color:#0086b3">reduce</span>
+<span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">fn</span>(x, y):
+<span style="color:#000;font-weight:bold">...</span>     <span style="color:#000;font-weight:bold">return</span> x <span style="color:#000;font-weight:bold">*</span> <span style="color:#099">10</span> <span style="color:#000;font-weight:bold">+</span> y
+<span style="color:#000;font-weight:bold">...</span>
+<span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> <span style="color:#0086b3">reduce</span>(fn, [<span style="color:#099">1</span>, <span style="color:#099">3</span>, <span style="color:#099">5</span>, <span style="color:#099">7</span>, <span style="color:#099">9</span>])
+<span style="color:#099">13579</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>考虑到字符串<code>str</code>也是一个序列，配合<code>map()</code>可以写出把<code>str</code>转换为<code>int</code>的函数：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">from</span> <span style="color:#555">functools</span> <span style="color:#000;font-weight:bold">import</span> <span style="color:#0086b3">reduce</span>
 
-<pre><code class="language-python">&gt;&gt;&gt; list(map(str, [1, 2, 3, 4, 5, 6, 7, 8, 9]))
-['1', '2', '3', '4', '5', '6', '7', '8', '9']
-</code></pre>
+DIGITS <span style="color:#000;font-weight:bold">=</span> {<span style="color:#d14">&#39;0&#39;</span>: <span style="color:#099">0</span>, <span style="color:#d14">&#39;1&#39;</span>: <span style="color:#099">1</span>, <span style="color:#d14">&#39;2&#39;</span>: <span style="color:#099">2</span>, <span style="color:#d14">&#39;3&#39;</span>: <span style="color:#099">3</span>, <span style="color:#d14">&#39;4&#39;</span>: <span style="color:#099">4</span>, <span style="color:#d14">&#39;5&#39;</span>: <span style="color:#099">5</span>, <span style="color:#d14">&#39;6&#39;</span>: <span style="color:#099">6</span>, <span style="color:#d14">&#39;7&#39;</span>: <span style="color:#099">7</span>, <span style="color:#d14">&#39;8&#39;</span>: <span style="color:#099">8</span>, <span style="color:#d14">&#39;9&#39;</span>: <span style="color:#099">9</span>}
 
-<p><code>reduce</code>把一个函数作用在一个序列<code>[x1, x2, x3, ...]</code>上，这个函数必须接收两个参数，<code>reduce</code>把结果继续和序列的下一个元素做累积计算，其效果就是：</p>
+<span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">char2num</span>(s):
+    <span style="color:#000;font-weight:bold">return</span> DIGITS[s]
 
-<pre><code class="language-python">reduce(f, [x1, x2, x3, x4]) = f(f(f(x1, x2), x3), x4)
-</code></pre>
-
-<p>把序列<code>[1, 3, 5, 7, 9]</code>变换成整数<code>13579</code>，就可以用<code>reduce</code>实现：</p>
-
-<pre><code class="language-python">&gt;&gt;&gt; from functools import reduce
-&gt;&gt;&gt; def fn(x, y):
-...     return x * 10 + y
-...
-&gt;&gt;&gt; reduce(fn, [1, 3, 5, 7, 9])
-13579
-</code></pre>
-
-<p>考虑到字符串<code>str</code>也是一个序列，配合<code>map()</code>可以写出把<code>str</code>转换为<code>int</code>的函数：</p>
-
-<pre><code class="language-python">from functools import reduce
-
-DIGITS = {'0': 0, '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9}
-
-def char2num(s):
-    return DIGITS[s]
-
-def str2int(s):
-    return reduce(lambda x, y: x * 10 + y, map(char2num, s))
-</code></pre>
-
-<h4 id="filter">filter</h4>
-
+<span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">str2int</span>(s):
+    <span style="color:#000;font-weight:bold">return</span> <span style="color:#0086b3">reduce</span>(<span style="color:#000;font-weight:bold">lambda</span> x, y: x <span style="color:#000;font-weight:bold">*</span> <span style="color:#099">10</span> <span style="color:#000;font-weight:bold">+</span> y, <span style="color:#0086b3">map</span>(char2num, s))
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="filter">filter</h4>
 <p>Python内建的<code>filter()</code>函数用于过滤序列。</p>
-
 <p><code>filter()</code>接收一个函数和一个序列，把传入的函数依次作用于每个元素，然后根据返回值是<code>True</code>还是<code>False</code>决定保留还是丢弃该元素。</p>
-
 <p>例如，在一个list中，删掉偶数，只保留奇数：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">is_odd</span>(n):
+    <span style="color:#000;font-weight:bold">return</span> n <span style="color:#000;font-weight:bold">%</span> <span style="color:#099">2</span> <span style="color:#000;font-weight:bold">==</span> <span style="color:#099">1</span>
 
-<pre><code class="language-python">def is_odd(n):
-    return n % 2 == 1
+<span style="color:#0086b3">list</span>(<span style="color:#0086b3">filter</span>(is_odd, [<span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#099">4</span>, <span style="color:#099">5</span>, <span style="color:#099">6</span>, <span style="color:#099">9</span>, <span style="color:#099">10</span>, <span style="color:#099">15</span>]))
+<span style="color:#998;font-style:italic"># 结果: [1, 5, 9, 15]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>把一个序列中的空字符串删掉：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">not_empty</span>(s):
+    <span style="color:#000;font-weight:bold">return</span> s <span style="color:#000;font-weight:bold">and</span> s<span style="color:#000;font-weight:bold">.</span>strip()
 
-list(filter(is_odd, [1, 2, 4, 5, 6, 9, 10, 15]))
-# 结果: [1, 5, 9, 15]
-</code></pre>
-
-<p>把一个序列中的空字符串删掉：</p>
-
-<pre><code class="language-python">def not_empty(s):
-    return s and s.strip()
-
-list(filter(not_empty, ['A', '', 'B', None, 'C', '  ']))
-# 结果: ['A', 'B', 'C']
-</code></pre>
-
-<p>可见用<code>filter()</code>这个高阶函数，关键在于正确实现一个“筛选”函数。</p>
-
+<span style="color:#0086b3">list</span>(<span style="color:#0086b3">filter</span>(not_empty, [<span style="color:#d14">&#39;A&#39;</span>, <span style="color:#d14">&#39;&#39;</span>, <span style="color:#d14">&#39;B&#39;</span>, <span style="color:#999">None</span>, <span style="color:#d14">&#39;C&#39;</span>, <span style="color:#d14">&#39;  &#39;</span>]))
+<span style="color:#998;font-style:italic"># 结果: [&#39;A&#39;, &#39;B&#39;, &#39;C&#39;]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>可见用<code>filter()</code>这个高阶函数，关键在于正确实现一个“筛选”函数。</p>
 <p>求素数：</p>
-
-<pre><code class="language-python">&gt;&gt;&gt; def _odd_iter():  # 生成器，构造一个从3开始的奇数序列并且是一个无限序列
-...     n = 1
-...     while True:
-...         n = n + 2
-...         yield n
-...
-&gt;&gt;&gt; def _not_divisible(n):  # 定义一个筛选函数
-...     return lambda x: x % n &gt; 0
-...
-&gt;&gt;&gt; def primes():  # 定义一个生成器，不断返回下一个素数
-...     yield 2
-...     it = _odd_iter()  # 初始序列
-...     while True:
-...         n = next(it)  # 返回序列的第一个数
-...         yield n
-...         it = filter(_not_divisible(n), it)  # 构造新序列
-...
-&gt;&gt;&gt; for n in primes():  # 打印100以内的素数
-...     if n &lt; 100:
-...         print(n)
-...     else:
-...         break
-...
-</code></pre>
-
-<p>筛选出回数：</p>
-
-<pre><code class="language-python">&gt;&gt;&gt; def is_palindrome(n):
-...     return str(n) == str(n)[::-1]
-...
-&gt;&gt;&gt; output = filter(is_palindrome, range(1, 200))
-&gt;&gt;&gt; list(output)
-[1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 22, 33, 44, 55, 66, 77, 88, 99, 101, 111, 121, 131, 141, 151, 161, 171, 181, 191]
-</code></pre>
-
-<h4 id="sorted">sorted</h4>
-
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">_odd_iter</span>():  <span style="color:#998;font-style:italic"># 生成器，构造一个从3开始的奇数序列并且是一个无限序列</span>
+<span style="color:#000;font-weight:bold">...</span>     n <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">1</span>
+<span style="color:#000;font-weight:bold">...</span>     <span style="color:#000;font-weight:bold">while</span> <span style="color:#999">True</span>:
+<span style="color:#000;font-weight:bold">...</span>         n <span style="color:#000;font-weight:bold">=</span> n <span style="color:#000;font-weight:bold">+</span> <span style="color:#099">2</span>
+<span style="color:#000;font-weight:bold">...</span>         <span style="color:#000;font-weight:bold">yield</span> n
+<span style="color:#000;font-weight:bold">...</span>
+<span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">_not_divisible</span>(n):  <span style="color:#998;font-style:italic"># 定义一个筛选函数</span>
+<span style="color:#000;font-weight:bold">...</span>     <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">lambda</span> x: x <span style="color:#000;font-weight:bold">%</span> n <span style="color:#000;font-weight:bold">&gt;</span> <span style="color:#099">0</span>
+<span style="color:#000;font-weight:bold">...</span>
+<span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">primes</span>():  <span style="color:#998;font-style:italic"># 定义一个生成器，不断返回下一个素数</span>
+<span style="color:#000;font-weight:bold">...</span>     <span style="color:#000;font-weight:bold">yield</span> <span style="color:#099">2</span>
+<span style="color:#000;font-weight:bold">...</span>     it <span style="color:#000;font-weight:bold">=</span> _odd_iter()  <span style="color:#998;font-style:italic"># 初始序列</span>
+<span style="color:#000;font-weight:bold">...</span>     <span style="color:#000;font-weight:bold">while</span> <span style="color:#999">True</span>:
+<span style="color:#000;font-weight:bold">...</span>         n <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">next</span>(it)  <span style="color:#998;font-style:italic"># 返回序列的第一个数</span>
+<span style="color:#000;font-weight:bold">...</span>         <span style="color:#000;font-weight:bold">yield</span> n
+<span style="color:#000;font-weight:bold">...</span>         it <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">filter</span>(_not_divisible(n), it)  <span style="color:#998;font-style:italic"># 构造新序列</span>
+<span style="color:#000;font-weight:bold">...</span>
+<span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> <span style="color:#000;font-weight:bold">for</span> n <span style="color:#000;font-weight:bold">in</span> primes():  <span style="color:#998;font-style:italic"># 打印100以内的素数</span>
+<span style="color:#000;font-weight:bold">...</span>     <span style="color:#000;font-weight:bold">if</span> n <span style="color:#000;font-weight:bold">&lt;</span> <span style="color:#099">100</span>:
+<span style="color:#000;font-weight:bold">...</span>         <span style="color:#000;font-weight:bold">print</span>(n)
+<span style="color:#000;font-weight:bold">...</span>     <span style="color:#000;font-weight:bold">else</span>:
+<span style="color:#000;font-weight:bold">...</span>         <span style="color:#000;font-weight:bold">break</span>
+<span style="color:#000;font-weight:bold">...</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>筛选出回数：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">is_palindrome</span>(n):
+<span style="color:#000;font-weight:bold">...</span>     <span style="color:#000;font-weight:bold">return</span> <span style="color:#0086b3">str</span>(n) <span style="color:#000;font-weight:bold">==</span> <span style="color:#0086b3">str</span>(n)[::<span style="color:#000;font-weight:bold">-</span><span style="color:#099">1</span>]
+<span style="color:#000;font-weight:bold">...</span>
+<span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> output <span style="color:#000;font-weight:bold">=</span> <span style="color:#0086b3">filter</span>(is_palindrome, <span style="color:#0086b3">range</span>(<span style="color:#099">1</span>, <span style="color:#099">200</span>))
+<span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> <span style="color:#0086b3">list</span>(output)
+[<span style="color:#099">1</span>, <span style="color:#099">2</span>, <span style="color:#099">3</span>, <span style="color:#099">4</span>, <span style="color:#099">5</span>, <span style="color:#099">6</span>, <span style="color:#099">7</span>, <span style="color:#099">8</span>, <span style="color:#099">9</span>, <span style="color:#099">11</span>, <span style="color:#099">22</span>, <span style="color:#099">33</span>, <span style="color:#099">44</span>, <span style="color:#099">55</span>, <span style="color:#099">66</span>, <span style="color:#099">77</span>, <span style="color:#099">88</span>, <span style="color:#099">99</span>, <span style="color:#099">101</span>, <span style="color:#099">111</span>, <span style="color:#099">121</span>, <span style="color:#099">131</span>, <span style="color:#099">141</span>, <span style="color:#099">151</span>, <span style="color:#099">161</span>, <span style="color:#099">171</span>, <span style="color:#099">181</span>, <span style="color:#099">191</span>]
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="sorted">sorted</h4>
 <p>Python内置的<code>sorted()</code>函数可以对list进行排序：</p>
-
-<pre><code class="language-python">&gt;&gt;&gt; sorted([36, 5, -12, 9, -21])
-[-21, -12, 5, 9, 36]
-</code></pre>
-
-<p>此外，<code>sorted()</code>函数也是一个高阶函数，它还可以接收一个<code>key</code>函数来实现自定义的排序，例如按绝对值大小排序：</p>
-
-<pre><code class="language-python">&gt;&gt;&gt; sorted([36, 5, -12, 9, -21], key=abs)
-[5, 9, -12, -21, 36]
-</code></pre>
-
-<p>字符串排序的例子：</p>
-
-<pre><code class="language-python">&gt;&gt;&gt; sorted(['bob', 'about', 'Zoo', 'Credit'])
-['Credit', 'Zoo', 'about', 'bob']
-</code></pre>
-
-<p>字符串忽略大小写的排序：</p>
-
-<pre><code class="language-python">&gt;&gt;&gt; sorted(['bob', 'about', 'Zoo', 'Credit'], key=str.lower)
-['about', 'bob', 'Credit', 'Zoo']
-</code></pre>
-
-<p>字符串反向排序：</p>
-
-<pre><code class="language-python">&gt;&gt;&gt; sorted(['bob', 'about', 'Zoo', 'Credit'], key=str.lower, reverse=True)
-['Zoo', 'Credit', 'bob', 'about']
-</code></pre>
-
-<p>从上述例子可以看出，高阶函数的抽象能力是非常强大的，而且，核心代码可以保持得非常简洁。</p>
-
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> <span style="color:#0086b3">sorted</span>([<span style="color:#099">36</span>, <span style="color:#099">5</span>, <span style="color:#000;font-weight:bold">-</span><span style="color:#099">12</span>, <span style="color:#099">9</span>, <span style="color:#000;font-weight:bold">-</span><span style="color:#099">21</span>])
+[<span style="color:#000;font-weight:bold">-</span><span style="color:#099">21</span>, <span style="color:#000;font-weight:bold">-</span><span style="color:#099">12</span>, <span style="color:#099">5</span>, <span style="color:#099">9</span>, <span style="color:#099">36</span>]
+</code></pre></td></tr></table>
+</div>
+</div><p>此外，<code>sorted()</code>函数也是一个高阶函数，它还可以接收一个<code>key</code>函数来实现自定义的排序，例如按绝对值大小排序：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> <span style="color:#0086b3">sorted</span>([<span style="color:#099">36</span>, <span style="color:#099">5</span>, <span style="color:#000;font-weight:bold">-</span><span style="color:#099">12</span>, <span style="color:#099">9</span>, <span style="color:#000;font-weight:bold">-</span><span style="color:#099">21</span>], key<span style="color:#000;font-weight:bold">=</span><span style="color:#0086b3">abs</span>)
+[<span style="color:#099">5</span>, <span style="color:#099">9</span>, <span style="color:#000;font-weight:bold">-</span><span style="color:#099">12</span>, <span style="color:#000;font-weight:bold">-</span><span style="color:#099">21</span>, <span style="color:#099">36</span>]
+</code></pre></td></tr></table>
+</div>
+</div><p>字符串排序的例子：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> <span style="color:#0086b3">sorted</span>([<span style="color:#d14">&#39;bob&#39;</span>, <span style="color:#d14">&#39;about&#39;</span>, <span style="color:#d14">&#39;Zoo&#39;</span>, <span style="color:#d14">&#39;Credit&#39;</span>])
+[<span style="color:#d14">&#39;Credit&#39;</span>, <span style="color:#d14">&#39;Zoo&#39;</span>, <span style="color:#d14">&#39;about&#39;</span>, <span style="color:#d14">&#39;bob&#39;</span>]
+</code></pre></td></tr></table>
+</div>
+</div><p>字符串忽略大小写的排序：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> <span style="color:#0086b3">sorted</span>([<span style="color:#d14">&#39;bob&#39;</span>, <span style="color:#d14">&#39;about&#39;</span>, <span style="color:#d14">&#39;Zoo&#39;</span>, <span style="color:#d14">&#39;Credit&#39;</span>], key<span style="color:#000;font-weight:bold">=</span><span style="color:#0086b3">str</span><span style="color:#000;font-weight:bold">.</span>lower)
+[<span style="color:#d14">&#39;about&#39;</span>, <span style="color:#d14">&#39;bob&#39;</span>, <span style="color:#d14">&#39;Credit&#39;</span>, <span style="color:#d14">&#39;Zoo&#39;</span>]
+</code></pre></td></tr></table>
+</div>
+</div><p>字符串反向排序：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> <span style="color:#0086b3">sorted</span>([<span style="color:#d14">&#39;bob&#39;</span>, <span style="color:#d14">&#39;about&#39;</span>, <span style="color:#d14">&#39;Zoo&#39;</span>, <span style="color:#d14">&#39;Credit&#39;</span>], key<span style="color:#000;font-weight:bold">=</span><span style="color:#0086b3">str</span><span style="color:#000;font-weight:bold">.</span>lower, reverse<span style="color:#000;font-weight:bold">=</span><span style="color:#999">True</span>)
+[<span style="color:#d14">&#39;Zoo&#39;</span>, <span style="color:#d14">&#39;Credit&#39;</span>, <span style="color:#d14">&#39;bob&#39;</span>, <span style="color:#d14">&#39;about&#39;</span>]
+</code></pre></td></tr></table>
+</div>
+</div><p>从上述例子可以看出，高阶函数的抽象能力是非常强大的，而且，核心代码可以保持得非常简洁。</p>
 <h3 id="返回函数">返回函数</h3>
-
 <p><strong>函数作为返回值</strong></p>
-
 <p>高阶函数除了可以接受函数作为参数外，还可以把函数作为结果值返回。</p>
-
 <p>通常情况下，求和的函数为：</p>
-
-<pre><code class="language-python">def calc_sum(*args):
-    ax = 0
-    for n in args:
-        ax = ax + n
-    return ax
-</code></pre>
-
-<p>但是，如果不需要立刻求和，而是在后面的代码中根据需要再计算，则可以不返回求和的结果，而是返回求和的函数：</p>
-
-<pre><code class="language-python">def lazy_sum(*args):
-    def sum():
-        ax = 0
-        for n in args:
-            ax = ax + n
-        return ax
-    return sum
-</code></pre>
-
-<p>当我们调用<code>lazy_sum()</code>时，返回的并不是求和结果，而是求和函数，调用函数<code>f</code>时，才真正计算求和的结果：</p>
-
-<pre><code class="language-python">&gt;&gt;&gt; f = lazy_sum(1, 3, 5, 7, 9)
-&gt;&gt;&gt; f
-&lt;function lazy_sum.&lt;locals&gt;.sum at 0x101c6ed90&gt;
-&gt;&gt;&gt; f()
-25
-</code></pre>
-
-<p>在函数<code>lazy_sum</code>中又定义了函数<code>sum</code>，并且，内部函数<code>sum</code>可以引用外部函数<code>lazy_sum</code>的参数和局部变量，当<code>lazy_sum</code>返回函数<code>sum</code>时，相关参数和变量都保存在返回的函数中，这种称为“闭包（Closure）”的程序结构拥有极大的威力。</p>
-
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">calc_sum</span>(<span style="color:#000;font-weight:bold">*</span>args):
+    ax <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>
+    <span style="color:#000;font-weight:bold">for</span> n <span style="color:#000;font-weight:bold">in</span> args:
+        ax <span style="color:#000;font-weight:bold">=</span> ax <span style="color:#000;font-weight:bold">+</span> n
+    <span style="color:#000;font-weight:bold">return</span> ax
+</code></pre></td></tr></table>
+</div>
+</div><p>但是，如果不需要立刻求和，而是在后面的代码中根据需要再计算，则可以不返回求和的结果，而是返回求和的函数：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">lazy_sum</span>(<span style="color:#000;font-weight:bold">*</span>args):
+    <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">sum</span>():
+        ax <span style="color:#000;font-weight:bold">=</span> <span style="color:#099">0</span>
+        <span style="color:#000;font-weight:bold">for</span> n <span style="color:#000;font-weight:bold">in</span> args:
+            ax <span style="color:#000;font-weight:bold">=</span> ax <span style="color:#000;font-weight:bold">+</span> n
+        <span style="color:#000;font-weight:bold">return</span> ax
+    <span style="color:#000;font-weight:bold">return</span> <span style="color:#0086b3">sum</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>当我们调用<code>lazy_sum()</code>时，返回的并不是求和结果，而是求和函数，调用函数<code>f</code>时，才真正计算求和的结果：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> f <span style="color:#000;font-weight:bold">=</span> lazy_sum(<span style="color:#099">1</span>, <span style="color:#099">3</span>, <span style="color:#099">5</span>, <span style="color:#099">7</span>, <span style="color:#099">9</span>)
+<span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> f
+<span style="color:#000;font-weight:bold">&lt;</span>function lazy_sum<span style="color:#000;font-weight:bold">.&lt;</span><span style="color:#0086b3">locals</span><span style="color:#000;font-weight:bold">&gt;.</span>sum at <span style="color:#099">0x101c6ed90</span><span style="color:#000;font-weight:bold">&gt;</span>
+<span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> f()
+<span style="color:#099">25</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在函数<code>lazy_sum</code>中又定义了函数<code>sum</code>，并且，内部函数<code>sum</code>可以引用外部函数<code>lazy_sum</code>的参数和局部变量，当<code>lazy_sum</code>返回函数<code>sum</code>时，相关参数和变量都保存在返回的函数中，这种称为“闭包（Closure）”的程序结构拥有极大的威力。</p>
 <p>需注意一点，当我们调用<code>lazy_sum()</code>时，每次调用都会返回一个新的函数，即使传入相同的参数：</p>
-
-<pre><code class="language-python">&gt;&gt;&gt; f1 = lazy_sum(1, 3, 5, 7, 9)
-&gt;&gt;&gt; f2 = lazy_sum(1, 3, 5, 7, 9)
-&gt;&gt;&gt; f1==f2
-False
-</code></pre>
-
-<p><strong>闭包</strong></p>
-
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> f1 <span style="color:#000;font-weight:bold">=</span> lazy_sum(<span style="color:#099">1</span>, <span style="color:#099">3</span>, <span style="color:#099">5</span>, <span style="color:#099">7</span>, <span style="color:#099">9</span>)
+<span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> f2 <span style="color:#000;font-weight:bold">=</span> lazy_sum(<span style="color:#099">1</span>, <span style="color:#099">3</span>, <span style="color:#099">5</span>, <span style="color:#099">7</span>, <span style="color:#099">9</span>)
+<span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> f1<span style="color:#000;font-weight:bold">==</span>f2
+<span style="color:#999">False</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>闭包</strong></p>
 <p>返回的函数在其定义内部引用了局部变量<code>args</code>，所以，当一个函数返回了一个函数后，其内部的局部变量还被新函数引用，所以，闭包用起来简单，实现起来可不容易。另一个需要注意的问题是，返回的函数并没有立刻执行，而是直到调用了<code>f()</code>才执行。</p>
-
 <p>返回闭包时：返回函数不要引用任何循环变量，或者后续会发生变化的变量。</p>
-
 <h3 id="匿名函数">匿名函数</h3>
-
 <p>在Python中，对匿名函数提供了有限支持。计算$f(x)=x^2$时，除了定义一个<code>f(x)</code>的函数外，还可以直接传入匿名函数：</p>
-
-<pre><code class="language-python">&gt;&gt;&gt; list(map(lambda x: x * x, range(1, 10)))
-[1, 4, 9, 16, 25, 36, 49, 64, 81]
-</code></pre>
-
-<p>关键字<code>lambda</code>表示匿名函数，冒号前面的<code>x</code>表示函数参数，匿名函数有个限制，就是只能有一个表达式，不用写<code>return</code>，返回值就是该表达式的结果。</p>
-
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> <span style="color:#0086b3">list</span>(<span style="color:#0086b3">map</span>(<span style="color:#000;font-weight:bold">lambda</span> x: x <span style="color:#000;font-weight:bold">*</span> x, <span style="color:#0086b3">range</span>(<span style="color:#099">1</span>, <span style="color:#099">10</span>)))
+[<span style="color:#099">1</span>, <span style="color:#099">4</span>, <span style="color:#099">9</span>, <span style="color:#099">16</span>, <span style="color:#099">25</span>, <span style="color:#099">36</span>, <span style="color:#099">49</span>, <span style="color:#099">64</span>, <span style="color:#099">81</span>]
+</code></pre></td></tr></table>
+</div>
+</div><p>关键字<code>lambda</code>表示匿名函数，冒号前面的<code>x</code>表示函数参数，匿名函数有个限制，就是只能有一个表达式，不用写<code>return</code>，返回值就是该表达式的结果。</p>
 <p>此外，匿名函数也是一个函数对象，也可以把匿名函数赋值给一个变量，再利用变量来调用该函数，也可以把匿名函数作为返回值返回。</p>
-
 <h3 id="装饰器">装饰器</h3>
-
 <p>在代码运行期间动态增加功能的方式，称之为“装饰器”（Decorator），本质上decorator就是一个返回函数的高阶函数。</p>
-
 <p>一个完整的decorator的写法如下：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">functools</span>
 
-<pre><code class="language-python">import functools
+<span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">log</span>(func):
+    <span style="color:#3c5d5d;font-weight:bold">@functools.wraps</span>(func)
+    <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">wrapper</span>(<span style="color:#000;font-weight:bold">*</span>args, <span style="color:#000;font-weight:bold">**</span>kw):
+        <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;call </span><span style="color:#d14">%s</span><span style="color:#d14">():&#39;</span> <span style="color:#000;font-weight:bold">%</span> func<span style="color:#000;font-weight:bold">.</span>__name__)
+        <span style="color:#000;font-weight:bold">return</span> func(<span style="color:#000;font-weight:bold">*</span>args, <span style="color:#000;font-weight:bold">**</span>kw)
+    <span style="color:#000;font-weight:bold">return</span> wrapper
+</code></pre></td></tr></table>
+</div>
+</div><p>或者针对带参数的decorator：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">functools</span>
 
-def log(func):
-    @functools.wraps(func)
-    def wrapper(*args, **kw):
-        print('call %s():' % func.__name__)
-        return func(*args, **kw)
-    return wrapper
-</code></pre>
-
-<p>或者针对带参数的decorator：</p>
-
-<pre><code class="language-python">import functools
-
-def log(text):
-    def decorator(func):
-        @functools.wraps(func)
-        def wrapper(*args, **kw):
-            print('%s %s():' % (text, func.__name__))
-            return func(*args, **kw)
-        return wrapper
-    return decorator
-</code></pre>
-
-<p><code>log()</code>是一个decorator，返回<code>wrapper()</code>函数，<code>wrapper()</code>函数的参数定义是<code>(*args, **kw)</code>，因此，<code>wrapper()</code>函数可以接受任意参数的调用。在<code>wrapper()</code>函数内，首先打印日志，再紧接着调用原始函数。</p>
-
+<span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">log</span>(text):
+    <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">decorator</span>(func):
+        <span style="color:#3c5d5d;font-weight:bold">@functools.wraps</span>(func)
+        <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">wrapper</span>(<span style="color:#000;font-weight:bold">*</span>args, <span style="color:#000;font-weight:bold">**</span>kw):
+            <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#39;</span><span style="color:#d14">%s</span><span style="color:#d14"> </span><span style="color:#d14">%s</span><span style="color:#d14">():&#39;</span> <span style="color:#000;font-weight:bold">%</span> (text, func<span style="color:#000;font-weight:bold">.</span>__name__))
+            <span style="color:#000;font-weight:bold">return</span> func(<span style="color:#000;font-weight:bold">*</span>args, <span style="color:#000;font-weight:bold">**</span>kw)
+        <span style="color:#000;font-weight:bold">return</span> wrapper
+    <span style="color:#000;font-weight:bold">return</span> decorator
+</code></pre></td></tr></table>
+</div>
+</div><p><code>log()</code>是一个decorator，返回<code>wrapper()</code>函数，<code>wrapper()</code>函数的参数定义是<code>(*args, **kw)</code>，因此，<code>wrapper()</code>函数可以接受任意参数的调用。在<code>wrapper()</code>函数内，首先打印日志，再紧接着调用原始函数。</p>
 <p>Python内置的<code>functools.wraps</code>可以把原始函数的<code>__name__</code>等属性复制到<code>wrapper()</code>函数中，否则，有些依赖函数签名的代码执行就会出错。</p>
-
 <p>在面向对象（OOP）的设计模式中，decorator被称为装饰模式。OOP的装饰模式需要通过继承和组合来实现，而Python除了能支持OOP的decorator外，直接从语法层次支持decorator。Python的decorator可以用函数实现，也可以用类实现。</p>
-
 <h3 id="偏函数">偏函数</h3>
-
 <p>Python的<code>functools</code>模块提供了很多有用的功能，其中一个就是偏函数（Partial function）。</p>
-
-<pre><code class="language-python">&gt;&gt;&gt; import functools
-&gt;&gt;&gt; int2 = functools.partial(int, base=2)
-&gt;&gt;&gt; int2('1000000')
-64
-&gt;&gt;&gt; int2('1010101')
-85
-</code></pre>
-
-<p><code>functools.partial</code>的作用就是把一个函数的某些参数给固定住（也就是设置默认值），返回一个新的函数，调用这个新函数会更简单。</p>
-
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> <span style="color:#000;font-weight:bold">import</span> <span style="color:#555">functools</span>
+<span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> int2 <span style="color:#000;font-weight:bold">=</span> functools<span style="color:#000;font-weight:bold">.</span>partial(<span style="color:#0086b3">int</span>, base<span style="color:#000;font-weight:bold">=</span><span style="color:#099">2</span>)
+<span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> int2(<span style="color:#d14">&#39;1000000&#39;</span>)
+<span style="color:#099">64</span>
+<span style="color:#000;font-weight:bold">&gt;&gt;&gt;</span> int2(<span style="color:#d14">&#39;1010101&#39;</span>)
+<span style="color:#099">85</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>functools.partial</code>的作用就是把一个函数的某些参数给固定住（也就是设置默认值），返回一个新的函数，调用这个新函数会更简单。</p>
 <p>创建偏函数时，实际上可以接收函数对象、<code>*args</code>和<code>**kw</code>这3个参数，当传入：</p>
-
-<pre><code class="language-python">int2 = functools.partial(int, base=2)
-</code></pre>
-
-<p>实际上固定了<code>int()</code>函数的关键字参数<code>base</code>，<code>int2('10010')</code>相当于：</p>
-
-<pre><code class="language-python">kw = { 'base': 2 }
-int('10010', **kw)
-</code></pre>
-
-<p>当传入：</p>
-
-<pre><code class="language-python">max2 = functools.partial(max, 10)
-</code></pre>
-
-<p>实际上会把10作为<code>*args</code>的一部分自动加到左边，<code>max2(5, 6, 7)</code>相当于：</p>
-
-<pre><code class="language-python">args = (10, 5, 6, 7)
-max(*args)
-</code></pre>
-
-<h2 id="模块">模块</h2>
-
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">int2 <span style="color:#000;font-weight:bold">=</span> functools<span style="color:#000;font-weight:bold">.</span>partial(<span style="color:#0086b3">int</span>, base<span style="color:#000;font-weight:bold">=</span><span style="color:#099">2</span>)
+</code></pre></td></tr></table>
+</div>
+</div><p>实际上固定了<code>int()</code>函数的关键字参数<code>base</code>，<code>int2('10010')</code>相当于：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">kw <span style="color:#000;font-weight:bold">=</span> { <span style="color:#d14">&#39;base&#39;</span>: <span style="color:#099">2</span> }
+<span style="color:#0086b3">int</span>(<span style="color:#d14">&#39;10010&#39;</span>, <span style="color:#000;font-weight:bold">**</span>kw)
+</code></pre></td></tr></table>
+</div>
+</div><p>当传入：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">max2 <span style="color:#000;font-weight:bold">=</span> functools<span style="color:#000;font-weight:bold">.</span>partial(<span style="color:#0086b3">max</span>, <span style="color:#099">10</span>)
+</code></pre></td></tr></table>
+</div>
+</div><p>实际上会把10作为<code>*args</code>的一部分自动加到左边，<code>max2(5, 6, 7)</code>相当于：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">args <span style="color:#000;font-weight:bold">=</span> (<span style="color:#099">10</span>, <span style="color:#099">5</span>, <span style="color:#099">6</span>, <span style="color:#099">7</span>)
+<span style="color:#0086b3">max</span>(<span style="color:#000;font-weight:bold">*</span>args)
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="模块">模块</h2>
 <p>在Python中，一个.py文件就称之为一个模块（Module），使用模块的好处是提高了代码的可维护性，可以被其他地方引用，还可以避免函数名和变量名冲突。</p>
-
 <p>为了避免模块名冲突，Python又引入了按目录来组织模块的方法，称为包（Package），每一个包目录下面都会有一个<code>__init__.py</code>的文件，这个文件是必须存在的，否则，Python就把这个目录当成普通目录，而不是一个包。</p>
-
 <p>在命令行运行模块文件时，Python解释器把一个特殊变量<code>__name__</code>设置为<code>__main__</code>，而如果在其他地方导入该模块时，<code>if</code>判断将失效，这种<code>if</code>测试可以让一个模块通过命令行运行时执行一些额外的代码，最常见的就是运行测试。</p>
 
-                        </div>
+        </div>
 
-                        
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://qoanty.github.io/">百年孤独</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://qoanty.github.io/2019/04/python3-functional-programming/">https://qoanty.github.io/2019/04/python3-functional-programming/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
 
 
-                        
+
+        
 
 <div class="post-archive">
     <h2>See Also</h2>
@@ -456,48 +657,40 @@ max(*args)
         
         <li><a href="/2019/04/python3-advanced-features/">Python3 学习笔记（高级特性）</a></li>
         
-        <li><a href="/2019/04/wss-and-web/">基于V2Ray的WebSocket&#43;TLS&#43;Web&#43;CDN安全网络代理</a></li>
+        <li><a href="/2019/04/vps-wss-and-web/">基于V2Ray的WebSocket&#43;TLS&#43;Web&#43;CDN安全网络代理</a></li>
         
-        <li><a href="/2019/04/vps-with-v2ray/">使用V2Ray实现科学爱国</a></li>
+        <li><a href="/2019/04/vps-kms/">Debian 10搭建KMS服务器及激活Windows和Office</a></li>
         
-        <li><a href="/2019/04/blog-with-hugo/">使用Hugo搭建个人博客</a></li>
+        <li><a href="/2019/04/vps-caddy-php7-typecho/">安装Caddy&#43;PHP7&#43;Sqlite3环境并搭建Typecho博客</a></li>
         
     </ul>
 </div>
 
 
-                        <div class="post-meta meta-tags">
-                            
-                            <ul class="clearfix">
-                                
-                                <li><a href="https://qoanty.github.io/tags/python">python</a></li>
-                                
-                                <li><a href="https://qoanty.github.io/tags/functions">functions</a></li>
-                                
-                            </ul>
-                            
-                        </div>
-                    </article>
-                    
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='https://qoanty.github.io/tags/python'>python</a></li>
+                
+                <li><a href='https://qoanty.github.io/tags/functions'>functions</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
     
 
     
     
-    <div class="post bg-white">
-      <script src="https://utteranc.es/client.js"
-            repo= "qoanty/qoanty.github.io"
-            issue-term="pathname"
-            theme="github-light"
-            crossorigin="anonymous"
-            async>
-      </script>
-    </div>
-    
+</div>
+
                 </div>
-            </div>
-            <div id="secondary">
+
+                <div id="secondary">
     <section class="widget">
-        <form id="search" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+        <form id="search" action='https://qoanty.github.io/search/' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
       
       <input type="text" name="q" maxlength="20" placeholder="Search">
       <input type="hidden" name="sitesearch" value="https://qoanty.github.io/">
@@ -510,43 +703,43 @@ max(*args)
 <ul class="widget-list">
     
     <li>
-        <a href="https://qoanty.github.io/2019/05/sliding-captcha/" title="极验滑动验证码识别">极验滑动验证码识别</a>
+        <a href="https://qoanty.github.io/2020/07/install-manjaro-kde/" title="Manjaro-KDE 安装与设置">Manjaro-KDE 安装与设置</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-web-scraping/" title="Python3 学习笔记（异步爬虫）">Python3 学习笔记（异步爬虫）</a>
+        <a href="https://qoanty.github.io/2020/06/vps-with-trojan-go/" title="Trojan-Go 安装配置教程">Trojan-Go 安装配置教程</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-asyncio/" title="Python3 学习笔记（异步IO）">Python3 学习笔记（异步IO）</a>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-without-phd/" title="Tensorflow, Keras and deep learning, without a Phd">Tensorflow, Keras and deep learning, without a Phd</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-built-in-functions-modules/" title="Python3 学习笔记（内建模块）">Python3 学习笔记（内建模块）</a>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-load-csv-data/" title="TensorFlow加载CSV数据">TensorFlow加载CSV数据</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-distributed-processes/" title="Python3 学习笔记（分布式进程）">Python3 学习笔记（分布式进程）</a>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-text-classification/" title="具有预处理文本的文本分类：电影评论">具有预处理文本的文本分类：电影评论</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-object-oriented-programming/" title="Python3 学习笔记（面向对象编程）">Python3 学习笔记（面向对象编程）</a>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-text-classification-with-hub/" title="使用TensorFlow Hub进行文本分类：电影评论">使用TensorFlow Hub进行文本分类：电影评论</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-functional-programming/" title="Python3 学习笔记（函数式编程）">Python3 学习笔记（函数式编程）</a>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-image-classification/" title="TensorFlow基本分类：对服装图像进行分类">TensorFlow基本分类：对服装图像进行分类</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-advanced-features/" title="Python3 学习笔记（高级特性）">Python3 学习笔记（高级特性）</a>
+        <a href="https://qoanty.github.io/2019/07/install-lemp-on-debian/" title="在Debian 10上安装Linux，Nginx，MariaDB，PHP">在Debian 10上安装Linux，Nginx，MariaDB，PHP</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/python3-functions/" title="Python3 学习笔记（函数）">Python3 学习笔记（函数）</a>
+        <a href="https://qoanty.github.io/2019/07/install-nginx-on-debian/" title="在Debian 10上安装Nginx">在Debian 10上安装Nginx</a>
     </li>
     
     <li>
-        <a href="https://qoanty.github.io/2019/04/wss-and-web/" title="基于V2Ray的WebSocket&#43;TLS&#43;Web&#43;CDN安全网络代理">基于V2Ray的WebSocket&#43;TLS&#43;Web&#43;CDN安全网络代理</a>
+        <a href="https://qoanty.github.io/2019/07/set-up-debian-server/" title="在VPS上设置Debian 10服务器">在VPS上设置Debian 10服务器</a>
     </li>
     
 </ul>
@@ -558,37 +751,45 @@ max(*args)
         <h3 class="widget-title">分类</h3>
 <ul class="widget-list">
     
-    <li>
-        <a href="https://qoanty.github.io/categories/blog/">Blog(1)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/blog/">Blog (1)</a></li>
     
-    <li>
-        <a href="https://qoanty.github.io/categories/captcha/">Captcha(1)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/caddy/">Caddy (1)</a></li>
     
-    <li>
-        <a href="https://qoanty.github.io/categories/hugo/">Hugo(1)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/captcha/">Captcha (1)</a></li>
     
-    <li>
-        <a href="https://qoanty.github.io/categories/learn/">Learn(8)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/debian/">Debian (5)</a></li>
     
-    <li>
-        <a href="https://qoanty.github.io/categories/python/">Python(10)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/docker/">Docker (1)</a></li>
     
-    <li>
-        <a href="https://qoanty.github.io/categories/v2ray/">V2Ray(2)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/hugo/">Hugo (1)</a></li>
     
-    <li>
-        <a href="https://qoanty.github.io/categories/vps/">VPS(2)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/kde/">KDE (1)</a></li>
     
-    <li>
-        <a href="https://qoanty.github.io/categories/vim/">Vim(1)</a>
-    </li>
+    <li><a href="https://qoanty.github.io/categories/kms/">KMS (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/learn/">Learn (14)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/manjaro/">Manjaro (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/nginx/">Nginx (2)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/pipenv/">Pipenv (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/python/">Python (12)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/ssh/">SSH (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/tensorflow/">TensorFlow (5)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/trojan/">Trojan (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/trojan-go/">Trojan-Go (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/v2ray/">V2Ray (2)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/vim/">Vim (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/vps/">VPS (7)</a></li>
     
 </ul>
     </section>
@@ -597,21 +798,19 @@ max(*args)
         <h3 class="widget-title">标签</h3>
 <div class="tagcloud">
     
+    <a href="https://qoanty.github.io/tags/asyncio/">asyncio</a>
+    
+    <a href="https://qoanty.github.io/tags/caddy/">Caddy</a>
+    
     <a href="https://qoanty.github.io/tags/cdn/">CDN</a>
     
-    <a href="https://qoanty.github.io/tags/github/">Github</a>
+    <a href="https://qoanty.github.io/tags/data/">data</a>
     
-    <a href="https://qoanty.github.io/tags/hugo/">Hugo</a>
+    <a href="https://qoanty.github.io/tags/debian/">Debian</a>
     
-    <a href="https://qoanty.github.io/tags/ide/">IDE</a>
+    <a href="https://qoanty.github.io/tags/deep-learning/">deep learning</a>
     
-    <a href="https://qoanty.github.io/tags/oop/">OOP</a>
-    
-    <a href="https://qoanty.github.io/tags/v2ray/">V2Ray</a>
-    
-    <a href="https://qoanty.github.io/tags/vps/">VPS</a>
-    
-    <a href="https://qoanty.github.io/tags/asyncio/">asyncio</a>
+    <a href="https://qoanty.github.io/tags/docker/">Docker</a>
     
     <a href="https://qoanty.github.io/tags/features/">features</a>
     
@@ -619,13 +818,45 @@ max(*args)
     
     <a href="https://qoanty.github.io/tags/geetest/">geetest</a>
     
+    <a href="https://qoanty.github.io/tags/github/">Github</a>
+    
+    <a href="https://qoanty.github.io/tags/hugo/">Hugo</a>
+    
+    <a href="https://qoanty.github.io/tags/ide/">IDE</a>
+    
+    <a href="https://qoanty.github.io/tags/kde/">KDE</a>
+    
+    <a href="https://qoanty.github.io/tags/keras/">keras</a>
+    
+    <a href="https://qoanty.github.io/tags/kms/">KMS</a>
+    
+    <a href="https://qoanty.github.io/tags/manjaro/">Manjaro</a>
+    
+    <a href="https://qoanty.github.io/tags/nginx/">Nginx</a>
+    
+    <a href="https://qoanty.github.io/tags/oop/">OOP</a>
+    
+    <a href="https://qoanty.github.io/tags/pipenv/">Pipenv</a>
+    
     <a href="https://qoanty.github.io/tags/processes/">processes</a>
     
-    <a href="https://qoanty.github.io/tags/python/">python</a>
+    <a href="https://qoanty.github.io/tags/python/">Python</a>
     
     <a href="https://qoanty.github.io/tags/scraping/">scraping</a>
     
-    <a href="https://qoanty.github.io/tags/vim/">vim</a>
+    <a href="https://qoanty.github.io/tags/ssh/">SSH</a>
+    
+    <a href="https://qoanty.github.io/tags/tensorflow/">tensorflow</a>
+    
+    <a href="https://qoanty.github.io/tags/trojan/">Trojan</a>
+    
+    <a href="https://qoanty.github.io/tags/trojan-go/">Trojan-Go</a>
+    
+    <a href="https://qoanty.github.io/tags/v2ray/">V2Ray</a>
+    
+    <a href="https://qoanty.github.io/tags/vim/">Vim</a>
+    
+    <a href="https://qoanty.github.io/tags/vps/">VPS</a>
     
 </div>
     </section>
@@ -658,37 +889,33 @@ max(*args)
         </ul>
     </section>
 </div>
+            </div>
         </div>
     </div>
-</div>
-<footer id="footer">
+    <footer id="footer">
     <div class="container">
-        &copy; 2019 <a href="https://qoanty.github.io/">百年孤独的博客 By 百年孤独</a>.
-        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a> & <a href="https://github.com/rujews/maupassant-hugo" target="_blank">maupassant</a>.
+        &copy; 2020 <a href="https://qoanty.github.io/">百年孤独的博客 By 百年孤独</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/flysnow-org/maupassant-hugo" target="_blank">maupassant</a>.
         
     </div>
 </footer>
 
 
-    <script type="text/javascript">
     
-    (function(){
-        $("pre code").parent().addClass("line-numbers")
-    }())
-
-    window.MathJax = {
-        tex2jax: {
-            inlineMath: [ ['$','$'] ],
-            processEscapes: true
-        }
-    };
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
     </script>
-    <script type="text/javascript" src="/js/prism.js" async="true"></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
 
-<a id="rocket" href="#top"></a>
-<script type="text/javascript" src="/js/totop.js?v=0.0.0" async=""></script>
 
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
 
 
 
@@ -696,4 +923,5 @@ max(*args)
 
 
 </body>
+
 </html>

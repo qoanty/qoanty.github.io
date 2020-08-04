@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>functions on 百年孤独的博客</title>
@@ -17,7 +17,7 @@
       <pubDate>Sun, 21 Apr 2019 11:58:09 +0800</pubDate>
       
       <guid>https://qoanty.github.io/2019/04/python3-built-in-functions-modules/</guid>
-      <description>常用内建模块 datetime 获取当前日期和时间</description>
+      <description>常用内建模块 datetime 获取当前日期和时间 1 2 3 4 5 6 7 &amp;gt;&amp;gt;&amp;gt; from datetime import datetime &amp;gt;&amp;gt;&amp;gt; now = datetime.now() # 获取当前datetime &amp;gt;&amp;gt;&amp;gt; print(now) 2019-05-15 19:34:57.142524 &amp;gt;&amp;gt;&amp;gt; print(type(now)) &amp;lt;class &amp;#39;datetime.datetime&amp;#39;&amp;gt; &amp;gt;&amp;gt;&amp;gt; 注意到datetime是模块，datetime模块还包含一个datetime类，通过from datetime import datetime导入的才是datet</description>
     </item>
     
     <item>
@@ -26,8 +26,7 @@
       <pubDate>Fri, 19 Apr 2019 19:23:49 +0800</pubDate>
       
       <guid>https://qoanty.github.io/2019/04/python3-functional-programming/</guid>
-      <description>函数式编程 函数是Python内建支持的一种封装，我们通过把大段代码拆成函数，通过一层一层的函数调用，就可以把复杂任务分解成简单的任务，这种分解可以称之为面向过程的程序设计。函数就是面向过程的程序设计的基本单元。
-对于编程语言，就是越低级的语言，越贴近计算机，抽象程度低，执行效率高，比如C语言；越高级的语言，越贴近计算，抽象程度高，执行效率低，比如Lisp语言。</description>
+      <description>函数式编程 函数是Python内建支持的一种封装，我们通过把大段代码拆成函数，通过一层一层的函数调用，就可以把复杂任务分解成简单的任务，这种分解可以称之为面向过程的程序设计。函数就是面向过程的程序设计的基本单元。 对于编程语言，就是越低级的语言</description>
     </item>
     
     <item>
@@ -36,7 +35,7 @@
       <pubDate>Fri, 19 Apr 2019 10:14:31 +0800</pubDate>
       
       <guid>https://qoanty.github.io/2019/04/python3-functions/</guid>
-      <description>函数 调用函数 Python内置了很多有用的函数，可以直接调用，参见官方文档。</description>
+      <description>函数 调用函数 Python内置了很多有用的函数，可以直接调用，参见官方文档。 调用abs、max函数： 1 2 3 4 5 6 7 8 &amp;gt;&amp;gt;&amp;gt; abs(-20) 20 &amp;gt;&amp;gt;&amp;gt; abs(12.34) 12.34 &amp;gt;&amp;gt;&amp;gt; max(1, 2) 2 &amp;gt;&amp;gt;&amp;gt; max(2, 3, 1, -5) 3 调用数据类型转换函数： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 &amp;gt;&amp;gt;&amp;gt; int(&amp;#39;123&amp;#39;) 123 &amp;gt;&amp;gt;&amp;gt; int(12.34) 12 &amp;gt;&amp;gt;&amp;gt; float(&amp;#39;12.34&amp;#39;) 12.34 &amp;gt;&amp;gt;&amp;gt; str(1.23) &amp;#39;1.23&amp;#39; &amp;gt;&amp;gt;&amp;gt; str(100) &amp;#39;100&amp;#39; &amp;gt;&amp;gt;&amp;gt; bool(1) True &amp;gt;&amp;gt;&amp;gt; bool(&amp;#39;&amp;#39;) False 定</description>
     </item>
     
   </channel>

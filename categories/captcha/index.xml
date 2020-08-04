@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Captcha on 百年孤独的博客</title>
@@ -17,7 +17,7 @@
       <pubDate>Tue, 07 May 2019 09:24:08 +0800</pubDate>
       
       <guid>https://qoanty.github.io/2019/05/sliding-captcha/</guid>
-      <description>搭建测试环境 从Python官网下载64位Python并安装，打开CMD窗口输入pip install selenium安装web应用程序测试系统，下载chrome安装包，根据安装引导安装chrome浏览器，从WebDriver for Chrome网上下载与chrome版本相对应的ChromeDriver并解压到相关位置，将以上安装好的文件的路径添加到系统环境变量中，至此selenium webdriver的运行环境已配置好。</description>
+      <description>搭建测试环境 从Python官网下载64位Python并安装，打开CMD窗口输入pip install selenium安装web应用程序测试系统，下载chrome安装包，根据安装引导安装chrome浏览器，从WebDriver for Chrome网上下载与chr</description>
     </item>
     
   </channel>

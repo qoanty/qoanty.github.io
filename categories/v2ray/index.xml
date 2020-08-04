@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>V2Ray on 百年孤独的博客</title>
@@ -13,12 +13,11 @@
     
     <item>
       <title>基于V2Ray的WebSocket&#43;TLS&#43;Web&#43;CDN安全网络代理</title>
-      <link>https://qoanty.github.io/2019/04/wss-and-web/</link>
+      <link>https://qoanty.github.io/2019/04/vps-wss-and-web/</link>
       <pubDate>Wed, 17 Apr 2019 20:02:32 +0800</pubDate>
       
-      <guid>https://qoanty.github.io/2019/04/wss-and-web/</guid>
-      <description>准备 注册VPS服务器，推荐Vultr，Digitalocean、Bandwagon速度不错、稳定且性价比高，按小时计费，也可以选择便宜的VirMach。
-注册域名，推荐GoDaddy、freenom 等。</description>
+      <guid>https://qoanty.github.io/2019/04/vps-wss-and-web/</guid>
+      <description>准备 注册VPS服务器，推荐Vultr，Digitalocean、Bandwagon速度不错、稳定且性价比高，按小时计费，也可以选择便宜的VirMach。 注册域名，推荐GoDaddy、freenom 等。 部署Nginx或Caddy，推荐LNMP</description>
     </item>
     
     <item>
@@ -27,7 +26,7 @@
       <pubDate>Fri, 12 Apr 2019 17:49:11 +0800</pubDate>
       
       <guid>https://qoanty.github.io/2019/04/vps-with-v2ray/</guid>
-      <description>前言 V2Ray是一个非常优秀的开源网络代理工具，支持TCP、mKCP、WebSocket这3种底层传输协议，支持HTTP、Socks、Shadowsocks、VMess这4种内容传输协议，并且还支持Windows、Mac、Android、iOS、Linux等所有主流操作系统。目前V2Ray已经更名为Project V，V2Ray则演变为Project V的内核。本教程介绍V2Ray的一些基本概念，如何搭建V2Ray，如何配置V2Ray服务器端和V2Ray客户端，以及V2Ray的优化，也可以直接访问项目官网 和白话文教程 。</description>
+      <description>前言 V2Ray是一个非常优秀的开源网络代理工具，支持TCP、mKCP、WebSocket这3种底层传输协议，支持HTTP、Socks、Shadowsocks、VMess这4种内容传输协议，并且还支持Windows、Mac、Android、i</description>
     </item>
     
   </channel>

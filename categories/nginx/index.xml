@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Nginx on 百年孤独的博客</title>
+    <link>https://qoanty.github.io/categories/nginx/</link>
+    <description>Recent content in Nginx on 百年孤独的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sun, 28 Jul 2019 18:22:37 +0800</lastBuildDate>
+    
+	<atom:link href="https://qoanty.github.io/categories/nginx/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>在Debian 10上安装Linux，Nginx，MariaDB，PHP</title>
+      <link>https://qoanty.github.io/2019/07/install-lemp-on-debian/</link>
+      <pubDate>Sun, 28 Jul 2019 18:22:37 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/07/install-lemp-on-debian/</guid>
+      <description>介绍 LEMP软件包是一组可用于提供动态网页和Web应用程序的软件。“LEMP”是一个首字母缩略词，用于描述Linux操作系统和(E)Nginx网络服务，后端数据存储在MariaDB数据库中，动态处理由PHP处理。 尽管此软件包通常包括MySQ</description>
+    </item>
+    
+    <item>
+      <title>在Debian 10上安装Nginx</title>
+      <link>https://qoanty.github.io/2019/07/install-nginx-on-debian/</link>
+      <pubDate>Tue, 23 Jul 2019 11:25:15 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2019/07/install-nginx-on-debian/</guid>
+      <description>介绍 Nginx是世界上最受欢迎的Web服务之一，负责托管互联网上一些规模很大，流量很高的网站。在大多数情况下，它比Apache更具资源友好性，可以用作Web服务或反向代理。 在本教程中，我们将讨论如何在Debian 10服务器上安装Nginx。</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Debian 10使用Docker方式安装Weixin和QQ | 百年孤独的博客</title>
+    <meta property="og:title" content="Debian 10使用Docker方式安装Weixin和QQ - 百年孤独的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2019-05-15T16:35:28&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2019-05-15T16:35:28&#43;08:00'>
+        
+    <meta name="Keywords" content="VPS, python, android, 博客, 小程序">
+    <meta name="description" content="Debian 10使用Docker方式安装Weixin和QQ">
+        
+    <meta name="author" content="百年孤独">
+    <meta property="og:url" content="https://qoanty.github.io/2019/05/debian-docker/">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+
+
+    
+    
+</head>
+
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://qoanty.github.io/">
+                        百年孤独的博客
+                    </a>
+                
+                <p class="description">艺术家用谎言揭露真相，政治家用谎言隐瞒真相</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://qoanty.github.io/">首页</a>
+                    
+                    <a  href="https://qoanty.github.io/tools/" title="工具">工具</a>
+                    
+                    <a  href="https://qoanty.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://qoanty.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">Debian 10使用Docker方式安装Weixin和QQ</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2019年5月15日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='https://qoanty.github.io/categories/docker'>Docker</a></span>
+            
+            <span class="meta-category"><a href='https://qoanty.github.io/categories/debian'>Debian</a></span>
+            
+        </div>
+        
+        
+        
+        <div class="post-content">
+            <h2 id="docker简介">Docker简介</h2>
+<p>Docker是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中,然后发布到任何流行的Linux机器或Windows机器上，也可以实现虚拟化，容器是完全使用沙箱机制，相互之间不会有任何接口。</p>
+<p>Docker使用Google公司推出的Go语言进行开发实现，基于Linux内核的cgroup，namespace，以及AUFS类的Union FS等技术，对进程进行封装隔离，属于操作系统层面的虚拟化技术。由于隔离的进程独立于宿主和其它的隔离的进程，因此也称其为容器。</p>
+<p>Docker在容器的基础上，进行了进一步的封装，从文件系统、网络互联到进程隔离等等，极大的简化了容器的创建和维护。使得Docker技术比虚拟机技术更为轻便、快捷。</p>
+<p>Docker由以下几个部分组成：</p>
+<ol>
+<li>Docker Client 客户端</li>
+<li>Docker Daemon 守护进程</li>
+<li>Docker Image 镜像</li>
+<li>Docker Container容器</li>
+</ol>
+<h2 id="docker安装">Docker安装</h2>
+<p>官方Debian存储库中提供的Docker安装包不是最新版本，要从官方Docker存储库安装，需要添加一个新的包源，从Docker添加GPG密钥以确保下载有效，然后安装该包。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#998;font-style:italic"># 更新包列表</span>
+sudo apt update
+sudo apt upgrade
+<span style="color:#998;font-style:italic"># 安装通过HTTPS添加新存储库所需的依赖项</span>
+sudo apt install apt-transport-https ca-certificates curl gnupg2 software-properties-common
+<span style="color:#998;font-style:italic"># 导入存储库的GPG密钥</span>
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+<span style="color:#998;font-style:italic"># 将Docker存储库添加到APT源</span>
+sudo add-apt-repository <span style="color:#d14">&#34;deb [arch=amd64] https://download.docker.com/linux/debian </span><span style="color:#000;font-weight:bold">$(</span>lsb_release -cs<span style="color:#000;font-weight:bold">)</span><span style="color:#d14"> stable&#34;</span>
+<span style="color:#998;font-style:italic"># 更新包数据库</span>
+sudo apt update
+<span style="color:#998;font-style:italic"># 确保从Docker repo而不是默认的Debian repo安装</span>
+apt-cache policy docker-ce
+<span style="color:#998;font-style:italic"># 安装Docker</span>
+sudo apt install docker-ce
+<span style="color:#998;font-style:italic"># 查看运行状态</span>
+sudo systemctl status docker
+</code></pre></td></tr></table>
+</div>
+</div><p>现在Docker不仅可以提供Docker服务（守护程序），还可以提供docker命令行实用程序或Docker客户端。</p>
+<p>默认情况下，docker命令只能由root用户或docker组中的用户运行，该用户在Docker的安装过程中自动创建。如果要在运行docker命令时避免键入sudo，需将用户名添加到docker组中。</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#998;font-style:italic"># 将当前用户添加到docker组中</span>
+sudo usermod -aG docker <span style="color:#d14">${</span><span style="color:#008080">USER</span><span style="color:#d14">}</span>
+<span style="color:#998;font-style:italic"># 或者使用下面的命令</span>
+sudo gpasswd -a <span style="color:#d14">${</span><span style="color:#008080">USER</span><span style="color:#d14">}</span> docker
+<span style="color:#998;font-style:italic"># 更新用户组</span>
+newgrp docker
+<span style="color:#998;font-style:italic"># 确认用户已添加到docker组</span>
+id -nG
+<span style="color:#998;font-style:italic"># 查看版本</span>
+docker -v
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="安装qq和wechat">安装QQ和Wechat</h2>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#998;font-style:italic"># 下载镜像</span>
+docker pull bestwu/qq
+docker pull bestwu/wechat
+<span style="color:#998;font-style:italic"># 允许所有用户访问X11服务</span>
+xhost +
+<span style="color:#998;font-style:italic"># 启动QQ</span> 
+docker run -d --name qq --device /dev/snd <span style="color:#d14">\
+</span><span style="color:#d14"></span>  -v <span style="color:#008080">$HOME</span>/TencentFiles:/TencentFiles <span style="color:#d14">\
+</span><span style="color:#d14"></span>  -v /tmp/.X11-unix:/tmp/.X11-unix <span style="color:#d14">\
+</span><span style="color:#d14"></span>  -e <span style="color:#008080">XMODIFIERS</span><span style="color:#000;font-weight:bold">=</span>@im<span style="color:#000;font-weight:bold">=</span>ibus <span style="color:#d14">\
+</span><span style="color:#d14"></span>  -e <span style="color:#008080">QT_IM_MODULE</span><span style="color:#000;font-weight:bold">=</span>ibus <span style="color:#d14">\
+</span><span style="color:#d14"></span>  -e <span style="color:#008080">GTK_IM_MODULE</span><span style="color:#000;font-weight:bold">=</span>ibus <span style="color:#d14">\
+</span><span style="color:#d14"></span>  -e <span style="color:#008080">DISPLAY</span><span style="color:#000;font-weight:bold">=</span>unix<span style="color:#008080">$DISPLAY</span> <span style="color:#d14">\
+</span><span style="color:#d14"></span>  -e <span style="color:#008080">AUDIO_GID</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">`</span>getent group audio | cut -d: -f3<span style="color:#d14">`</span> <span style="color:#d14">\
+</span><span style="color:#d14"></span>  -e <span style="color:#008080">VIDEO_GID</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">`</span>getent group video | cut -d: -f3<span style="color:#d14">`</span> <span style="color:#d14">\
+</span><span style="color:#d14"></span>  -e <span style="color:#008080">GID</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">`</span>id -g<span style="color:#d14">`</span> <span style="color:#d14">\
+</span><span style="color:#d14"></span>  -e <span style="color:#008080">UID</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">`</span>id -u<span style="color:#d14">`</span> <span style="color:#d14">\
+</span><span style="color:#d14"></span>  bestwu/qq:latest
+<span style="color:#998;font-style:italic"># 启动wechat</span>
+docker run -d --name wechat --device /dev/snd <span style="color:#d14">\
+</span><span style="color:#d14"></span>  -v <span style="color:#008080">$HOME</span>/WeChatFiles:/WeChatFiles <span style="color:#d14">\
+</span><span style="color:#d14"></span>  -v /tmp/.X11-unix:/tmp/.X11-unix <span style="color:#d14">\
+</span><span style="color:#d14"></span>  -e <span style="color:#008080">DISPLAY</span><span style="color:#000;font-weight:bold">=</span>unix<span style="color:#008080">$DISPLAY</span> <span style="color:#d14">\
+</span><span style="color:#d14"></span>  -e <span style="color:#008080">XMODIFIERS</span><span style="color:#000;font-weight:bold">=</span>@im<span style="color:#000;font-weight:bold">=</span>ibus <span style="color:#d14">\
+</span><span style="color:#d14"></span>  -e <span style="color:#008080">QT_IM_MODULE</span><span style="color:#000;font-weight:bold">=</span>ibus <span style="color:#d14">\
+</span><span style="color:#d14"></span>  -e <span style="color:#008080">GTK_IM_MODULE</span><span style="color:#000;font-weight:bold">=</span>ibus <span style="color:#d14">\
+</span><span style="color:#d14"></span>  -e <span style="color:#008080">AUDIO_GID</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">`</span>getent group audio | cut -d: -f3<span style="color:#d14">`</span> <span style="color:#d14">\
+</span><span style="color:#d14"></span>  -e <span style="color:#008080">GID</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">`</span>id -g<span style="color:#d14">`</span> <span style="color:#d14">\
+</span><span style="color:#d14"></span>  -e <span style="color:#008080">UID</span><span style="color:#000;font-weight:bold">=</span><span style="color:#d14">`</span>id -u<span style="color:#d14">`</span> <span style="color:#d14">\
+</span><span style="color:#d14"></span>  bestwu/wechat
+<span style="color:#998;font-style:italic"># 停止容器</span>
+docker stop qq
+<span style="color:#998;font-style:italic"># 删除容器</span>
+docker rm qq
+<span style="color:#998;font-style:italic"># 如果容器没有退出需要强行删除</span>
+docker rm -f qq
+<span style="color:#998;font-style:italic"># 再次启动</span>
+docker start qq
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="docker常用命令">Docker常用命令</h2>
+<ul>
+<li>docker                      查看所有可用的子命令</li>
+<li>docker [subcommand] &ndash;help  查看子命令帮助信息</li>
+<li>docker info                 查看Docker相关信息</li>
+<li>docker run hello-world      运行hello-world镜像</li>
+<li>docker search ubuntu        搜索ubuntu镜像</li>
+<li>docker pull ubuntu          下载ubuntu镜像到本机</li>
+<li>docker images               查看已下载镜像</li>
+<li>docker ps                   查看活动的容器</li>
+<li>docker ps -a                查看所有容器</li>
+<li>docker ps -l                查看最新的容器</li>
+<li>docker start ID             启动已停止的容器(ID)</li>
+<li>docker stop NAME            停止正在运行的容器(NAME)</li>
+<li>docker rm NAME              删除容器</li>
+</ul>
+<h2 id="docker中国源">Docker中国源</h2>
+<p>国内的镜像源有：</p>
+<ul>
+<li>Docker官方中国区 <a href="https://registry.docker-cn.com">https://registry.docker-cn.com</a></li>
+<li>网易 <a href="http://hub-mirror.c.163.com">http://hub-mirror.c.163.com</a></li>
+<li>ustc <a href="http://docker.mirrors.ustc.edu.cn">http://docker.mirrors.ustc.edu.cn</a></li>
+<li>阿里云 http://<!-- raw HTML omitted -->.mirror.aliyuncs.com</li>
+</ul>
+<p>创建或修改<code>vim /etc/docker/daemon.json</code>文件：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#000080">&#34;registry-mirrors&#34;</span> : [
+    <span style="color:#d14">&#34;http://ovfftd6p.mirror.aliyuncs.com&#34;</span>,
+    <span style="color:#d14">&#34;https://registry.docker-cn.com&#34;</span>,
+    <span style="color:#d14">&#34;http://docker.mirrors.ustc.edu.cn&#34;</span>,
+    <span style="color:#d14">&#34;http://hub-mirror.c.163.com&#34;</span>
+  ]
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>然后重启守护进程：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo systemctl daemon-reload
+sudo systemctl restart docker
+</code></pre></td></tr></table>
+</div>
+</div>
+        </div>
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://qoanty.github.io/">百年孤独</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://qoanty.github.io/2019/05/debian-docker/">https://qoanty.github.io/2019/05/debian-docker/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/2019/05/python-pipenv/">Python虚拟环境和包管理工具Pipenv</a></li>
+        
+        <li><a href="/2019/05/sliding-captcha/">极验滑动验证码识别</a></li>
+        
+        <li><a href="/2019/04/vps-with-trojan/">Trojan安装配置教程</a></li>
+        
+        <li><a href="/2019/04/python3-data-structure/">Python3 数据结构</a></li>
+        
+        <li><a href="/2019/04/python3-web-scraping/">Python3 学习笔记（异步爬虫）</a></li>
+        
+    </ul>
+</div>
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='https://qoanty.github.io/tags/debian'>Debian</a></li>
+                
+                <li><a href='https://qoanty.github.io/tags/docker'>Docker</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+</div>
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='https://qoanty.github.io/search/' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://qoanty.github.io/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://qoanty.github.io/2020/07/install-manjaro-kde/" title="Manjaro-KDE 安装与设置">Manjaro-KDE 安装与设置</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2020/06/vps-with-trojan-go/" title="Trojan-Go 安装配置教程">Trojan-Go 安装配置教程</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-without-phd/" title="Tensorflow, Keras and deep learning, without a Phd">Tensorflow, Keras and deep learning, without a Phd</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-load-csv-data/" title="TensorFlow加载CSV数据">TensorFlow加载CSV数据</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-text-classification/" title="具有预处理文本的文本分类：电影评论">具有预处理文本的文本分类：电影评论</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-text-classification-with-hub/" title="使用TensorFlow Hub进行文本分类：电影评论">使用TensorFlow Hub进行文本分类：电影评论</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-image-classification/" title="TensorFlow基本分类：对服装图像进行分类">TensorFlow基本分类：对服装图像进行分类</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/07/install-lemp-on-debian/" title="在Debian 10上安装Linux，Nginx，MariaDB，PHP">在Debian 10上安装Linux，Nginx，MariaDB，PHP</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/07/install-nginx-on-debian/" title="在Debian 10上安装Nginx">在Debian 10上安装Nginx</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/07/set-up-debian-server/" title="在VPS上设置Debian 10服务器">在VPS上设置Debian 10服务器</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title">分类</h3>
+<ul class="widget-list">
+    
+    <li><a href="https://qoanty.github.io/categories/blog/">Blog (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/caddy/">Caddy (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/captcha/">Captcha (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/debian/">Debian (5)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/docker/">Docker (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/hugo/">Hugo (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/kde/">KDE (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/kms/">KMS (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/learn/">Learn (14)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/manjaro/">Manjaro (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/nginx/">Nginx (2)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/pipenv/">Pipenv (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/python/">Python (12)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/ssh/">SSH (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/tensorflow/">TensorFlow (5)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/trojan/">Trojan (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/trojan-go/">Trojan-Go (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/v2ray/">V2Ray (2)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/vim/">Vim (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/vps/">VPS (7)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title">标签</h3>
+<div class="tagcloud">
+    
+    <a href="https://qoanty.github.io/tags/asyncio/">asyncio</a>
+    
+    <a href="https://qoanty.github.io/tags/caddy/">Caddy</a>
+    
+    <a href="https://qoanty.github.io/tags/cdn/">CDN</a>
+    
+    <a href="https://qoanty.github.io/tags/data/">data</a>
+    
+    <a href="https://qoanty.github.io/tags/debian/">Debian</a>
+    
+    <a href="https://qoanty.github.io/tags/deep-learning/">deep learning</a>
+    
+    <a href="https://qoanty.github.io/tags/docker/">Docker</a>
+    
+    <a href="https://qoanty.github.io/tags/features/">features</a>
+    
+    <a href="https://qoanty.github.io/tags/functions/">functions</a>
+    
+    <a href="https://qoanty.github.io/tags/geetest/">geetest</a>
+    
+    <a href="https://qoanty.github.io/tags/github/">Github</a>
+    
+    <a href="https://qoanty.github.io/tags/hugo/">Hugo</a>
+    
+    <a href="https://qoanty.github.io/tags/ide/">IDE</a>
+    
+    <a href="https://qoanty.github.io/tags/kde/">KDE</a>
+    
+    <a href="https://qoanty.github.io/tags/keras/">keras</a>
+    
+    <a href="https://qoanty.github.io/tags/kms/">KMS</a>
+    
+    <a href="https://qoanty.github.io/tags/manjaro/">Manjaro</a>
+    
+    <a href="https://qoanty.github.io/tags/nginx/">Nginx</a>
+    
+    <a href="https://qoanty.github.io/tags/oop/">OOP</a>
+    
+    <a href="https://qoanty.github.io/tags/pipenv/">Pipenv</a>
+    
+    <a href="https://qoanty.github.io/tags/processes/">processes</a>
+    
+    <a href="https://qoanty.github.io/tags/python/">Python</a>
+    
+    <a href="https://qoanty.github.io/tags/scraping/">scraping</a>
+    
+    <a href="https://qoanty.github.io/tags/ssh/">SSH</a>
+    
+    <a href="https://qoanty.github.io/tags/tensorflow/">tensorflow</a>
+    
+    <a href="https://qoanty.github.io/tags/trojan/">Trojan</a>
+    
+    <a href="https://qoanty.github.io/tags/trojan-go/">Trojan-Go</a>
+    
+    <a href="https://qoanty.github.io/tags/v2ray/">V2Ray</a>
+    
+    <a href="https://qoanty.github.io/tags/vim/">Vim</a>
+    
+    <a href="https://qoanty.github.io/tags/vps/">VPS</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">友情链接</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://python3-cookbook.readthedocs.io/zh_CN/latest/index.html" title="Python Cookbook 3rd Edition">Python Cookbook</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="https://seancheney.gitbook.io/python-for-data-analysis-2nd/" title="Python for Data Analysis 2nd Edition">Python for Data Analysis</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="https://codelabs.developers.google.com/codelabs/cloud-tensorflow-mnist/#0" title="TensorFlow and deep learning, without a PhD">TensorFlow and deep learning</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://qoanty.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+    <footer id="footer">
+    <div class="container">
+        &copy; 2020 <a href="https://qoanty.github.io/">百年孤独的博客 By 百年孤独</a>.
+        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
+        <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/flysnow-org/maupassant-hugo" target="_blank">maupassant</a>.
+        
+    </div>
+</footer>
+
+
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+
+
+
+
+
+
+</body>
+
+</html>

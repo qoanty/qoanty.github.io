@@ -22,9 +22,9 @@ Shadowsocks只是一个简单的代理工具，而V2Ray定位为一个平台，�
 
 ### V2Ray的优势
 
-- **更完善的协议：**V2Ray使用了自行研发的VMess协议，改正了Shadowsocks一些已有的缺点，更难被墙检测到
-- **更强大的性能：**网络性能更好
-- **更丰富的功能：**以下是部分V2Ray的功能
+- 更完善的协议：V2Ray使用了自行研发的VMess协议，改正了Shadowsocks一些已有的缺点，更难被墙检测到
+- 更强大的性能：网络性能更好
+- 更丰富的功能：以下是部分V2Ray的功能
   - mKCP：KCP协议在V2Ray上的实现，不必另行安装kcptun
   - 动态端口：动态改变通信的端口，对抗对长时间大流量端口的限速封锁
   - 路由功能：可以随意设定指定数据包的流向，去广告、反跟踪都可以
@@ -74,8 +74,8 @@ bash <(curl -L -s https://install.direct/go.sh)
 脚本运行完成后，需要：
 
 1. 编辑`/etc/v2ray/config.json`文件来配置你需要的代理方式；
-2. 运行`service v2ray start`来启动V2Ray进程；
-3. 之后可以使用`service v2ray start|stop|status|reload|restart|force-reload`控制V2Ray的运行。
+2. 运行`systemctl start v2ray`来启动V2Ray进程；
+3. 之后可以使用`systemctl start|stop|status|reload|restart|force-reload v2ray`控制V2Ray的运行。
 
 ## 客户端安装V2Ray
 
