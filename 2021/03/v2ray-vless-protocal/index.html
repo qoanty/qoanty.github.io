@@ -1,0 +1,831 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+
+    <title>V2ray的VLESS协议介绍和使用 | 百年孤独的博客</title>
+    <meta property="og:title" content="V2ray的VLESS协议介绍和使用 - 百年孤独的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2021-03-12T14:28:31&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2021-03-12T14:28:31&#43;08:00'>
+        
+    <meta name="Keywords" content="VPS, python, android, 博客, 小程序">
+    <meta name="description" content="V2ray的VLESS协议介绍和使用">
+        
+    <meta name="author" content="百年孤独">
+    <meta property="og:url" content="https://qoanty.github.io/2021/03/v2ray-vless-protocal/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+    
+    
+    
+</head>
+
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://qoanty.github.io/">
+                        百年孤独的博客
+                    </a>
+                
+                <p class="description">艺术家用谎言揭露真相，政治家用谎言隐瞒真相</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://qoanty.github.io/">首页</a>
+                    
+                    <a  href="https://qoanty.github.io/tools/" title="工具">工具</a>
+                    
+                    <a  href="https://qoanty.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://qoanty.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">V2ray的VLESS协议介绍和使用</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2021年3月12日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='/categories/vless'>VLESS</a></span>
+            
+            <span class="meta-category"><a href='/categories/v2ray'>v2ray</a></span>
+            
+        </div>
+        
+        
+        
+        <div class="post-content">
+            <p><a href="https://v2ray.com/">V2ray</a>近期因新增VLESS协议而备受关注。V2ray官方对VLESS协议的定义是“性能至上、可扩展性空前，目标是全场景终极协议”。本文给出V2ray的VLESS协议介绍和使用教程。</p>
+<h2 id="vless协议介绍">VLESS协议介绍</h2>
+<p>VLESS是一种无状态的轻量级数据传输协议，被定义为下一代V2ray数据传输协议。作者对该协议的愿景是 <strong>“可扩展性空前，适合随意组合、全场景广泛使用，符合很多人的设想、几乎所有人的需求，足以成为v2ray的下一代主要协议，乃至整个XX界的终极协议。”</strong> ，由此可见VLESS协议的强大。</p>
+<p>与VMESS协议相同，VLESS使用UUID进行身份验证，配置分入栈和出栈两部分，可用在客户端和服务端。</p>
+<p>VLESS和VMESS区别如下：</p>
+<ol>
+<li>VLESS协议不依赖于系统时间，不使用alterId。一些人的V2ray用不了，最后找出原因是电脑时间和服务器只相差两分钟，简直要让人抓狂；VLESS协议去掉了时间要求，双手举赞；</li>
+<li>VLESS协议不带加密，用于科学上网时要配合TLS等加密手段；</li>
+<li>VLESS协议支持分流和回落，比Nginx分流转发更简洁、高效和安全；</li>
+<li>使用TLS的情况下，VLESS协议比VMESS速度更快，性能更好，因为VLESS不会对数据进行加解密；</li>
+<li>V2ray官方对VLESS的期望更高，约束也更严格。例如要求客户端统一使用VLESS标识，而不是Vless、vless等名称；VLESS分享链接标准将由官方统一制定；</li>
+<li>VLESS协议的加密更灵活，不像VMESS一样高度耦合。</li>
+</ol>
+<p>对于普通用户来说，VLESS协议的主要优势是：1. 不需要客户端和服务器时间一致；2. VLESS协议不自带加密，使用TLS的情况下性能比VMESS更好。</p>
+<p>TLS将是接下来三到五年内躲避封锁的主流方式，例如V2ray伪装、trojan、SSRoT都是基于TLS。V2ray之前因性能不好而被一些人唾弃，VLESS协议的出现，让V2ray的便利性和性能达到trojan的高度（使用TLS的情况下）。</p>
+<p>仅有VLESS还不够，套了一层TLS，V2ray的性能依然不如SS、SSR。但随VLESS协议而来的另一个大惊喜：XTLS。这是划时代的概念和技术，将V2ray的性能提升到、甚至超越SS/SSR的水平。</p>
+<h2 id="xtls介绍">XTLS介绍</h2>
+<p><a href="https://github.com/XTLS/Go">XTLS官方库</a>的介绍仅有一句话：THE FUTURE。这个十个字符足以透露出XTLS的牛逼和霸气。</p>
+<p><a href="https://www.v2fly.org/">V2fly官网</a>（V2fly社区是V2ray技术的主要推动力量）称<a href="https://www.v2fly.org/config/protocols/vless.html#xtls-%E9%BB%91%E7%A7%91%E6%8A%80">XTLS为黑科技</a>，VLESS协议作者的形容是<a href="https://github.com/rprx/v2ray-vless/releases/tag/xtls">划时代的革命性概念和技术：XTLS</a>。</p>
+<p>the future、黑科技、划时代、革命性，无论哪个词，都足以形容XTLS的牛逼和独到之处。</p>
+<p><strong>XTLS的原理是</strong>：使用TLS代理时，https数据其实经过了两层TLS：外层是代理的TLS，内层是https的TLS。XTLS无缝拼接了内外两条货真价实的TLS，使得代理几乎无需再对https流量进行数据加解密，只起到流量中转的作用，极大的提高了性能。</p>
+<p>VLESS + XTLS的组合可以理解为是增强版ECH，即多支持身份认证、代理转发、明文加密、UDP over TCP等。但从其原理可知，VLESS + XTLS对http流量是没有多大优势的。好消息是，目前超过90%的流量都是https的，因此VLESS + XTLS能极大的提升性能，无愧于上面的评价。</p>
+<p>需要说明的是，XTLS是科学上网的future，不是TLS发展的future，所以，想科学上网速度更快、手机路由器耗电更少，请使用VLESS+XTLS。如果客户端或者服务端不支持XTLS，TLS的情况下简单将VMESS换成VLESS也能带来性能提升。</p>
+<h2 id="vless配置组合">VLESS配置组合</h2>
+<p>VLESS协议本身不自带加密，用于翻墙时不能单独使用。由于XTLS的引入，目前VLESS协议有如下组合方式：</p>
+<ul>
+<li>VLESS + TCP + TLS</li>
+<li>VLESS + TCP + TLS + WS</li>
+<li>VLESS + TCP + XTLS</li>
+<li>VLESS + HTTP2 + h2c</li>
+<li>VLESS + mKCP</li>
+</ul>
+<p>请优先使用VLESS+TCP+XTLS的配置，能极大的提升性能（有过CDN需求请选择WS版）。</p>
+<h2 id="vless--tcp--tls--ws服务器配置">VLESS + TCP + TLS + WS服务器配置</h2>
+<p>VLESS over TCP with TLS + 回落 &amp; 分流 to WebSocket配置，是利用VLESS强大的回落分流特性，实现了443端口VLESS over TCP with TLS和任意WSS的完美共存。该配置供参考，你可以将WS上的VLESS换成VMess等其它任何协议，以及设置更多PATH、协议共存，都可以做到。部署后，你可以同时通过VLESS over TCP with TLS和任意WebSocket with TLS方式连接到服务器，其中后者都可以通过CDN。经实测，VLESS回落分流WS比Nginx反代WS性能更强，传统的VMess + WSS方案完全可以迁移过来，且不失兼容。</p>
+<h3 id="准备工作">准备工作</h3>
+<ol>
+<li>准备一台境外的VPS；</li>
+<li>准备一个域名，不需要备案，国内和国外买的都可以；</li>
+<li>将域名的某个子域名DNS解析到境外VPS；</li>
+<li>SSH连接到境外服务器；</li>
+<li>为域名申请一个证书；</li>
+<li>有基本linux技巧，能使用vim/nano等编辑器。</li>
+</ol>
+<h3 id="安装最新版v2ray-core">安装最新版V2ray-Core</h3>
+<p>使用V2fly提供的<a href="https://github.com/v2fly/fhs-install-v2ray">fhs-install-v2ray</a>脚本安装最新版：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">bash &lt;<span style="color:#000;font-weight:bold">(</span>curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh<span style="color:#000;font-weight:bold">)</span>
+bash &lt;<span style="color:#000;font-weight:bold">(</span>curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-dat-release.sh<span style="color:#000;font-weight:bold">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="服务器配置">服务器配置</h3>
+<p>编辑<code>vim /usr/local/etc/v2ray/config.json</code>文件，输入以下信息：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">59
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">60
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">61
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">62
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">63
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">64
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">65
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">66
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">67
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">68
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">69
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">70
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#000080">&#34;log&#34;</span>: {
+    <span style="color:#000080">&#34;loglevel&#34;</span>: <span style="color:#d14">&#34;warning&#34;</span>
+  },
+  <span style="color:#000080">&#34;inbounds&#34;</span>: [
+    {
+      <span style="color:#000080">&#34;port&#34;</span>: <span style="color:#099">443</span>,  <span style="color:#a61717;background-color:#e3d2d2">//</span> <span style="color:#a61717;background-color:#e3d2d2">若建有网站，需换成其他端口，如8443</span>
+      <span style="color:#000080">&#34;protocol&#34;</span>: <span style="color:#d14">&#34;vless&#34;</span>,
+      <span style="color:#000080">&#34;settings&#34;</span>: {
+        <span style="color:#000080">&#34;clients&#34;</span>: [
+          {
+            <span style="color:#000080">&#34;id&#34;</span>: <span style="color:#d14">&#34;&#34;</span>  <span style="color:#a61717;background-color:#e3d2d2">//</span> <span style="color:#a61717;background-color:#e3d2d2">填写UUID，可以使用/usr/bin/v</span><span style="color:#099">2</span><span style="color:#a61717;background-color:#e3d2d2">ray/v</span><span style="color:#099">2</span><span style="color:#a61717;background-color:#e3d2d2">ctl</span> <span style="color:#a61717;background-color:#e3d2d2">uuid生成</span>
+          }
+        ],
+        <span style="color:#000080">&#34;decryption&#34;</span>: <span style="color:#d14">&#34;none&#34;</span>,
+        <span style="color:#000080">&#34;fallbacks&#34;</span>: [
+          {
+            <span style="color:#000080">&#34;dest&#34;</span>: <span style="color:#099">80</span>  <span style="color:#a61717;background-color:#e3d2d2">//</span> <span style="color:#a61717;background-color:#e3d2d2">回落配置，可以直接转到其他网站，例如</span><span style="color:#d14">&#34;www.baidu.com:443&#34;</span>
+          },
+          {
+            <span style="color:#000080">&#34;path&#34;</span>: <span style="color:#d14">&#34;/websocket&#34;</span>,  <span style="color:#a61717;background-color:#e3d2d2">//</span> <span style="color:#a61717;background-color:#e3d2d2">必须换成自定义的PATH</span>
+            <span style="color:#000080">&#34;dest&#34;</span>: <span style="color:#099">10088</span>,
+            <span style="color:#000080">&#34;xver&#34;</span>: <span style="color:#099">1</span>
+          }
+        ]
+      },
+      <span style="color:#000080">&#34;streamSettings&#34;</span>: {
+        <span style="color:#000080">&#34;network&#34;</span>: <span style="color:#d14">&#34;tcp&#34;</span>,
+        <span style="color:#000080">&#34;security&#34;</span>: <span style="color:#d14">&#34;tls&#34;</span>,
+        <span style="color:#000080">&#34;tlsSettings&#34;</span>: {
+          <span style="color:#000080">&#34;alpn&#34;</span>: [
+            <span style="color:#d14">&#34;http/1.1&#34;</span>
+          ],
+          <span style="color:#000080">&#34;certificates&#34;</span>: [
+            {
+              <span style="color:#000080">&#34;certificateFile&#34;</span>: <span style="color:#d14">&#34;/path/to/fullchain.crt&#34;</span>,  <span style="color:#a61717;background-color:#e3d2d2">//</span> <span style="color:#a61717;background-color:#e3d2d2">换成你的证书，绝对路径</span>
+              <span style="color:#000080">&#34;keyFile&#34;</span>: <span style="color:#d14">&#34;/path/to/private.key&#34;</span>  <span style="color:#a61717;background-color:#e3d2d2">//</span> <span style="color:#a61717;background-color:#e3d2d2">换成你的私钥，绝对路径</span>
+            }
+          ]
+        }
+      }
+    },
+    {
+      <span style="color:#000080">&#34;port&#34;</span>: <span style="color:#099">10088</span>,
+      <span style="color:#000080">&#34;listen&#34;</span>: <span style="color:#d14">&#34;127.0.0.1&#34;</span>,
+      <span style="color:#000080">&#34;protocol&#34;</span>: <span style="color:#d14">&#34;vless&#34;</span>,
+      <span style="color:#000080">&#34;settings&#34;</span>: {
+        <span style="color:#000080">&#34;clients&#34;</span>: [
+          {
+            <span style="color:#000080">&#34;id&#34;</span>: <span style="color:#d14">&#34;&#34;</span>  <span style="color:#a61717;background-color:#e3d2d2">//</span> <span style="color:#a61717;background-color:#e3d2d2">填写你的UUID</span>
+          }
+        ],
+        <span style="color:#000080">&#34;decryption&#34;</span>: <span style="color:#d14">&#34;none&#34;</span>
+      },
+      <span style="color:#000080">&#34;streamSettings&#34;</span>: {
+        <span style="color:#000080">&#34;network&#34;</span>: <span style="color:#d14">&#34;ws&#34;</span>,
+        <span style="color:#000080">&#34;security&#34;</span>: <span style="color:#d14">&#34;none&#34;</span>,
+        <span style="color:#000080">&#34;wsSettings&#34;</span>: {
+          <span style="color:#000080">&#34;acceptProxyProtocol&#34;</span>: <span style="color:#000;font-weight:bold">true</span>,  <span style="color:#a61717;background-color:#e3d2d2">//</span> <span style="color:#a61717;background-color:#e3d2d2">提醒：若使用Nginx/Caddy等反代WS，需要删掉这行</span>
+          <span style="color:#000080">&#34;path&#34;</span>: <span style="color:#d14">&#34;/websocket&#34;</span>  <span style="color:#a61717;background-color:#e3d2d2">//</span> <span style="color:#a61717;background-color:#e3d2d2">必须换成自定义的PATH，需要和上面的一致</span>
+        }
+      }
+    }
+  ],
+  <span style="color:#000080">&#34;outbounds&#34;</span>: [
+    {
+      <span style="color:#000080">&#34;protocol&#34;</span>: <span style="color:#d14">&#34;freedom&#34;</span>
+    }
+  ]
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>设置开机自启并启动v2ray服务：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl <span style="color:#0086b3">enable</span> v2ray
+systemctl restart v2ray
+</code></pre></td></tr></table>
+</div>
+</div><p>查看端口使用情况：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ss -nltp | grep v2ray
+netstat -lnpt
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="服务端注意事项">服务端注意事项</h3>
+<ol>
+<li>VLESS + TCP + TLS及其他方案配置请参考<a href="https://github.com/v2fly/v2ray-examples">v2ray-examples</a>；</li>
+<li>json文件不支持注释，上面配置文件中的//号和后面内容都应该删去；</li>
+<li>如果使用了80回落端口，记得安装Nginx或其他web软件；</li>
+<li>记得防火墙放行相应的端口；</li>
+<li>如果无法启动，请查看是否开启了SELINUX；</li>
+<li><code>journalctl -xe -u v2ray --no-pager</code>可查看V2ray的系统日志；</li>
+<li>建议添加V2ray运行日志输出，方便出问题时排查。</li>
+</ol>
+<h2 id="客户端配置">客户端配置</h2>
+<p>以Linux平台为例，编辑<code>config_client_tcp_tls.json</code>文件：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#000080">&#34;inbounds&#34;</span>: [
+    {
+      <span style="color:#000080">&#34;port&#34;</span>: <span style="color:#099">1080</span>,
+      <span style="color:#000080">&#34;listen&#34;</span>: <span style="color:#d14">&#34;127.0.0.1&#34;</span>,
+      <span style="color:#000080">&#34;protocol&#34;</span>: <span style="color:#d14">&#34;socks&#34;</span>,
+      <span style="color:#000080">&#34;settings&#34;</span>: {
+        <span style="color:#000080">&#34;udp&#34;</span>: <span style="color:#000;font-weight:bold">true</span>
+      }
+    }
+  ],
+  <span style="color:#000080">&#34;outbounds&#34;</span>: [
+    {
+      <span style="color:#000080">&#34;protocol&#34;</span>: <span style="color:#d14">&#34;vless&#34;</span>,
+      <span style="color:#000080">&#34;settings&#34;</span>: {
+        <span style="color:#000080">&#34;vnext&#34;</span>: [
+          {
+            <span style="color:#000080">&#34;address&#34;</span>: <span style="color:#d14">&#34;qoant.com&#34;</span>,  <span style="color:#a61717;background-color:#e3d2d2">//</span> <span style="color:#a61717;background-color:#e3d2d2">换成你的域名或服务器IP（发起请求时无需解析域名了）</span>
+            <span style="color:#000080">&#34;port&#34;</span>: <span style="color:#099">443</span>,
+            <span style="color:#000080">&#34;users&#34;</span>: [
+              {
+                <span style="color:#000080">&#34;id&#34;</span>: <span style="color:#d14">&#34;&#34;</span>,  <span style="color:#a61717;background-color:#e3d2d2">//</span> <span style="color:#a61717;background-color:#e3d2d2">填写你的UUID</span>
+                <span style="color:#000080">&#34;encryption&#34;</span>: <span style="color:#d14">&#34;none&#34;</span>
+              }
+            ]
+          }
+        ]
+      },
+      <span style="color:#000080">&#34;streamSettings&#34;</span>: {
+        <span style="color:#000080">&#34;network&#34;</span>: <span style="color:#d14">&#34;tcp&#34;</span>,
+        <span style="color:#000080">&#34;security&#34;</span>: <span style="color:#d14">&#34;tls&#34;</span>,
+        <span style="color:#000080">&#34;tlsSettings&#34;</span>: {
+          <span style="color:#000080">&#34;serverName&#34;</span>: <span style="color:#d14">&#34;qoant.com&#34;</span>  <span style="color:#a61717;background-color:#e3d2d2">//</span> <span style="color:#a61717;background-color:#e3d2d2">换成你的域名</span>
+        }
+      }
+    }
+  ]
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>或者编辑<code>config_client_ws_tls.json</code>文件：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#000080">&#34;inbounds&#34;</span>: [
+    {
+      <span style="color:#000080">&#34;port&#34;</span>: <span style="color:#099">1080</span>,
+      <span style="color:#000080">&#34;listen&#34;</span>: <span style="color:#d14">&#34;127.0.0.1&#34;</span>,
+      <span style="color:#000080">&#34;protocol&#34;</span>: <span style="color:#d14">&#34;socks&#34;</span>,
+      <span style="color:#000080">&#34;settings&#34;</span>: {
+        <span style="color:#000080">&#34;udp&#34;</span>: <span style="color:#000;font-weight:bold">true</span>
+      }
+    }
+  ],
+  <span style="color:#000080">&#34;outbounds&#34;</span>: [
+    {
+      <span style="color:#000080">&#34;protocol&#34;</span>: <span style="color:#d14">&#34;vless&#34;</span>,
+      <span style="color:#000080">&#34;settings&#34;</span>: {
+        <span style="color:#000080">&#34;vnext&#34;</span>: [
+          {
+            <span style="color:#000080">&#34;address&#34;</span>: <span style="color:#d14">&#34;qoant.com&#34;</span>,  <span style="color:#a61717;background-color:#e3d2d2">//</span> <span style="color:#a61717;background-color:#e3d2d2">换成你的域名或服务器IP（发起请求时无需解析域名了）</span>
+            <span style="color:#000080">&#34;port&#34;</span>: <span style="color:#099">443</span>,
+            <span style="color:#000080">&#34;users&#34;</span>: [
+              {
+                <span style="color:#000080">&#34;id&#34;</span>: <span style="color:#d14">&#34;&#34;</span>,  <span style="color:#a61717;background-color:#e3d2d2">//</span> <span style="color:#a61717;background-color:#e3d2d2">填写你的UUID</span>
+                <span style="color:#000080">&#34;encryption&#34;</span>: <span style="color:#d14">&#34;none&#34;</span>
+              }
+            ]
+          }
+        ]
+      },
+      <span style="color:#000080">&#34;streamSettings&#34;</span>: {
+        <span style="color:#000080">&#34;network&#34;</span>: <span style="color:#d14">&#34;ws&#34;</span>,
+        <span style="color:#000080">&#34;security&#34;</span>: <span style="color:#d14">&#34;tls&#34;</span>,
+        <span style="color:#000080">&#34;tlsSettings&#34;</span>: {
+          <span style="color:#000080">&#34;serverName&#34;</span>: <span style="color:#d14">&#34;qoant.com&#34;</span>  <span style="color:#a61717;background-color:#e3d2d2">//</span> <span style="color:#a61717;background-color:#e3d2d2">换成你的域名</span>
+        },
+        <span style="color:#000080">&#34;wsSettings&#34;</span>: {
+          <span style="color:#000080">&#34;path&#34;</span>: <span style="color:#d14">&#34;/websocket&#34;</span>  <span style="color:#a61717;background-color:#e3d2d2">//</span> <span style="color:#a61717;background-color:#e3d2d2">必须换成自定义的PATH，需要和服务端的一致</span>
+        }
+      }
+    }
+  ]
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>终端里输入以下命令：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#998;font-style:italic"># 使用VLESS + TCP + TLS</span>
+v2ray -config config_client_tcp_tls.json
+<span style="color:#998;font-style:italic"># 使用VLESS + TCP + TLS + WS</span>
+v2ray -config config_client_ws_tls.json
+</code></pre></td></tr></table>
+</div>
+</div><p>浏览器通过<code>SwitchyOmega</code>插件设置后，就可以愉快的科学上网了。</p>
+
+        </div>
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://qoanty.github.io/">百年孤独</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://qoanty.github.io/2021/03/v2ray-vless-protocal/">https://qoanty.github.io/2021/03/v2ray-vless-protocal/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/2021/02/vps-caddy2/">Caddy 2安装与配置</a></li>
+        
+        <li><a href="/2020/07/install-manjaro-kde/">Manjaro-KDE 安装与设置</a></li>
+        
+        <li><a href="/2020/06/vps-with-trojan-go/">Trojan-Go 安装配置教程</a></li>
+        
+        <li><a href="/2019/10/tensorflow-without-phd/">Tensorflow, Keras and deep learning, without a Phd</a></li>
+        
+        <li><a href="/2019/10/tensorflow-load-csv-data/">TensorFlow加载CSV数据</a></li>
+        
+    </ul>
+</div>
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='/tags/v2ray'>v2ray</a></li>
+                
+                <li><a href='/tags/vless'>VLESS</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2021 <a href="https://qoanty.github.io/">百年孤独的博客 By 百年孤独</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by </span><span class="badge-value bg-blue">Hugo.</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme base on </span><span class="badge-value bg-yellowgreen">Maupassant.</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+
+
+
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='https://qoanty.github.io/search/' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://qoanty.github.io/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://qoanty.github.io/2021/05/xray-nginx-sni/" title="Nginx SNI分流（端口复用）使用Xray&#43;VLESS&#43;XTLS">Nginx SNI分流（端口复用）使用Xray&#43;VLESS&#43;XTLS</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2021/04/xray-fallbacks-sni/" title="Xray通过SNI回落功能实现伪装与按域名分流">Xray通过SNI回落功能实现伪装与按域名分流</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2021/04/xray-vless-fallbacks/" title="Xray VLESS协议的fallback功能简析">Xray VLESS协议的fallback功能简析</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2021/04/vps-with-xray/" title="Xray教程">Xray教程</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2021/03/v2ray-vless-fallbacks/" title="VLESS协议的fallback参数介绍">VLESS协议的fallback参数介绍</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2021/03/v2ray-vless-protocal/" title="V2ray的VLESS协议介绍和使用">V2ray的VLESS协议介绍和使用</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2021/02/vps-caddy2/" title="Caddy 2安装与配置">Caddy 2安装与配置</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2020/07/install-manjaro-kde/" title="Manjaro-KDE 安装与设置">Manjaro-KDE 安装与设置</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2020/06/vps-with-trojan-go/" title="Trojan-Go 安装配置教程">Trojan-Go 安装配置教程</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-without-phd/" title="Tensorflow, Keras and deep learning, without a Phd">Tensorflow, Keras and deep learning, without a Phd</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
+<ul class="widget-list">
+    
+    <li><a href="https://qoanty.github.io/categories/blog/">Blog (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/caddy/">Caddy (2)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/captcha/">Captcha (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/debian/">Debian (5)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/docker/">Docker (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/hugo/">Hugo (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/kde/">KDE (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/kms/">KMS (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/learn/">Learn (14)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/manjaro/">Manjaro (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/nginx/">Nginx (2)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/pipenv/">Pipenv (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/python/">Python (12)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/sni/">SNI (2)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/ssh/">SSH (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/tensorflow/">TensorFlow (5)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/trojan/">Trojan (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/trojan-go/">Trojan-Go (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/v2ray/">v2ray (4)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/vim/">Vim (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/vless/">VLESS (3)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/vps/">VPS (9)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/xray/">xray (4)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
+<div class="tagcloud">
+    
+    <a href="https://qoanty.github.io/tags/asyncio/">asyncio</a>
+    
+    <a href="https://qoanty.github.io/tags/caddy/">Caddy</a>
+    
+    <a href="https://qoanty.github.io/tags/cdn/">CDN</a>
+    
+    <a href="https://qoanty.github.io/tags/data/">data</a>
+    
+    <a href="https://qoanty.github.io/tags/debian/">Debian</a>
+    
+    <a href="https://qoanty.github.io/tags/deep-learning/">deep learning</a>
+    
+    <a href="https://qoanty.github.io/tags/docker/">Docker</a>
+    
+    <a href="https://qoanty.github.io/tags/features/">features</a>
+    
+    <a href="https://qoanty.github.io/tags/functions/">functions</a>
+    
+    <a href="https://qoanty.github.io/tags/geetest/">geetest</a>
+    
+    <a href="https://qoanty.github.io/tags/github/">Github</a>
+    
+    <a href="https://qoanty.github.io/tags/hugo/">Hugo</a>
+    
+    <a href="https://qoanty.github.io/tags/ide/">IDE</a>
+    
+    <a href="https://qoanty.github.io/tags/kde/">KDE</a>
+    
+    <a href="https://qoanty.github.io/tags/keras/">keras</a>
+    
+    <a href="https://qoanty.github.io/tags/kms/">KMS</a>
+    
+    <a href="https://qoanty.github.io/tags/manjaro/">Manjaro</a>
+    
+    <a href="https://qoanty.github.io/tags/nginx/">Nginx</a>
+    
+    <a href="https://qoanty.github.io/tags/oop/">OOP</a>
+    
+    <a href="https://qoanty.github.io/tags/pipenv/">Pipenv</a>
+    
+    <a href="https://qoanty.github.io/tags/processes/">processes</a>
+    
+    <a href="https://qoanty.github.io/tags/python/">Python</a>
+    
+    <a href="https://qoanty.github.io/tags/scraping/">scraping</a>
+    
+    <a href="https://qoanty.github.io/tags/sni/">SNI</a>
+    
+    <a href="https://qoanty.github.io/tags/ssh/">SSH</a>
+    
+    <a href="https://qoanty.github.io/tags/tensorflow/">tensorflow</a>
+    
+    <a href="https://qoanty.github.io/tags/trojan/">Trojan</a>
+    
+    <a href="https://qoanty.github.io/tags/trojan-go/">Trojan-Go</a>
+    
+    <a href="https://qoanty.github.io/tags/v2ray/">v2ray</a>
+    
+    <a href="https://qoanty.github.io/tags/vim/">Vim</a>
+    
+    <a href="https://qoanty.github.io/tags/vless/">VLESS</a>
+    
+    <a href="https://qoanty.github.io/tags/vps/">VPS</a>
+    
+    <a href="https://qoanty.github.io/tags/xray/">xray</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">友情链接</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://python3-cookbook.readthedocs.io/zh_CN/latest/index.html" title="Python Cookbook 3rd Edition">Python Cookbook</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="https://seancheney.gitbook.io/python-for-data-analysis-2nd/" title="Python for Data Analysis 2nd Edition">Python for Data Analysis</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="https://codelabs.developers.google.com/codelabs/cloud-tensorflow-mnist/#0" title="TensorFlow and deep learning, without a PhD">TensorFlow and deep learning</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://qoanty.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

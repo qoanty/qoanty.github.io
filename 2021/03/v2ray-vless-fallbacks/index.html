@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+
+    <title>VLESS协议的fallback参数介绍 | 百年孤独的博客</title>
+    <meta property="og:title" content="VLESS协议的fallback参数介绍 - 百年孤独的博客">
+    <meta property="og:type" content="article">
+        
+    <meta property="article:published_time" content='2021-03-25T18:48:31&#43;08:00'>
+        
+        
+    <meta property="article:modified_time" content='2021-03-25T18:48:31&#43;08:00'>
+        
+    <meta name="Keywords" content="VPS, python, android, 博客, 小程序">
+    <meta name="description" content="VLESS协议的fallback参数介绍">
+        
+    <meta name="author" content="百年孤独">
+    <meta property="og:url" content="https://qoanty.github.io/2021/03/v2ray-vless-fallbacks/">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
+
+    <link rel="stylesheet" href='/css/normalize.css'>
+    <link rel="stylesheet" href='/css/style.css'>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    
+    
+    
+    
+    
+    
+</head>
+
+
+<body>
+    <header id="header" class="clearfix">
+    <div class="container">
+        <div class="col-group">
+            <div class="site-name ">
+                
+                    <a id="logo" href="https://qoanty.github.io/">
+                        百年孤独的博客
+                    </a>
+                
+                <p class="description">艺术家用谎言揭露真相，政治家用谎言隐瞒真相</p>
+            </div>
+            <div>
+                <nav id="nav-menu" class="clearfix">
+                    <a class="current" href="https://qoanty.github.io/">首页</a>
+                    
+                    <a  href="https://qoanty.github.io/tools/" title="工具">工具</a>
+                    
+                    <a  href="https://qoanty.github.io/archives/" title="归档">归档</a>
+                    
+                    <a  href="https://qoanty.github.io/about/" title="关于">关于</a>
+                    
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+    <div id="body">
+        <div class="container">
+            <div class="col-group">
+
+                <div class="col-8" id="main">
+                    
+<div class="res-cons">
+    
+    <article class="post">
+        <header>
+            <h1 class="post-title">VLESS协议的fallback参数介绍</h1>
+        </header>
+        <date class="post-meta meta-date">
+            2021年3月25日
+        </date>
+        
+        <div class="post-meta">
+            <span>|</span>
+            
+            <span class="meta-category"><a href='/categories/vless'>VLESS</a></span>
+            
+            <span class="meta-category"><a href='/categories/v2ray'>v2ray</a></span>
+            
+        </div>
+        
+        
+        
+        <div class="post-content">
+            <p>V2ray的VLESS协议引入了分流和回落的概念，一般情况下建议直接监听443端口。习惯了使用Nginx建站或者流量转发的网友，VLESS协议<code>fallback</code>方式让人一时难以理解。本文就这个问题简要介绍V2ray VLESS协议的<code>fallback</code>参数。</p>
+<h2 id="vless协议的fallback参数">VLESS协议的fallback参数</h2>
+<p>VLESS协议中的<code>fallback</code>是可选的，只能用于TLS或XTLS模式下。其值是一个对象数组，每一个对象格式如下：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#000080">&#34;alpn&#34;</span>: <span style="color:#d14">&#34;&#34;</span>,
+  <span style="color:#000080">&#34;path&#34;</span>: <span style="color:#d14">&#34;&#34;</span>,
+  <span style="color:#000080">&#34;dest&#34;</span>: <span style="color:#d14">&#34;&#34;</span>,
+  <span style="color:#000080">&#34;xver&#34;</span>: <span style="color:#d14">&#34;&#34;</span>
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>四个参数中只有<code>dest</code>是必须的，<code>alpn</code>一般不用管（或者填<code>[&quot;http/1.1&quot;]</code>），<code>path</code>是回落路径，<code>xver</code>用来指示是否传递真实ip信息（需要填1，不需要填0）。如果有多组转发，则可按照<code>path</code>路径配置多组<code>fallback</code>对象，例如V2ray官方配置中的VLESS终极配置如下：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#d14">&#34;fallbacks&#34;</span><span style="color:#a61717;background-color:#e3d2d2">:</span> [
+    {
+        <span style="color:#000080">&#34;dest&#34;</span>: <span style="color:#099">80</span> <span style="color:#a61717;background-color:#e3d2d2">//</span> <span style="color:#a61717;background-color:#e3d2d2">或者回落到其它也防探测的代理</span>
+    },
+    {
+        <span style="color:#000080">&#34;path&#34;</span>: <span style="color:#d14">&#34;/websocket&#34;</span>, <span style="color:#a61717;background-color:#e3d2d2">//</span> <span style="color:#a61717;background-color:#e3d2d2">必须换成自定义的PATH</span>
+        <span style="color:#000080">&#34;dest&#34;</span>: <span style="color:#099">1234</span>,
+        <span style="color:#000080">&#34;xver&#34;</span>: <span style="color:#099">1</span>
+    },
+    {
+        <span style="color:#000080">&#34;path&#34;</span>: <span style="color:#d14">&#34;/vmesstcp&#34;</span>, <span style="color:#a61717;background-color:#e3d2d2">//</span> <span style="color:#a61717;background-color:#e3d2d2">必须换成自定义的PATH</span>
+        <span style="color:#000080">&#34;dest&#34;</span>: <span style="color:#099">2345</span>,
+        <span style="color:#000080">&#34;xver&#34;</span>: <span style="color:#099">1</span>
+    },
+    {
+        <span style="color:#000080">&#34;path&#34;</span>: <span style="color:#d14">&#34;/vmessws&#34;</span>, <span style="color:#a61717;background-color:#e3d2d2">//</span> <span style="color:#a61717;background-color:#e3d2d2">必须换成自定义的PATH</span>
+        <span style="color:#000080">&#34;dest&#34;</span>: <span style="color:#099">3456</span>,
+        <span style="color:#000080">&#34;xver&#34;</span>: <span style="color:#099">1</span>
+    }
+]
+</code></pre></td></tr></table>
+</div>
+</div><p>在上述配置中，客户端请求<code>域名:/websocket</code>时，流量将转发到本机的<code>1234</code>端口；请求<code>域名:/vmesstcp</code>时，流量转发到本机的<code>2345</code>端口；请求路径为<code>域名:/vmessws</code>时转发到<code>3456</code>端口；如果是其他请求，则转发到<code>80</code>端口。</p>
+<h2 id="配置vless-fallback可能遇到的问题">配置VLESS fallback可能遇到的问题</h2>
+<p>从上面可以看到，VLESS协议的回落按照<code>path</code>区分，和Nginx按照域名区分是不同的。于是新手可能会产生服务器上有多个域名，fallback该怎么配置这个问题。</p>
+<p>V2ray的VLESS协议的入栈配置按照<code>path/alpn</code>等参数选择回落，不能根据域名（SNI）分流。如果要支持多域名共存，请使用如下方案：</p>
+<ul>
+<li>v2ray监听非443端口（例如监听8443），Nginx监听443端口，然后v2ray fallback到Nginx的80端口；</li>
+<li>Nginx使用stream监听443，然后根据域名SNI分流，流量转到后端网站以及V2ray。</li>
+</ul>
+<p>如果你不在意v2ray的流量入口不是443端口，建议使用第一种方案，无需对现在站点配置做改动；否则请选择第二种方案。</p>
+<blockquote>
+<p>Xray-core 1.2.2版本fallback新增name参数，可填入域名实现SNI分流。</p>
+</blockquote>
+<h2 id="vless-alpn问题">VLESS ALPN问题</h2>
+<p>如果fallback后端用的Nginx，fallback时会遇到问题。具体为：</p>
+<p>如果V2ray (x)tlsSettings不指定ALPN，根据测试V2ray只接受HTTP/2协议，流量fallback到后端时将采用的h2c协议。此时，后端Nginx必须用h2c的HTTP/2配置才能正常解析请求：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#000;font-weight:bold">listen</span> <span style="color:#099">80</span> <span style="color:#d14">http2</span>; <span style="color:#998;font-style:italic"># h2c协议，无需配置ssl证书
+</span></code></pre></td></tr></table>
+</div>
+</div><p>需要注意的是，这种情况下，浏览器用HTTP协议不能正常访问80端口，因为HTTP/2规定必须使用HTTPS。</p>
+<p>为解决上述情况，V2ray (x)tlsSettings可以指定ALPN为HTTP/1.1：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#a61717;background-color:#e3d2d2">tlsSettings:</span> {
+  <span style="color:#000080">&#34;serverName&#34;</span>: <span style="color:#d14">&#34;qoant.com&#34;</span>,
+  <span style="color:#000080">&#34;alpn&#34;</span>: [<span style="color:#d14">&#34;http/1.1&#34;</span>],
+  <span style="color:#a61717;background-color:#e3d2d2">...</span>
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>如此一来，V2ray将通过HTTP/1.1协议转发流量到Nginx，Nginx常规监听80端口即可，浏览器用HTTP/1.1协议也能直接访问：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#000;font-weight:bold">server</span> {
+  <span style="color:#000;font-weight:bold">listen</span> <span style="color:#099">80</span>;
+  <span style="color:#000;font-weight:bold">...</span>
+<span style="color:#a61717;background-color:#e3d2d2">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>这种配置的问题是不支持更高性能的HTTP/2协议，如果后端是网站，对访客访问速度会有影响。</p>
+<p>对于配合建站的V2ray伪装来说，我们希望流量是正常的，用户能尽快打开网页，同时兼容性也好。在VLESS fallback模式下，即同时支持HTTP/1.1和HTTP/2。要做到如此，则需要用到VLESS fallback中的alpn参数。</p>
+<p>首先，我们要让位于前端的V2ray同时支持HTTP/1.1和HTTP/2：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#a61717;background-color:#e3d2d2">tlsSettings:</span> {
+  <span style="color:#000080">&#34;serverName&#34;</span>: <span style="color:#d14">&#34;qoant.com&#34;</span>,
+  <span style="color:#000080">&#34;alpn&#34;</span>: [<span style="color:#d14">&#34;http/1.1&#34;</span>, <span style="color:#d14">&#34;h2&#34;</span>],
+  <span style="color:#a61717;background-color:#e3d2d2">...</span>
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>接着，在fallback配置中，根据alpn转发流量到后端：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#d14">&#34;fallbacks&#34;</span><span style="color:#a61717;background-color:#e3d2d2">:</span> [
+    {
+        <span style="color:#000080">&#34;alpn&#34;</span>: <span style="color:#d14">&#34;http/1.1&#34;</span>,
+        <span style="color:#000080">&#34;dest&#34;</span>: <span style="color:#099">80</span>
+    },
+    {
+        <span style="color:#000080">&#34;alpn&#34;</span>: <span style="color:#d14">&#34;h2&#34;</span>,
+        <span style="color:#000080">&#34;dest&#34;</span>: <span style="color:#099">81</span>
+    }
+]
+</code></pre></td></tr></table>
+</div>
+</div><p>最后，配置Nginx同时接收HTTP/1.1和H2C流量：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#000;font-weight:bold">server</span> {
+  <span style="color:#000;font-weight:bold">listen</span> <span style="color:#099">80</span>;
+  <span style="color:#000;font-weight:bold">listen</span> <span style="color:#099">81</span> <span style="color:#d14">http2</span>;
+  <span style="color:#000;font-weight:bold">...</span>
+<span style="color:#a61717;background-color:#e3d2d2">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>上述配置将支持所有类型流量，并且普通用户可以通过80端口正常访问网站，V2ray流量伪装做的完美而又隐蔽，是最推荐的。</p>
+<h2 id="为什么没有vlessxtlsws">为什么没有VLESS+XTLS+WS</h2>
+<p>对于使用TLS伪装的科学上网技术，要想过CDN，几乎都要求WS模式。这也是为什么V2ray流量伪装的WS版本能过CDN，但是原生trojan却无法使用CDN中转（trojan-go可以过CDN中转，推荐使用）。</p>
+<p>回到VLESS协议，VLESS+XTLS很好很强大，但为什么没有VLESS+XTLS+WS模式呢？如果服务端配置了VLESS+XTLS+WS，V2ray将无法正常启动。通过<code>journalctl -xen -u v2ray --no-pager</code>查看日志，会发现如下错误信息：</p>
+<div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">XTLS only supports TCP, mKCP and DomainSocket <span style="color:#000;font-weight:bold">for</span> now
+</code></pre></td></tr></table>
+</div>
+</div><p>这是因为WS协议需要首先建立HTTP请求，然后才升级为WS连接。如果第一次请求就使用XTLS加密，CDN或者Nginx等中间件无法识别该加密协议，将直接作为无效请求处理。因此，有过CDN请求，请使用VLESS+TLS+WS。</p>
+<p>V2ray的VLESS协议本身没有加密，用于科学上网时请务必配合TLS等使用。由于XTLS的革命性技术，在客户端支持下建议使用VLESS+XTLS+TCP方式，否则建议VLESS+TLS+WS模式。</p>
+
+        </div>
+
+        
+<div class="post-archive">
+    <ul class="post-copyright">
+        <li><strong>原文作者：</strong><a rel="author" href="https://qoanty.github.io/">百年孤独</a></li>
+        <li style="word-break:break-all"><strong>原文链接：</strong><a href="https://qoanty.github.io/2021/03/v2ray-vless-fallbacks/">https://qoanty.github.io/2021/03/v2ray-vless-fallbacks/</a></li>
+        <li><strong>版权声明：</strong>本作品采用<a rel="license" href="https://creativecommons.org/licenses/by-nc-nd/4.0/">知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li>
+    </ul>
+</div>
+<br/>
+
+
+
+        
+
+<div class="post-archive">
+    <h2>See Also</h2>
+    <ul class="listing">
+        
+        <li><a href="/2021/03/v2ray-vless-protocal/">V2ray的VLESS协议介绍和使用</a></li>
+        
+        <li><a href="/2021/02/vps-caddy2/">Caddy 2安装与配置</a></li>
+        
+        <li><a href="/2020/07/install-manjaro-kde/">Manjaro-KDE 安装与设置</a></li>
+        
+        <li><a href="/2020/06/vps-with-trojan-go/">Trojan-Go 安装配置教程</a></li>
+        
+        <li><a href="/2019/10/tensorflow-without-phd/">Tensorflow, Keras and deep learning, without a Phd</a></li>
+        
+    </ul>
+</div>
+
+
+        <div class="post-meta meta-tags">
+            
+            <ul class="clearfix">
+                
+                <li><a href='/tags/v2ray'>v2ray</a></li>
+                
+                <li><a href='/tags/vless'>VLESS</a></li>
+                
+            </ul>
+            
+        </div>
+    </article>
+    
+    
+
+    
+    
+</div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2021 <a href="https://qoanty.github.io/">百年孤独的博客 By 百年孤独</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by </span><span class="badge-value bg-blue">Hugo.</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme base on </span><span class="badge-value bg-yellowgreen">Maupassant.</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+
+
+
+
+
+
+
+                </div>
+
+                <div id="secondary">
+    <section class="widget">
+        <form id="search" action='https://qoanty.github.io/search/' method="get" accept-charset="utf-8" target="_blank" _lpchecked="1">
+      
+      <input type="text" name="q" maxlength="20" placeholder="Search">
+      <input type="hidden" name="sitesearch" value="https://qoanty.github.io/">
+      <button type="submit" class="submit icon-search"></button>
+</form>
+    </section>
+    
+    <section class="widget">
+        <h3 class="widget-title">最近文章</h3>
+<ul class="widget-list">
+    
+    <li>
+        <a href="https://qoanty.github.io/2021/05/xray-nginx-sni/" title="Nginx SNI分流（端口复用）使用Xray&#43;VLESS&#43;XTLS">Nginx SNI分流（端口复用）使用Xray&#43;VLESS&#43;XTLS</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2021/04/xray-fallbacks-sni/" title="Xray通过SNI回落功能实现伪装与按域名分流">Xray通过SNI回落功能实现伪装与按域名分流</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2021/04/xray-vless-fallbacks/" title="Xray VLESS协议的fallback功能简析">Xray VLESS协议的fallback功能简析</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2021/04/vps-with-xray/" title="Xray教程">Xray教程</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2021/03/v2ray-vless-fallbacks/" title="VLESS协议的fallback参数介绍">VLESS协议的fallback参数介绍</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2021/03/v2ray-vless-protocal/" title="V2ray的VLESS协议介绍和使用">V2ray的VLESS协议介绍和使用</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2021/02/vps-caddy2/" title="Caddy 2安装与配置">Caddy 2安装与配置</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2020/07/install-manjaro-kde/" title="Manjaro-KDE 安装与设置">Manjaro-KDE 安装与设置</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2020/06/vps-with-trojan-go/" title="Trojan-Go 安装配置教程">Trojan-Go 安装配置教程</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2019/10/tensorflow-without-phd/" title="Tensorflow, Keras and deep learning, without a Phd">Tensorflow, Keras and deep learning, without a Phd</a>
+    </li>
+    
+</ul>
+    </section>
+
+    
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
+<ul class="widget-list">
+    
+    <li><a href="https://qoanty.github.io/categories/blog/">Blog (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/caddy/">Caddy (2)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/captcha/">Captcha (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/debian/">Debian (5)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/docker/">Docker (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/hugo/">Hugo (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/kde/">KDE (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/kms/">KMS (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/learn/">Learn (14)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/manjaro/">Manjaro (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/nginx/">Nginx (2)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/pipenv/">Pipenv (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/python/">Python (12)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/sni/">SNI (2)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/ssh/">SSH (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/tensorflow/">TensorFlow (5)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/trojan/">Trojan (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/trojan-go/">Trojan-Go (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/v2ray/">v2ray (4)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/vim/">Vim (1)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/vless/">VLESS (3)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/vps/">VPS (9)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/xray/">xray (4)</a></li>
+    
+</ul>
+    </section>
+
+    <section class="widget">
+        <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
+<div class="tagcloud">
+    
+    <a href="https://qoanty.github.io/tags/asyncio/">asyncio</a>
+    
+    <a href="https://qoanty.github.io/tags/caddy/">Caddy</a>
+    
+    <a href="https://qoanty.github.io/tags/cdn/">CDN</a>
+    
+    <a href="https://qoanty.github.io/tags/data/">data</a>
+    
+    <a href="https://qoanty.github.io/tags/debian/">Debian</a>
+    
+    <a href="https://qoanty.github.io/tags/deep-learning/">deep learning</a>
+    
+    <a href="https://qoanty.github.io/tags/docker/">Docker</a>
+    
+    <a href="https://qoanty.github.io/tags/features/">features</a>
+    
+    <a href="https://qoanty.github.io/tags/functions/">functions</a>
+    
+    <a href="https://qoanty.github.io/tags/geetest/">geetest</a>
+    
+    <a href="https://qoanty.github.io/tags/github/">Github</a>
+    
+    <a href="https://qoanty.github.io/tags/hugo/">Hugo</a>
+    
+    <a href="https://qoanty.github.io/tags/ide/">IDE</a>
+    
+    <a href="https://qoanty.github.io/tags/kde/">KDE</a>
+    
+    <a href="https://qoanty.github.io/tags/keras/">keras</a>
+    
+    <a href="https://qoanty.github.io/tags/kms/">KMS</a>
+    
+    <a href="https://qoanty.github.io/tags/manjaro/">Manjaro</a>
+    
+    <a href="https://qoanty.github.io/tags/nginx/">Nginx</a>
+    
+    <a href="https://qoanty.github.io/tags/oop/">OOP</a>
+    
+    <a href="https://qoanty.github.io/tags/pipenv/">Pipenv</a>
+    
+    <a href="https://qoanty.github.io/tags/processes/">processes</a>
+    
+    <a href="https://qoanty.github.io/tags/python/">Python</a>
+    
+    <a href="https://qoanty.github.io/tags/scraping/">scraping</a>
+    
+    <a href="https://qoanty.github.io/tags/sni/">SNI</a>
+    
+    <a href="https://qoanty.github.io/tags/ssh/">SSH</a>
+    
+    <a href="https://qoanty.github.io/tags/tensorflow/">tensorflow</a>
+    
+    <a href="https://qoanty.github.io/tags/trojan/">Trojan</a>
+    
+    <a href="https://qoanty.github.io/tags/trojan-go/">Trojan-Go</a>
+    
+    <a href="https://qoanty.github.io/tags/v2ray/">v2ray</a>
+    
+    <a href="https://qoanty.github.io/tags/vim/">Vim</a>
+    
+    <a href="https://qoanty.github.io/tags/vless/">VLESS</a>
+    
+    <a href="https://qoanty.github.io/tags/vps/">VPS</a>
+    
+    <a href="https://qoanty.github.io/tags/xray/">xray</a>
+    
+</div>
+    </section>
+
+    
+<section class="widget">
+    <h3 class="widget-title">友情链接</h3>
+    <ul class="widget-list">
+        
+        <li>
+            <a target="_blank" href="https://python3-cookbook.readthedocs.io/zh_CN/latest/index.html" title="Python Cookbook 3rd Edition">Python Cookbook</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="https://seancheney.gitbook.io/python-for-data-analysis-2nd/" title="Python for Data Analysis 2nd Edition">Python for Data Analysis</a>
+        </li>
+        
+        <li>
+            <a target="_blank" href="https://codelabs.developers.google.com/codelabs/cloud-tensorflow-mnist/#0" title="TensorFlow and deep learning, without a PhD">TensorFlow and deep learning</a>
+        </li>
+        
+    </ul>
+</section>
+
+
+    <section class="widget">
+        <h3 class="widget-title">其它</h3>
+        <ul class="widget-list">
+            <li><a href="https://qoanty.github.io/index.xml">文章 RSS</a></li>
+        </ul>
+    </section>
+</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

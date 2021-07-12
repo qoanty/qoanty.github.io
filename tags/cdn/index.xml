@@ -6,11 +6,7 @@
     <description>Recent content in CDN on 百年孤独的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Wed, 17 Apr 2019 20:02:32 +0800</lastBuildDate>
-    
-	<atom:link href="https://qoanty.github.io/tags/cdn/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 17 Apr 2019 20:02:32 +0800</lastBuildDate><atom:link href="https://qoanty.github.io/tags/cdn/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>基于V2Ray的WebSocket&#43;TLS&#43;Web&#43;CDN安全网络代理</title>
       <link>https://qoanty.github.io/2019/04/vps-wss-and-web/</link>

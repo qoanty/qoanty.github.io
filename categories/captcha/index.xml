@@ -6,11 +6,7 @@
     <description>Recent content in Captcha on 百年孤独的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Tue, 07 May 2019 09:24:08 +0800</lastBuildDate>
-    
-	<atom:link href="https://qoanty.github.io/categories/captcha/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 07 May 2019 09:24:08 +0800</lastBuildDate><atom:link href="https://qoanty.github.io/categories/captcha/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>极验滑动验证码识别</title>
       <link>https://qoanty.github.io/2019/05/sliding-captcha/</link>

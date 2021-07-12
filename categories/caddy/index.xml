@@ -6,10 +6,15 @@
     <description>Recent content in Caddy on 百年孤独的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Mon, 15 Apr 2019 14:37:11 +0800</lastBuildDate>
-    
-	<atom:link href="https://qoanty.github.io/categories/caddy/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Thu, 25 Feb 2021 10:37:11 +0800</lastBuildDate><atom:link href="https://qoanty.github.io/categories/caddy/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Caddy 2安装与配置</title>
+      <link>https://qoanty.github.io/2021/02/vps-caddy2/</link>
+      <pubDate>Thu, 25 Feb 2021 10:37:11 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2021/02/vps-caddy2/</guid>
+      <description>Caddy是一个Go编写的Web服务器，类似于Nginx，Caddy提供了更加强大的功能，相较于Nginx来说使用Caddy有如下优势： 自动的HTTPS证书申请 自动证书续期以及OCSP stapling等 更高的安全性包括但不限于TLS配置以及</description>
+    </item>
     
     <item>
       <title>安装Caddy&#43;PHP7&#43;Sqlite3环境并搭建Typecho博客</title>

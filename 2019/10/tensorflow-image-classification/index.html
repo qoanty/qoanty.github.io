@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
 
     <title>TensorFlow基本分类：对服装图像进行分类 | 百年孤独的博客</title>
     <meta property="og:title" content="TensorFlow基本分类：对服装图像进行分类 - 百年孤独的博客">
@@ -20,15 +21,16 @@
         
     <meta name="author" content="百年孤独">
     <meta property="og:url" content="https://qoanty.github.io/2019/10/tensorflow-image-classification/">
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href='/favicon.ico'  type="image/x-icon">
 
     <link rel="stylesheet" href='/css/normalize.css'>
     <link rel="stylesheet" href='/css/style.css'>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     
-
-
+    
+    
+    
     
     
 </head>
@@ -81,9 +83,9 @@
         <div class="post-meta">
             <span>|</span>
             
-            <span class="meta-category"><a href='https://qoanty.github.io/categories/learn'>Learn</a></span>
+            <span class="meta-category"><a href='/categories/learn'>Learn</a></span>
             
-            <span class="meta-category"><a href='https://qoanty.github.io/categories/tensorflow'>TensorFlow</a></span>
+            <span class="meta-category"><a href='/categories/tensorflow'>TensorFlow</a></span>
             
         </div>
         
@@ -126,7 +128,9 @@
 </div>
 </div><h2 id="导入fashion-mnist数据集">导入Fashion MNIST数据集</h2>
 <p>本指南使用<a href="https://github.com/zalandoresearch/fashion-mnist">Fashion MNIST</a>数据集，其中包含10个类别的70,000个灰度图像。这些图像以低分辨率（28*28像素）显示衣服的各个物品，如下所示：</p>
-<p><img src="/images/tfkb1.png" alt=""></p>
+<p>
+        <img class="mx-auto" alt="" src="/images/tfkb1.png" />   
+    </p>
 <!-- raw HTML omitted -->
 <p>Fashion MNIST旨在替代经典<a href="http://yann.lecun.com/exdb/mnist/">MNIST</a>数据集，该数据集通常被用作计算机视觉机器学习程序的“Hello, World”。MNIST数据集包含手写数字（0、1、2等）的图像，其格式与你将在此处使用的衣服的格式相同。</p>
 <p>本指南将Fashion MNIST用于多种用途，因此它比常规MNIST更具挑战性。两个数据集都相对较小，用于验证算法是否按预期工作。它们是测试和调试代码的良好起点。</p>
@@ -300,7 +304,9 @@ plt<span style="color:#000;font-weight:bold">.</span>grid(<span style="color:#99
 plt<span style="color:#000;font-weight:bold">.</span>show()
 </code></pre></td></tr></table>
 </div>
-</div><p><img src="/images/tfkb2.png" alt=""></p>
+</div><p>
+        <img class="mx-auto" alt="" src="/images/tfkb2.png" />   
+    </p>
 <p>在将这些值输入神经网络模型之前，将它们缩放到0到1的范围。为此，将这些值除以255。以相同的方式预处理训练集和测试集是非常重要：</p>
 <div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
@@ -337,7 +343,9 @@ test_images <span style="color:#000;font-weight:bold">=</span> test_images <span
 plt<span style="color:#000;font-weight:bold">.</span>show()
 </code></pre></td></tr></table>
 </div>
-</div><p><img src="/images/tfkb3.png" alt=""></p>
+</div><p>
+        <img class="mx-auto" alt="" src="/images/tfkb3.png" />   
+    </p>
 <h2 id="建立模型">建立模型</h2>
 <p>建立神经网络需要配置模型的各层，然后编译模型。</p>
 <p><strong>设置图层</strong></p>
@@ -601,7 +609,9 @@ plot_value_array(i, predictions[i],  test_labels)
 plt<span style="color:#000;font-weight:bold">.</span>show()
 </code></pre></td></tr></table>
 </div>
-</div><p><img src="/images/tfkb4.png" alt=""></p>
+</div><p>
+        <img class="mx-auto" alt="" src="/images/tfkb4.png" />   
+    </p>
 <div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
 <pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
@@ -622,7 +632,9 @@ plot_value_array(i, predictions[i],  test_labels)
 plt<span style="color:#000;font-weight:bold">.</span>show()
 </code></pre></td></tr></table>
 </div>
-</div><p><img src="/images/tfkb5.png" alt=""></p>
+</div><p>
+        <img class="mx-auto" alt="" src="/images/tfkb5.png" />   
+    </p>
 <p>让我们用它们的预测来绘制几个图像。请注意，即使非常有把握，该模型也可能是错误的。</p>
 <div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
@@ -656,7 +668,9 @@ plt<span style="color:#000;font-weight:bold">.</span>tight_layout()
 plt<span style="color:#000;font-weight:bold">.</span>show()
 </code></pre></td></tr></table>
 </div>
-</div><p><img src="/images/tfkb6.png" alt=""></p>
+</div><p>
+        <img class="mx-auto" alt="" src="/images/tfkb6.png" />   
+    </p>
 <p>最后，使用经过训练的模型对单个图像进行预测。</p>
 <div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
@@ -714,7 +728,9 @@ plot_value_array(<span style="color:#099">1</span>, predictions_single[<span sty
 _ <span style="color:#000;font-weight:bold">=</span> plt<span style="color:#000;font-weight:bold">.</span>xticks(<span style="color:#0086b3">range</span>(<span style="color:#099">10</span>), class_names, rotation<span style="color:#000;font-weight:bold">=</span><span style="color:#099">45</span>)
 </code></pre></td></tr></table>
 </div>
-</div><p><img src="/images/tfkb7.png" alt=""></p>
+</div><p>
+        <img class="mx-auto" alt="" src="/images/tfkb7.png" />   
+    </p>
 <p><code>model.predict</code>返回一系列的列表，每一个列对应于批量数据中的每个图像。在批量数据中获取我们（唯一）图像的预测：</p>
 <div class="highlight"><div style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
@@ -766,11 +782,11 @@ _ <span style="color:#000;font-weight:bold">=</span> plt<span style="color:#000;
             
             <ul class="clearfix">
                 
-                <li><a href='https://qoanty.github.io/tags/tensorflow'>tensorflow</a></li>
+                <li><a href='/tags/tensorflow'>tensorflow</a></li>
                 
-                <li><a href='https://qoanty.github.io/tags/keras'>keras</a></li>
+                <li><a href='/tags/keras'>keras</a></li>
                 
-                <li><a href='https://qoanty.github.io/tags/deep-learning'>deep learning</a></li>
+                <li><a href='/tags/deep-learning'>deep learning</a></li>
                 
             </ul>
             
@@ -782,6 +798,43 @@ _ <span style="color:#000;font-weight:bold">=</span> plt<span style="color:#000;
     
     
 </div>
+
+                    <footer id="footer">
+    <div>
+        &copy; 2021 <a href="https://qoanty.github.io/">百年孤独的博客 By 百年孤独</a>
+        
+    </div>
+    <br />
+    <div>
+        <div class="github-badge">
+            <a href="https://gohugo.io/" target="_black" rel="nofollow"><span class="badge-subject">Powered by </span><span class="badge-value bg-blue">Hugo.</span></a>
+        </div>
+        <div class="github-badge">
+            <a href="https://github.com/flysnow-org/maupassant-hugo" target="_black"><span class="badge-subject">Theme base on </span><span class="badge-value bg-yellowgreen">Maupassant.</span></a>
+        </div>
+    </div>
+</footer>
+
+
+    
+    <script type="text/javascript">
+        window.MathJax = {
+            tex2jax: {
+                inlineMath: [['$', '$']],
+                processEscapes: true
+                }
+            };
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
+
+<a id="rocket" href="#top"></a>
+<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
+
+
+
+
+
+
 
                 </div>
 
@@ -800,6 +853,34 @@ _ <span style="color:#000;font-weight:bold">=</span> plt<span style="color:#000;
 <ul class="widget-list">
     
     <li>
+        <a href="https://qoanty.github.io/2021/05/xray-nginx-sni/" title="Nginx SNI分流（端口复用）使用Xray&#43;VLESS&#43;XTLS">Nginx SNI分流（端口复用）使用Xray&#43;VLESS&#43;XTLS</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2021/04/xray-fallbacks-sni/" title="Xray通过SNI回落功能实现伪装与按域名分流">Xray通过SNI回落功能实现伪装与按域名分流</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2021/04/xray-vless-fallbacks/" title="Xray VLESS协议的fallback功能简析">Xray VLESS协议的fallback功能简析</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2021/04/vps-with-xray/" title="Xray教程">Xray教程</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2021/03/v2ray-vless-fallbacks/" title="VLESS协议的fallback参数介绍">VLESS协议的fallback参数介绍</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2021/03/v2ray-vless-protocal/" title="V2ray的VLESS协议介绍和使用">V2ray的VLESS协议介绍和使用</a>
+    </li>
+    
+    <li>
+        <a href="https://qoanty.github.io/2021/02/vps-caddy2/" title="Caddy 2安装与配置">Caddy 2安装与配置</a>
+    </li>
+    
+    <li>
         <a href="https://qoanty.github.io/2020/07/install-manjaro-kde/" title="Manjaro-KDE 安装与设置">Manjaro-KDE 安装与设置</a>
     </li>
     
@@ -811,46 +892,18 @@ _ <span style="color:#000;font-weight:bold">=</span> plt<span style="color:#000;
         <a href="https://qoanty.github.io/2019/10/tensorflow-without-phd/" title="Tensorflow, Keras and deep learning, without a Phd">Tensorflow, Keras and deep learning, without a Phd</a>
     </li>
     
-    <li>
-        <a href="https://qoanty.github.io/2019/10/tensorflow-load-csv-data/" title="TensorFlow加载CSV数据">TensorFlow加载CSV数据</a>
-    </li>
-    
-    <li>
-        <a href="https://qoanty.github.io/2019/10/tensorflow-text-classification/" title="具有预处理文本的文本分类：电影评论">具有预处理文本的文本分类：电影评论</a>
-    </li>
-    
-    <li>
-        <a href="https://qoanty.github.io/2019/10/tensorflow-text-classification-with-hub/" title="使用TensorFlow Hub进行文本分类：电影评论">使用TensorFlow Hub进行文本分类：电影评论</a>
-    </li>
-    
-    <li>
-        <a href="https://qoanty.github.io/2019/10/tensorflow-image-classification/" title="TensorFlow基本分类：对服装图像进行分类">TensorFlow基本分类：对服装图像进行分类</a>
-    </li>
-    
-    <li>
-        <a href="https://qoanty.github.io/2019/07/install-lemp-on-debian/" title="在Debian 10上安装Linux，Nginx，MariaDB，PHP">在Debian 10上安装Linux，Nginx，MariaDB，PHP</a>
-    </li>
-    
-    <li>
-        <a href="https://qoanty.github.io/2019/07/install-nginx-on-debian/" title="在Debian 10上安装Nginx">在Debian 10上安装Nginx</a>
-    </li>
-    
-    <li>
-        <a href="https://qoanty.github.io/2019/07/set-up-debian-server/" title="在VPS上设置Debian 10服务器">在VPS上设置Debian 10服务器</a>
-    </li>
-    
 </ul>
     </section>
 
     
 
     <section class="widget">
-        <h3 class="widget-title">分类</h3>
+        <h3 class="widget-title"><a href='/categories/'>分类</a></h3>
 <ul class="widget-list">
     
     <li><a href="https://qoanty.github.io/categories/blog/">Blog (1)</a></li>
     
-    <li><a href="https://qoanty.github.io/categories/caddy/">Caddy (1)</a></li>
+    <li><a href="https://qoanty.github.io/categories/caddy/">Caddy (2)</a></li>
     
     <li><a href="https://qoanty.github.io/categories/captcha/">Captcha (1)</a></li>
     
@@ -874,6 +927,8 @@ _ <span style="color:#000;font-weight:bold">=</span> plt<span style="color:#000;
     
     <li><a href="https://qoanty.github.io/categories/python/">Python (12)</a></li>
     
+    <li><a href="https://qoanty.github.io/categories/sni/">SNI (2)</a></li>
+    
     <li><a href="https://qoanty.github.io/categories/ssh/">SSH (1)</a></li>
     
     <li><a href="https://qoanty.github.io/categories/tensorflow/">TensorFlow (5)</a></li>
@@ -882,17 +937,21 @@ _ <span style="color:#000;font-weight:bold">=</span> plt<span style="color:#000;
     
     <li><a href="https://qoanty.github.io/categories/trojan-go/">Trojan-Go (1)</a></li>
     
-    <li><a href="https://qoanty.github.io/categories/v2ray/">V2Ray (2)</a></li>
+    <li><a href="https://qoanty.github.io/categories/v2ray/">v2ray (4)</a></li>
     
     <li><a href="https://qoanty.github.io/categories/vim/">Vim (1)</a></li>
     
-    <li><a href="https://qoanty.github.io/categories/vps/">VPS (7)</a></li>
+    <li><a href="https://qoanty.github.io/categories/vless/">VLESS (3)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/vps/">VPS (9)</a></li>
+    
+    <li><a href="https://qoanty.github.io/categories/xray/">xray (4)</a></li>
     
 </ul>
     </section>
 
     <section class="widget">
-        <h3 class="widget-title">标签</h3>
+        <h3 class="widget-title"><a href='/tags/'>标签</a></h3>
 <div class="tagcloud">
     
     <a href="https://qoanty.github.io/tags/asyncio/">asyncio</a>
@@ -941,6 +1000,8 @@ _ <span style="color:#000;font-weight:bold">=</span> plt<span style="color:#000;
     
     <a href="https://qoanty.github.io/tags/scraping/">scraping</a>
     
+    <a href="https://qoanty.github.io/tags/sni/">SNI</a>
+    
     <a href="https://qoanty.github.io/tags/ssh/">SSH</a>
     
     <a href="https://qoanty.github.io/tags/tensorflow/">tensorflow</a>
@@ -949,11 +1010,15 @@ _ <span style="color:#000;font-weight:bold">=</span> plt<span style="color:#000;
     
     <a href="https://qoanty.github.io/tags/trojan-go/">Trojan-Go</a>
     
-    <a href="https://qoanty.github.io/tags/v2ray/">V2Ray</a>
+    <a href="https://qoanty.github.io/tags/v2ray/">v2ray</a>
     
     <a href="https://qoanty.github.io/tags/vim/">Vim</a>
     
+    <a href="https://qoanty.github.io/tags/vless/">VLESS</a>
+    
     <a href="https://qoanty.github.io/tags/vps/">VPS</a>
+    
+    <a href="https://qoanty.github.io/tags/xray/">xray</a>
     
 </div>
     </section>
@@ -989,36 +1054,6 @@ _ <span style="color:#000;font-weight:bold">=</span> plt<span style="color:#000;
             </div>
         </div>
     </div>
-    <footer id="footer">
-    <div class="container">
-        &copy; 2020 <a href="https://qoanty.github.io/">百年孤独的博客 By 百年孤独</a>.
-        Powered by <a rel="nofollow noreferer noopener" href="https://gohugo.io" target="_blank">Hugo</a>.
-        <a href="https://www.flysnow.org/" target="_blank">Theme</a> based on <a href="https://github.com/flysnow-org/maupassant-hugo" target="_blank">maupassant</a>.
-        
-    </div>
-</footer>
-
-
-    
-    <script type="text/javascript">
-        window.MathJax = {
-            tex2jax: {
-                inlineMath: [['$', '$']],
-                processEscapes: true
-                }
-            };
-    </script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
-
-
-<a id="rocket" href="#top"></a>
-<script type="text/javascript" src='/js/totop.js?v=0.0.0' async=""></script>
-
-
-
-
-
-
 </body>
 
 </html>

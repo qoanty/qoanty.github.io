@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>V2Ray on 百年孤独的博客</title>
+    <title>v2ray on 百年孤独的博客</title>
     <link>https://qoanty.github.io/tags/v2ray/</link>
-    <description>Recent content in V2Ray on 百年孤独的博客</description>
+    <description>Recent content in v2ray on 百年孤独的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Wed, 17 Apr 2019 20:02:32 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 25 Mar 2021 18:48:31 +0800</lastBuildDate><atom:link href="https://qoanty.github.io/tags/v2ray/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>VLESS协议的fallback参数介绍</title>
+      <link>https://qoanty.github.io/2021/03/v2ray-vless-fallbacks/</link>
+      <pubDate>Thu, 25 Mar 2021 18:48:31 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2021/03/v2ray-vless-fallbacks/</guid>
+      <description>V2ray的VLESS协议引入了分流和回落的概念，一般情况下建议直接监听443端口。习惯了使用Nginx建站或者流量转发的网友，VLESS协议fallback方式让人一时难以理解。本文就这个问题简要介绍V2ray VLESS协议的fallba</description>
+    </item>
     
-	<atom:link href="https://qoanty.github.io/tags/v2ray/index.xml" rel="self" type="application/rss+xml" />
-    
+    <item>
+      <title>V2ray的VLESS协议介绍和使用</title>
+      <link>https://qoanty.github.io/2021/03/v2ray-vless-protocal/</link>
+      <pubDate>Fri, 12 Mar 2021 14:28:31 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2021/03/v2ray-vless-protocal/</guid>
+      <description>V2ray近期因新增VLESS协议而备受关注。V2ray官方对VLESS协议的定义是“性能至上、可扩展性空前，目标是全场景终极协议”。本文给出V2ray的VLESS协议介绍和使用教程。 VLESS协议介绍 VLESS是一种无状态的轻量级数据传输</description>
+    </item>
     
     <item>
       <title>基于V2Ray的WebSocket&#43;TLS&#43;Web&#43;CDN安全网络代理</title>

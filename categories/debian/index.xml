@@ -6,11 +6,7 @@
     <description>Recent content in Debian on 百年孤独的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 28 Jul 2019 18:22:37 +0800</lastBuildDate>
-    
-	<atom:link href="https://qoanty.github.io/categories/debian/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 28 Jul 2019 18:22:37 +0800</lastBuildDate><atom:link href="https://qoanty.github.io/categories/debian/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>在Debian 10上安装Linux，Nginx，MariaDB，PHP</title>
       <link>https://qoanty.github.io/2019/07/install-lemp-on-debian/</link>

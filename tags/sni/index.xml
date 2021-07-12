@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>SNI on 百年孤独的博客</title>
+    <link>https://qoanty.github.io/tags/sni/</link>
+    <description>Recent content in SNI on 百年孤独的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sat, 08 May 2021 16:36:12 +0800</lastBuildDate><atom:link href="https://qoanty.github.io/tags/sni/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Nginx SNI分流（端口复用）使用Xray&#43;VLESS&#43;XTLS</title>
+      <link>https://qoanty.github.io/2021/05/xray-nginx-sni/</link>
+      <pubDate>Sat, 08 May 2021 16:36:12 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2021/05/xray-nginx-sni/</guid>
+      <description>前言 Xray已经出来一段时间了，之前一直使用VLESS+tls+ws方式科学上网。但是了解了下XTLS黑科技，再看看Xray性能测试，这货简直爆炸，性能是TLS的数倍。但是Xray要监听443端口（不监听也行，但是不够完美），影响做站。虽然</description>
+    </item>
+    
+    <item>
+      <title>Xray通过SNI回落功能实现伪装与按域名分流</title>
+      <link>https://qoanty.github.io/2021/04/xray-fallbacks-sni/</link>
+      <pubDate>Wed, 28 Apr 2021 20:43:33 +0800</pubDate>
+      
+      <guid>https://qoanty.github.io/2021/04/xray-fallbacks-sni/</guid>
+      <description>VLESS是一种很轻的协议，和Trojan一样，不对流量进行复杂的加密和混淆，而是通过TLS协议加密，混杂在其他HTTPS流量中，在墙内外穿进穿出。为了更好的伪装以应对主动探测，Fallbacks回落功能随VLESS同时出现。本文将演示如何</description>
+    </item>
+    
+  </channel>
+</rss>
